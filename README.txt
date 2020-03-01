@@ -1,4 +1,5 @@
-# blueiriscmdj
+# blueiriscmdj under GNU gpl-2.0 licence --- https://opensource.org/licenses/gpl-2.0.php
+
 This is Java port of blueiriscmd Python software written by Magnus Appelquist (https://github.com/magapp/blueiriscmd). 
 I have used Python code as my template. 
 I have upgraded code to run on Python 3.8. It is in doc/python directory.  
