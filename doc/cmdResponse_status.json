@@ -1,0 +1,46 @@
+{
+  "result": "fail",
+  "session": "38c33cb457776db1261a2a085bf51f86",
+  "data": {
+    "signal": "1",
+    "cxns": 1,
+    "cpu": 21,
+    "mem": "581.8M",
+    "memfree": "858.9M",
+    "memload": "78%",
+    "disks": [
+      {
+        "disk": "C:",
+        "allocated": 2048,
+        "used": 1601,
+        "free": 411534,
+        "total": 460911
+      },
+      {
+        "disk": "F:",
+        "allocated": 819200,
+        "used": 44513,
+        "free": 995184,
+        "total": 1907493
+      }
+    ],
+    "profile": 1,
+    "lock": "0",
+    "schedule": "Default",
+    "dio": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "uptime": "7:22:30:46",
+    "clips": "Clips: 14054 files, 45.0G/802.0G; C: +401.4G, F: +215.3G",
+    "warnings": "9",
+    "alerts": "5",
+    "tzone": "420"
+  }
+}
