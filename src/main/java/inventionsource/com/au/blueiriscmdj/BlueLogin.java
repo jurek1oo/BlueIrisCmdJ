@@ -55,7 +55,7 @@ public class BlueLogin {
 
             _session=null;
             _md5HexResponse=null;
-             log.info("BlueIrisLogout - OK" );
+             log.debug("BlueIrisLogout - OK" );
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n", e);
             throw e;
@@ -97,7 +97,7 @@ public class BlueLogin {
             _systemName = dataElement.getAsJsonObject().get("system name").getAsString();
             status = "BlueIris json API login OK, systemName: " + _systemName + " user: " +
                     loginParams.getUser()  + " host: " + loginParams.getHost();
-            log.info(status);
+            log.debug(status);
 
             JsonElement profilesElement = dataElement.getAsJsonObject().get("profiles");
             _profiles = (new Gson()).fromJson(profilesElement, new TypeToken<ArrayList<String>>() {}.getType());

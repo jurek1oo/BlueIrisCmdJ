@@ -150,7 +150,7 @@ public class BlueCmdRequest {
             JsonElement jsonElement = blueCmdRequestCore.RunTheCmd(cmd, null);
 
             _blueStatus = new BlueStatus(jsonElement, getProfiles());
-            log.info("get-status: \n" + _blueStatus.toJsonString());
+            log.debug("get-status: \n" + _blueStatus.toJsonString());
             return _blueStatus;
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n", e);

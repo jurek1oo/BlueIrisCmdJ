@@ -4,9 +4,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>inventionSource.com.au</groupId>
+  <groupId>inventionsource.com.au.blueiriscmdj</groupId>
   <artifactId>blueiriscmdj</artifactId>
-  <version>1.1.50_SNAPSHOT</version>
+  <!-- 8_ for Java 8 -->
+  <version>1.1.53_SNAPSHOT</version>
 
   <name>blueiriscmdj</name>
   <!-- FIXME change it to the project's website -->
@@ -113,6 +114,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
+          <!-- 8 Java 8, 11 Java 11 -->
           <source>11</source>
           <target>11</target>
         </configuration>

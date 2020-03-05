@@ -15,6 +15,7 @@ You need to change login and other system parameters to make the unit test works
 To get executable jar, co to project directory with pom and execute:
 
 mvn package
+mvn package -Dmaven.test.skip=true
 
 This will compile, run tests and build snapshot jar.
 Or you can use existing jar in target directory.

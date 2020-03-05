@@ -46,6 +46,9 @@ public class MasterController {
                     _blueLogin = null;
                     _blueCmdRequest = null;
                     throw new Exception("Error. Could not loggin. No session. ");
+                } else {
+                    log.info("Login OK host: " + cli.getLoginParams().getHost() + " user: " + cli.getLoginParams().getUser()+
+                            " password: ***" + cli.getLoginParams().getPassword().length() + "***");
                 }
                 if (cli.list_profiles()) {
                     log.info("list-profiles: " +
@@ -72,7 +75,7 @@ public class MasterController {
                     _blueCmdRequest.GetCamConfig(cli.get_camconfig());
                 }
                 if (cli.get_status()) {
-                    _blueCmdRequest.GetStatus();
+                    log.info(_blueCmdRequest.GetStatus().toJsonString());
                 }
                 if (cli.get_set_profile() != null && cli.get_set_profile().length() > 0) {
                     _blueCmdRequest.SetProfile(cli.get_set_profile());
@@ -94,6 +97,7 @@ public class MasterController {
             if( _blueCmdRequest != null){
                 try {
                     _blueLogin.BlueIrisLogout();
+                    log.info("Logout OK.");
                 } catch (Exception ex){
                     log.error("Error logging out: ", ex);
                 }

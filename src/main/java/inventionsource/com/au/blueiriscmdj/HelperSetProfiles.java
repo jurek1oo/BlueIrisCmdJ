@@ -11,7 +11,6 @@ public class HelperSetProfiles {
 
     public HelperSetProfiles(LoginParams loginParams) {
         _loginParams =  loginParams;
- //       Log4j2Config log4j = new Log4j2Config(null, null);
     }
 
     public void SetProfile(String profile) throws Exception
@@ -34,22 +33,16 @@ public class HelperSetProfiles {
         }
     }
 
-    public String GetActiveProfile(String[] profiles) throws Exception
+    public String GetActiveProfile() throws Exception
     {
         BlueCmdRequest blueCmdRequest = null;
         BlueStatus blueStatus = null;
         try {
             blueCmdRequest = Login();
             blueStatus = blueCmdRequest.GetStatus();
-            for (int i=0; i< profiles.length; i++){
-                if( blueStatus.getActiveProfile().compareTo(profiles[i])==0){
-                    return profiles[i];
-                }
-            }
-            throw new Exception("Error. Unknow profile in status: " +
-                        blueStatus.toJsonString());
+            return blueStatus.getActiveProfile();
         } catch (Exception e) {
-            log.error("Error.",e);
+            log.error("Error getting profile. ",e);
             throw e;
         } finally {
             blueCmdRequest.getBlueLogin().BlueIrisLogout();
@@ -64,7 +57,7 @@ public class HelperSetProfiles {
         if(blueCmdRequest.getSession()==null ){
             throw new Exception("blueCmdRequest.getSession()==null - cant login");
         }
-        log.info("Login to BI OK");
+        log.debug("Login to BI OK");
         return blueCmdRequest;
     }
 }
