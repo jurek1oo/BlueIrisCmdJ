@@ -1,0 +1,10 @@
+.DS_Store
+*.iml
+*.iws
+*.ipr
+.idea/
+target/
+Constants4Tests.*
+*.log
+*.log.*
+
