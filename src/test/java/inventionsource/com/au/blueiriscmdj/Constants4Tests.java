@@ -14,6 +14,6 @@ public class Constants4Tests {
 
     // BlueIris user, password and host Ip:Port
     public static final String USER = "admin";
-    public static final String PASSWORD = "JK3750ab_72";
+    public static final String PASSWORD = "password";
     public static final String HOST = "192.168.1.42:8882";
 }
