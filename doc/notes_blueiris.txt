@@ -10,7 +10,7 @@ https://stackoverflow.com/questions/19169754/parsing-nested-json-data-using-gson
 
 cd ~/IdeaProjects/blueiriscmdj
 mvn -e package
-java -jar target/blueiriscmdj-1.1.50_SNAPSHOT-jar-with-dependencies.jar -host 192.168.1.42:8882 -u admin -p JK3750ab_72 -lp -ll info
+java -jar target/blueiriscmdj-1.1.50_SNAPSHOT-jar-with-dependencies.jar -host 192.168.1.42:8882 -u admin -p password -lp -ll info
 
 ----------------------
 cd IdeaProjects/ && 

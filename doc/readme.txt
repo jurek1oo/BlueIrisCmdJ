@@ -1,3 +1,5 @@
+//https://github.com/jurek1oo/blueiriscmdj
+
 Hi,
 
 2020-03-01 Phuket Thailand - Jurek.
