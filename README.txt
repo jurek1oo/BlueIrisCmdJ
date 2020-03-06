@@ -1,21 +1,25 @@
 # blueiriscmdj under GNU gpl-2.0 licence --- https://opensource.org/licenses/gpl-2.0.php
 
 This is Java port of blueiriscmd Python software written by Magnus Appelquist (https://github.com/magapp/blueiriscmd). 
-I have used Python code as my template, and have upgraded code to run on Python 3.8. Python is in doc/python directory.
+I have used Python code as my template, and have upgraded code to run on Python 3.8.
+Python version is in doc/python directory. Blue Iris have web server enabled and configured, to be accessible on local lan.
+On BlueIris you need to create user with password access to the web server on the local lan.
+
 Python code has been ported to Java (hence blueiriscmdj), to run on my Raspberry pi 3, to control my Blue Iris (BI) system.
 I am not sure if I fully understand the BI operation, hence the "doc/notes_issues_list.txt".
-I control camera activity setting different profiles (AtHome and OnTheRoad).
+I control camera activity (recording) setting different profiles (AtHome and OnTheRoad).
+The class HelperSetProfile is used for integration with another Java code running on raspberry PI.
 
 You need to change login and other system parameters to make the unit test works,
-in Constants4Tests.calss. You need to create this class, as it is not in git. The template is below:
+in Constants4Tests.calss. You need to create this class, as it may not be in git. The template is below:
 I am using InteliJ Idea community edition, ide.
 
 To make executable jar, cd to project directory with pom.xml and execute in the terminal window:
 
 mvn package -Dmaven.test.skip  
 
-This will compile and build snapshot jar. 
-Or you can use the existing jar.
+This will compile and build snapshot jar, without running tests.
+Or you can use the existing jar in /executablejar directory.
 
 This code is avaiable under GNU GPL 2 licence.  
 
