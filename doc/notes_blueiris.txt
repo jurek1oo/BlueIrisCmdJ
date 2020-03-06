@@ -1,17 +1,10 @@
-https://logging.apache.org/log4j/2.x/manual/customconfig.html
+//https://github.com/jurek1oo/blueiriscmdj
 
 https://www.houselogix.com/docs/blue-iris/BlueIris/json.htm
-
-https://www.baeldung.com/google-http-client
-
-https://www.baeldung.com/gson-string-to-jsonobject
-https://stackoverflow.com/questions/19169754/parsing-nested-json-data-using-gson
-
 
 cd ~/IdeaProjects/blueiriscmdj
 mvn -e package
 java -jar target/blueiriscmdj-1.1.50_SNAPSHOT-jar-with-dependencies.jar -host 192.168.1.42:8882 -u admin -p password -lp -ll info
-
 ----------------------
 cd IdeaProjects/ && 
 
