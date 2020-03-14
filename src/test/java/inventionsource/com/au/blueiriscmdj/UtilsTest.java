@@ -17,6 +17,21 @@ public class UtilsTest
         Log4j2Config log4j = new Log4j2Config("test.log","debug");
      }
 
+     //GetSecondsFromDateSql
+
+    @Test
+    public void GetSecondsFromDateSql() {
+        String date = "2020-03-27";
+        long expectedResponse = 0;
+        try {
+            long result = Utils.GetSecondsFromDateSql(date);
+
+            assertTrue("GetSecondsFromDateSql > 0 ", result > 0);
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }
     @Test
     public void Md5HexResponse5Test() {
         String session = "5b29593655f0117b5e36214f072b3e9f";

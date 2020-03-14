@@ -143,7 +143,7 @@ public class CliTest
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
             assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
             assertTrue("has list-alerts: ", gob.good.indexOf("list-alerts") >= 0);
-            assertTrue("is alerts: ", cli.is_list_alerts());
+            assertTrue("is alerts: ", cli.get_list_alerts().length()>0);
 
         } catch (Exception e) {
             log.error("Exception: " + e);

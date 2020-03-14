@@ -62,7 +62,7 @@ public class MasterController {
                     log.info("list-cameras: \n" +
                             _blueCmdRequest.GetList_Cams().toStringAll());
                 }
-                if (cli.is_list_alerts()) {
+                if (cli.get_list_alerts() != null) {
                     log.info("list-alerts: \n" ); //blueCmdRequest.GetList_Alerts()
                 }
                 if (cli.get_cam_disable() != null) {

@@ -28,7 +28,9 @@ public class Cli {
     private boolean _list_profiles=false;
     private boolean _list_schedules=false;
     private boolean _list_cams=false;
-    private boolean _list_alerts = false;
+    private String _list_alerts = null;
+
+    private String _list_alerts_date = null;
     private String _set_profile=null;
     private String _set_schedule=null;
     private String _set_signal=null;
@@ -58,7 +60,6 @@ public class Cli {
     }
     public boolean is_list_schedules() { return _list_schedules; }
     public boolean is_list_cams() { return _list_cams; }
-    public boolean is_list_alerts() { return _list_alerts;  }
 
     public String get_set_profile() {
         return _set_profile;
@@ -85,6 +86,8 @@ public class Cli {
     public String get_cam_disable() {
         return _cam_disable;
     }
+    public String get_list_alerts() { return _list_alerts;  }
+    public String get_list_alerts_date() { return _list_alerts_date; }
 
     public Cli(String[] args) {
 
@@ -101,7 +104,8 @@ public class Cli {
         options.addOption("lp", "list-profiles", false, "List all available profiles.");
         options.addOption("lsch", "list-schedules", false, "List all avaiable schedules.");
         options.addOption("lc", "list-cams", false, "List all avaiable cameras.");
-        options.addOption("la", "list-alerts", false, "List all alerts.");
+        options.addOption("la", "list-alerts", true, "List alerts for camera short name, index - for all cameras");
+        options.addOption("lad", "list-alerts-start", true, "List alerts from date (sql type) yyyy-mm-dd, 2020-03-27");
         options.addOption("sp", "set-profile", true, "Set current profile: profile name");
         options.addOption("gs", "get-status", false, "Get Blue Iris status: signal, active profile and schedule");
         options.addOption("sch", "set-schedule", true, "Set current schedule: schedule name.");
@@ -195,8 +199,18 @@ public class Cli {
                 sb.append("Using cli option -list-cams\n");
             }
             if (cmd.hasOption("la")) {
-                _list_alerts = true;
-                sb.append("Using cli option -list-alerts\n");
+                _list_alerts = cmd.getOptionValue("list-alerts");
+                sb.append("Using cli option -list-alerts=camera-short-name\n");
+            }
+            if (cmd.hasOption("ladate")) {
+                _list_alerts = cmd.getOptionValue("list-alerts-date");
+                sb.append("Using cli option -list-alerts-date=start from date e.g.: 2020-03-27\n");
+            }
+            if ( (cmd.hasOption("la") || cmd.hasOption("ladate") ) &&
+                    !(cmd.hasOption("la") && cmd.hasOption("ladate"))) {
+                _list_alerts = cmd.getOptionValue("list-alerts-date");
+                errSb.append("Error: To get alerts, you need to provide camera short-name (or'index' for all) " +
+            "AND starting date in sql format yyyy-mm-dd (e.g. 2020-03-27)");
             }
             if (cmd.hasOption("gs")) {
                 _get_status = true;
