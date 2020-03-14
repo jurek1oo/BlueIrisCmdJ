@@ -269,4 +269,23 @@ public class BlueCmdRequest {
                     "Get list of cameras using -lc option.\n", e);
             throw e;
         }
-    }}
+    }
+
+    public void GetList_Alerts() throws Exception {
+        log.debug("list-alerts: "); // return json data element with all alerts details
+        String cmd = "alertlist";
+        try {
+            boolean hasToBeSuccess = true;
+            boolean getDataElement = true;
+            BlueCmdRequestCore blueCmdRequestCore = new BlueCmdRequestCore(_blueLogin);
+            JsonElement jsonDataElement = blueCmdRequestCore.RunTheCmd(cmd, null,hasToBeSuccess,getDataElement);
+
+            //Cameras cameras = new Cameras(jsonDataElement);
+            //log.info(cmd + " : " + cameras.toStringAll());
+        } catch (Exception e) {
+            log.error("Error executing command: " + cmd + " for BlueIris\n", e);
+            throw e;
+        }
+    }
+
+}

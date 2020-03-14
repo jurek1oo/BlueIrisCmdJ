@@ -24,10 +24,11 @@ public class Cli {
     private String _user=null;
     private String _host=null;
     private String _password=null;
-    private boolean get_status =false;
+    private boolean _get_status =false;
     private boolean _list_profiles=false;
     private boolean _list_schedules=false;
     private boolean _list_cams=false;
+    private boolean _list_alerts = false;
     private String _set_profile=null;
     private String _set_schedule=null;
     private String _set_signal=null;
@@ -49,14 +50,16 @@ public class Cli {
         return _password;
     }
 
-    public boolean get_status() {
-        return get_status;
+    public boolean is_get_status() {
+        return _get_status;
     }
-    public boolean list_profiles() {
+    public boolean is_list_profiles() {
         return _list_profiles;
     }
-    public boolean list_schedules() { return _list_schedules; }
-    public boolean list_cams() { return _list_cams; }
+    public boolean is_list_schedules() { return _list_schedules; }
+    public boolean is_list_cams() { return _list_cams; }
+    public boolean is_list_alerts() { return _list_alerts;  }
+
     public String get_set_profile() {
         return _set_profile;
     }
@@ -90,14 +93,15 @@ public class Cli {
         options.addOption("h", "help", false, "show help.");
         options.addOption("v", "version", false, "show BlueIrisCmdJ version.");
         options.addOption("debug", "debug", false, "Debug Log level - to be compatible with BlueIrisCmd. sets -ll debug.");
-        options.addOption("ll", "logLevel", true, "Log leve; error, info, debug or trace.");
-        options.addOption("lf", "logFile", true, "log file name, eg. /home/jurek/biLog.log.");
+        options.addOption("ll", "log-level", true, "Log level: error, info, debug or trace.");
+        options.addOption("lf", "log-file", true, "log file name, eg. /home/jurek/biLog.log.");
         options.addOption("u", "user", true, "User to use when connecting.");
         options.addOption("p", "password", true, "Password to use when connecting.");
         options.addOption("host", "host", true,"Blue Iris host to connect to.");
         options.addOption("lp", "list-profiles", false, "List all available profiles.");
         options.addOption("lsch", "list-schedules", false, "List all avaiable schedules.");
         options.addOption("lc", "list-cams", false, "List all avaiable cameras.");
+        options.addOption("la", "list-alerts", false, "List all alerts.");
         options.addOption("sp", "set-profile", true, "Set current profile: profile name");
         options.addOption("gs", "get-status", false, "Get Blue Iris status: signal, active profile and schedule");
         options.addOption("sch", "set-schedule", true, "Set current schedule: schedule name.");
@@ -190,8 +194,12 @@ public class Cli {
                 _list_cams = true;
                 sb.append("Using cli option -list-cams\n");
             }
+            if (cmd.hasOption("la")) {
+                _list_alerts = true;
+                sb.append("Using cli option -list-alerts\n");
+            }
             if (cmd.hasOption("gs")) {
-                get_status = true;
+                _get_status = true;
                 sb.append("Using cli option -get-status\n");
             }
             if (cmd.hasOption("sp")) {

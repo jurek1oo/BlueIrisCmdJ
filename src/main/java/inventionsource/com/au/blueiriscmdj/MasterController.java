@@ -50,17 +50,20 @@ public class MasterController {
                     log.info("Login OK host: " + cli.getLoginParams().getHost() + " user: " + cli.getLoginParams().getUser()+
                             " password: ***" + cli.getLoginParams().getPassword().length() + "***");
                 }
-                if (cli.list_profiles()) {
+                if (cli.is_list_profiles()) {
                     log.info("list-profiles: " +
                             Arrays.toString(_blueCmdRequest.getProfiles().toArray()));
                 }
-                if (cli.list_schedules()) {
+                if (cli.is_list_schedules()) {
                     log.info("list-schedules: " +
                             Arrays.toString(_blueCmdRequest.getSchedules().toArray()));
                 }
-                if (cli.list_cams()) {
+                if (cli.is_list_cams()) {
                     log.info("list-cameras: \n" +
                             _blueCmdRequest.GetList_Cams().toStringAll());
+                }
+                if (cli.is_list_alerts()) {
+                    log.info("list-alerts: \n" ); //blueCmdRequest.GetList_Alerts()
                 }
                 if (cli.get_cam_disable() != null) {
                     _blueCmdRequest.CamDisable(cli.get_cam_disable());
@@ -74,7 +77,7 @@ public class MasterController {
                 if (cli.get_camconfig() != null && cli.get_camconfig().length() > 0) {
                     _blueCmdRequest.GetCamConfig(cli.get_camconfig());
                 }
-                if (cli.get_status()) {
+                if (cli.is_get_status()) {
                     log.info(_blueCmdRequest.GetStatus().toJsonString());
                 }
                 if (cli.get_set_profile() != null && cli.get_set_profile().length() > 0) {

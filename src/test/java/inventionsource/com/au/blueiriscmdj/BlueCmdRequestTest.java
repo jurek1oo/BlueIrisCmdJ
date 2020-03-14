@@ -103,7 +103,6 @@ public class BlueCmdRequestTest
             assertTrue( "blueStatus.toJsonString.length()>0" ,jsonresult.length()>0 );
             assertTrue( "indexOf EXPECTED_Schedule1>0" ,
                     jsonresult.indexOf(Constants4Tests.EXPECTED_Schedule1)>0 );
-
             blueLogin.BlueIrisLogout();
         } catch (Exception e) {
             log.error("Error: " + e);
@@ -118,7 +117,6 @@ public class BlueCmdRequestTest
             blueLogin.BlueIrisLogin(_loginParams);
             BlueCmdRequest blueCmdRequest = new BlueCmdRequest(blueLogin);
             assertNotNull( "Not null " , blueCmdRequest.getSession() );
-
             Thread.sleep(3000);// give time to  BI to rest
             BlueStatus blueStatus = blueCmdRequest.SetProfile(Constants4Tests.EXPECTED_Profile1);
             String jsonresult = blueStatus.toJsonString();

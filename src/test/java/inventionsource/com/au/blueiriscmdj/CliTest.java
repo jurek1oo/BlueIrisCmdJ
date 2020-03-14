@@ -47,7 +47,7 @@ public class CliTest
              Cli.GoodOrBad gob = cli.parse();
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
             assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
-            assertTrue("has logLevel: ", gob.good.indexOf("error") >= 0);
+            assertTrue("has error: ", gob.good.indexOf("error") >= 0);
 
         } catch (Exception e) {
             log.error("Exception: " + e);
@@ -82,7 +82,7 @@ public class CliTest
             Cli.GoodOrBad gob = cli.parse();
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
             assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
-            assertTrue("has is-list-profiles = true: ", cli.list_profiles());
+            assertTrue("has is-list-profiles = true: ", cli.is_list_profiles());
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;
@@ -100,7 +100,7 @@ public class CliTest
             Cli.GoodOrBad gob = cli.parse();
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
             assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
-            assertTrue("has is-list-schedules = true: ", cli.list_schedules());
+            assertTrue("has is-list-schedules = true: ", cli.is_list_schedules());
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;
@@ -121,7 +121,29 @@ public class CliTest
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
             assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
             assertTrue("has list-cams: ", gob.good.indexOf("list-cams") >= 0);
-            assertTrue("is list_cams: ", cli.list_cams());
+            assertTrue("is list_cams: ", cli.is_list_cams());
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void ListAlertsTest() throws Exception {
+        try {
+            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
+                    Constants4Tests.HOST);
+            loginParams.addElement("-la");
+            String[] args = loginParams.getArgs();
+
+            Cli cli = new Cli(args);
+
+            Cli.GoodOrBad gob = cli.parse();
+            assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
+            assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
+            assertTrue("has list-alerts: ", gob.good.indexOf("list-alerts") >= 0);
+            assertTrue("is alerts: ", cli.is_list_alerts());
 
         } catch (Exception e) {
             log.error("Exception: " + e);
@@ -143,7 +165,7 @@ public class CliTest
             Cli.GoodOrBad gob = cli.parse();
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
             assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
-            assertTrue("has logLevel: ", gob.good.indexOf("camconfig") >= 0);
+            assertTrue("has camconfig: ", gob.good.indexOf("camconfig") >= 0);
             assertTrue("is get_camconfig=CAM_NAME1: ", cli.get_camconfig().compareTo(Constants4Tests.CAM_NAME1)==0);
 
         } catch (Exception e) {
@@ -212,7 +234,7 @@ public class CliTest
             Cli.GoodOrBad gob = cli.parse();
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
             assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
-            assertTrue("has enable: ", gob.good.indexOf("disable") >= 0);
+            assertTrue("has disable: ", gob.good.indexOf("disable") >= 0);
             assertTrue("is get_cam_disable=CAM_NAME1: ", cli.get_cam_disable().compareTo(Constants4Tests.CAM_NAME1)==0);
 
         } catch (Exception e) {
