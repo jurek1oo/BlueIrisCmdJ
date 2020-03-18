@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /*
@@ -22,49 +23,41 @@ public class Alerts {
         return (Alert)_alerts.get(i);
     }
 
-    public Alert get(String value) throws Exception {
-        for (int i=0; i < size(); i++) {
-            //if (get(i).getOptionValue().compareTo((optionValue))==0) {
-            //    return (Alert)_alerts.get(i);
-            //}
-        }
-        throw new Exception("Error. No Alert with the value: " + value);
-    }
-
     public int size() {
         return _alerts.size();
     }
 
-    public String toStringAll() {
+    public String toString() {
         if (size()>0){
             StringBuilder sb = new StringBuilder();
+            sb.append("[\n");
             for(int i = 0; i < size(); i++){
                 if (i>0 && i < size()-1){
                     sb.append(",\n");
                 }
                 sb.append(get(i).toString());
             }
-            sb.append("\n}\n");
+            sb.append("\n}\n]\n");
             return sb.toString();
         }
-        return null;
+        return "[]";
     }
 
     public Alerts(JsonElement dataJson) throws Exception {
         if(dataJson==null)
-            throw new Exception("Error. null dataJson");
+            log.debug("null dataJson");
         _dataJson = dataJson;
-        JsonArray jsonArray = dataJson.getAsJsonArray();
-        boolean active = false;
-        for (int i = 0, size = jsonArray.size(); i < size; i++)
-        {
-            JsonElement jsonElement = jsonArray.get(i);
-            JsonObject jsonObject =  jsonElement.getAsJsonObject();
+        if (dataJson != null) {
+            JsonArray jsonArray = dataJson.getAsJsonArray();
+            boolean active = false;
+            for (int i = 0, size = jsonArray.size(); i < size; i++) {
+                JsonElement jsonElement = jsonArray.get(i);
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-            Alert alert = new Alert(jsonObject);
-            _alerts.add(alert);
+                Alert alert = new Alert(jsonObject);
+                _alerts.add(alert);
+            }
         }
-
     }
     public class  Alert {
         private final Logger log = (Logger)LogManager.getLogger(Alerts.class.getName());
@@ -88,6 +81,7 @@ public class Alerts {
         private String _res = null;
         private int _zones = -1;
         private long _dateInSeconds = -1;
+        private LocalDateTime _localDate = null;
         private int _color = -1;
         private String _filesize = null;
 
@@ -99,6 +93,7 @@ public class Alerts {
         public String getRes() { return _res;}
         public int getZones() { return _zones; }
         public long getDateInSeconds() { return _dateInSeconds; }
+        public LocalDateTime getLocalDate() { return _localDate;   }
         public int getColor() { return _color; }
         public String getFilesize() { return _filesize; }
 
@@ -116,6 +111,7 @@ public class Alerts {
             _res = jsonObject.get("res").getAsString();
             _zones = jsonObject.get("zones").getAsInt();
             _dateInSeconds = jsonObject.get("date").getAsLong();
+            _localDate = Utils.GetLocalDateTimeFromSeconds(_dateInSeconds);
             _color = jsonObject.get("color").getAsInt();
             _filesize = jsonObject.get("filesize").getAsString();
         }

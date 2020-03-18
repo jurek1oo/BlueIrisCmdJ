@@ -285,8 +285,23 @@ public class BlueCmdRequest {
             jsonDataElement = blueCmdRequestCore.RunTheCmd(cmd, cmdParams,hasToBeSuccess,getDataElement);
 
             Alerts alerts = new Alerts(jsonDataElement);
-            log.debug("Alerts: " + alerts.toStringAll());
+            log.debug("Alerts: " + alerts.toString());
             return alerts;
+        } catch (Exception e) {
+            log.error("Error executing command: " + cmd + " for BlueIris\n", e);
+            throw e;
+        }
+    }
+
+    public void Delete_Alerts() throws Exception {
+        log.debug("delete-alerts: ");
+        String cmd = "alertlist";
+        String cmdParams = ",\"camera\":\"index\",\"startdate\":0,\"reset\":true" ;
+        try {
+            boolean hasToBeSuccess = true;
+            boolean getDataElement = false;
+            BlueCmdRequestCore blueCmdRequestCore = new BlueCmdRequestCore(_blueLogin);
+            blueCmdRequestCore.RunTheCmd(cmd, cmdParams,hasToBeSuccess,getDataElement);
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n", e);
             throw e;

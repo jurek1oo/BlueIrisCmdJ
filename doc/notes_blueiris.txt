@@ -3,7 +3,9 @@
 https://www.houselogix.com/docs/blue-iris/BlueIris/json.htm
 
 cd ~/IdeaProjects/blueiriscmdj
-mvn -e package
+
+mvn package -Dmaven.test.skip
+
 java -jar target/blueiriscmdj-1.1.50_SNAPSHOT-jar-with-dependencies.jar -host 192.168.1.42:8882 -u admin -p password -lp -ll info
 ----------------------
 cd IdeaProjects/ && 

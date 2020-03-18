@@ -64,7 +64,12 @@ public class MasterController {
                 }
                 if (cli.is_list_alerts() ) {
                     log.info("list-alerts: \n" +
-                            _blueCmdRequest.GetList_Alerts(cli.get_list_alerts(),cli.get_list_alerts_date()).toStringAll());
+                            _blueCmdRequest.GetList_Alerts(cli.get_list_alerts(),
+                                    cli.get_list_alerts_date()).toString());
+                }
+                if (cli.is_delete_alerts() ) {
+                    log.info("delete-alerts: \n");
+                    _blueCmdRequest.Delete_Alerts();
                 }
                 if (cli.get_cam_disable() != null) {
                     _blueCmdRequest.CamDisable(cli.get_cam_disable());

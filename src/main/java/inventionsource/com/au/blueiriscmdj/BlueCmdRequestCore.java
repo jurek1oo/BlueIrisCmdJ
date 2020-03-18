@@ -56,7 +56,7 @@ public class BlueCmdRequestCore {
             } else {
                 jsonObject = (new JsonEater()).GetResultElement(result,resultHasToBeSuccess);
             }
-            log.debug("got data element OK." );
+            log.debug("got dataElement: " + dataElement );
             return dataElement;
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " cmdParams: " + cmdParams +"\n", e);

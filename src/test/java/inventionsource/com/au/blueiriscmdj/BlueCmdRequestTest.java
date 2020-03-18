@@ -304,9 +304,15 @@ public class BlueCmdRequestTest
             BlueCmdRequest blueCmdRequest = new BlueCmdRequest(blueLogin);
             assertNotNull( "Not null " , blueCmdRequest.getSession() );
             String camera = "index";
-            String dateStart = "1970-01-01";
+            String dateStart = "2020-03-18 21:40";
+            //"1970-01-01"; 1584542400 -2020-0 3-18 21:40 |
+            // 1584542728 - 2020-03-18T21:45:28
+            // 1584542375 - 2020-03-18T21:39:35
+            // 1584542112 - 2020-03-18T21:35:12
+            boolean reset = false;
 
             Alerts alerts = blueCmdRequest.GetList_Alerts(camera, dateStart);
+            log.debug(alerts.toString());
             assertNotNull( "Not null alerts " ,alerts );
             blueLogin.BlueIrisLogout();
         } catch (Exception e) {
@@ -314,4 +320,19 @@ public class BlueCmdRequestTest
             throw e;
         }
     }
-}
+
+    @Test
+    public void DeleteAlertsTest() throws Exception {
+        try {
+            BlueLogin blueLogin = new BlueLogin();
+            blueLogin.BlueIrisLogin(_loginParams);
+            BlueCmdRequest blueCmdRequest = new BlueCmdRequest(blueLogin);
+            assertNotNull( "Not null " , blueCmdRequest.getSession() );
+
+            blueCmdRequest.Delete_Alerts();
+            blueLogin.BlueIrisLogout();
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }}

@@ -17,7 +17,7 @@ public class JsonEater {
         JsonObject jsonObject = GetResultElement(jsonStrFromRequest, hasToBeSuccess);
         JsonElement dataElement = jsonObject.get("data");
         if (dataElement== null) {
-            throw new Exception("Error no data element in response json");
+            log.debug("got NULL data element." );
         }
         log.debug("got data element OK." );
         return dataElement;

@@ -31,6 +31,8 @@ public class Cli {
 
 
     private boolean _is_list_alerts = false;
+
+    private boolean _is_delete_alerts = false;
     private String _list_alerts = null;
 
     private String _list_alerts_date = null;
@@ -64,6 +66,7 @@ public class Cli {
     public boolean is_list_schedules() { return _list_schedules; }
     public boolean is_list_cams() { return _list_cams; }
     public boolean is_list_alerts() { return _is_list_alerts; }
+    public boolean is_delete_alerts() { return _is_delete_alerts; }
 
     public String get_set_profile() {
         return _set_profile;
@@ -114,6 +117,7 @@ public class Cli {
         options.addOption(option);
         //options.addOption("la", "list-alerts", true, "List alerts for camera short name, 'index' - for all cameras");
         options.addOption("lad", "list-alerts-date", true, "List alerts from date (sql type) yyyy-mm-dd hh:mm e.g. 2020-03-27 23:05");
+        options.addOption("da", "delete-alerts", false, "Delete all alerts.");
         options.addOption("sp", "set-profile", true, "Set current profile: profile name");
         options.addOption("gs", "get-status", false, "Get Blue Iris status: signal, active profile and schedule");
         options.addOption("sch", "set-schedule", true, "Set current schedule: schedule name.");
@@ -218,6 +222,10 @@ public class Cli {
                 if (!cmd.hasOption("la")) {
                     errSb.append("Error: list-alerts-date has to be used with list-alerts option, which is not present.");
                 }
+            }
+            if (cmd.hasOption("da")) {
+                _is_delete_alerts = true;
+                sb.append("Using cli option -delete-alerts\n");
             }
             if (cmd.hasOption("gs")) {
                 _get_status = true;
