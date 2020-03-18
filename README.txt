@@ -39,55 +39,12 @@ I got it working even with Java 8.
 In comand terminal change to directory where /executablejar/ is and enter:
 
 To get the list of all commands:
-java -jar blueiriscmdj-1.1.53_SNAPSHOT-jar-with-dependencies.jar -help
+java -jar blueiriscmdj-x.x.x_SNAPSHOT-jar-with-dependencies.jar -help
 
-To connect to BlueIris, in BI setting enable and configure web server with a user and password. To get BI profiles:
-java -jar blueiriscmdj-1.1.50_SNAPSHOT-jar-with-dependencies.jar -host 192.168.1.42:8882 -u admin -p password --list-profiles
-
-To enable debug logging to a file, and get all cameras parameters:
-java -jar blueiriscmdj-1.1.50_SNAPSHOT-jar-with-dependencies.jar -host 192.168.1.42:8882 -u admin -p password --list-cams --logFile mylogFile.log --logLevel debug
-
+For more, check the project wiki.
 Have fun and let me know if you have issues.
 
 Jurek 2020-March-06
-
------------------------- help ----------------------------------
-
- -cd,--cam-disable <arg>      Camera disable: camera-short-name.
- -ce,--cam-enable <arg>       Camera enable: camera-short-name.
- -gcc,--get-camconfig <arg>   Get camera configuration: cam short name.
- -gs,--get-status             Get Blue Iris status: signal, active profile and
-                              schedule
- -h,--help                    show help.
- -host,--host <arg>           Blue Iris host to connect to.
- -lc,--list-cams              List all avaiable cameras.
- -lf,--logFile <arg>          log file name, eg. /home/jurek/bi_log.log.
- -ll,--logLevel <arg>         Log leve; error, info, debug or trace.
- -lp,--list-profiles          List all available profiles.
- -lsch,--list-schedules       List all avaiable schedules.
- -p,--password <arg>          Password to use when connecting.
- -ptzb,--ptz-button <arg>     PTZ Button Number: ptz-button to send to cam
- -ptzc,--ptz-cam <arg>        PTZ camera-short-name to send PTZ Button Number:
-                              ptz-button to.
- -sch,--set-schedule <arg>    Set current schedule: schedule name.
- -sp,--set-profile <arg>      Set current profile: profile name
- -ss,--set-signal <arg>       Set current signal.
- -t,--trigger <arg>           Trigger camera: camera-short-name.
- -u,--user <arg>              User to use when connecting.
-----------------------------------
-
-PTZ Numbers:
-#0: Pan left#1: Pan right
-#2: Tilt up
-#3: Tilt down
-#4: Center or home (if supported by camera)
-#5: Zoom in
-#6: Zoom out
-#8..10: Power mode, 50, 60, or outdoor
-#11..26: Brightness 0-15
-#27..33: Contrast 0-6
-#34..35: IR on, off
-#101..120: Go to preset position 1..20
 
 ----------------------- change to your values -----------------------------------
 
