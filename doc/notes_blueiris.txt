@@ -15,28 +15,39 @@ tar cvzf blueiriscmdj-$stamp.tar.gz blueiriscmdj/
 sudo cp blueiriscmdj-$stamp.tar.gz /media/jurek/KINGSTON/
 
 ------------------------------------------
+usage: BluIrisCmdJ [-cd <arg>] [-ce <arg>] [-debug] [-gcc <arg>] [-gs] [-h]
+       [-host <arg>] [-la <arg>] [-lad <arg>] [-lc] [-lf <arg>] [-ll <arg>]
+       [-lp] [-lsch] [-p <arg>] [-ptzbutton <arg>] [-ptzcam <arg>] [-sch <arg>]
+       [-sp <arg>] [-ss <arg>] [-t <arg>] [-u <arg>] [-v]
 ----------------------------------
- -cd,--cam-disable <arg>      Camera disable: camera-short-name.
- -ce,--cam-enable <arg>       Camera enable: camera-short-name.
- -gcc,--get-camconfig <arg>   Get camera configuration: cam short name.
- -gs,--get-status             Get Blue Iris status: signal, active profile and
-                              schedule
- -h,--help                    show help.
- -host,--host <arg>           Blue Iris host to connect to.
- -lc,--list-cams              List all avaiable cameras.
- -lf,--logFile <arg>          log file name, eg. /home/jurek/bi_log.log.
- -ll,--logLevel <arg>         Log leve; error, info, debug or trace.
- -lp,--list-profiles          List all available profiles.
- -lsch,--list-schedules       List all avaiable schedules.
- -p,--password <arg>          Password to use when connecting.
- -ptzb,--ptz-button <arg>     PTZ Button Number: ptz-button to send to cam
- -ptzc,--ptz-cam <arg>        PTZ camera-short-name to send PTZ Button Number:
-                              ptz-button to.
- -sch,--set-schedule <arg>    Set current schedule: schedule name.
- -sp,--set-profile <arg>      Set current profile: profile name
- -ss,--set-signal <arg>       Set current signal.
- -t,--trigger <arg>           Trigger camera: camera-short-name.
- -u,--user <arg>              User to use when connecting.
+ -cd,--cam-disable <arg>         Camera disable: camera-short-name.
+ -ce,--cam-enable <arg>          Camera enable: camera-short-name.
+ -debug,--debug                  Debug Log level - to be compatible with
+                                 BlueIrisCmd. sets -ll debug.
+ -gcc,--get-camconfig <arg>      Get camera configuration: cam short name.
+ -gs,--get-status                Get Blue Iris status: signal, active profile
+                                 and schedule
+ -h,--help                       show help.
+ -host,--host <arg>              Blue Iris host to connect to.
+ -la,--list-alerts <arg>         List alerts for camera short name, 'index' -
+                                 for all cameras
+ -lad,--list-alerts-date <arg>   List alerts from date (sql type) yyyy-mm-dd
+                                 hh:mm e.g. 2020-03-27 23:05
+ -lc,--list-cams                 List all avaiable cameras.
+ -lf,--log-file <arg>            log file name, eg. /home/jurek/biLog.log.
+ -ll,--log-level <arg>           Log level: error, info, debug or trace.
+ -lp,--list-profiles             List all available profiles.
+ -lsch,--list-schedules          List all avaiable schedules.
+ -p,--password <arg>             Password to use when connecting.
+ -ptzbutton,--ptz-button <arg>   PTZ Button Number: ptz-button to send to cam
+ -ptzcam,--ptz-cam <arg>         PTZ camera-short-name to send PTZ Button
+                                 Number: ptz-button to.
+ -sch,--set-schedule <arg>       Set current schedule: schedule name.
+ -sp,--set-profile <arg>         Set current profile: profile name
+ -ss,--set-signal <arg>          Set current signal.
+ -t,--trigger <arg>              Trigger camera: camera-short-name.
+ -u,--user <arg>                 User to use when connecting.
+ -v,--version                    show BlueIrisCmdJ version.
 ----------------------------------
 
 PTZ Numbers:
@@ -51,4 +62,5 @@ PTZ Numbers:
 #27..33: Contrast 0-6
 #34..35: IR on, off
 #101..120: Go to preset position 1..20
+
 

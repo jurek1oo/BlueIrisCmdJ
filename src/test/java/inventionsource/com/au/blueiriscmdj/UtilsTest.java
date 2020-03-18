@@ -5,6 +5,8 @@ import org.apache.logging.log4j.core.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -17,16 +19,63 @@ public class UtilsTest
         Log4j2Config log4j = new Log4j2Config("test.log","debug");
      }
 
-     //GetSecondsFromDateSql
+
 
     @Test
-    public void GetSecondsFromDateSql() {
+    public void GetDateFromsecondsTest() {
+        LocalDateTime date = null;
+        long dateinseconds = 1585325160; //"2020-03-27 23:06";
+        try {
+            date = Utils.GetLocalDateTimeFromSeconds(dateinseconds);
+
+            assertTrue("date.compareTo ",
+                  date.isEqual(LocalDateTime.parse("2020-03-27T23:06:00.000")));
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }
+
+
+    @Test
+    public void GetSecondsFromDate_timeEmpty() {
         String date = "2020-03-27";
+        long expectedResponse = 1585242000;
+        try {
+            long result = Utils.GetSecondsFromDateSql(date);
+
+            assertTrue("GetSecondsFromDateSql == 0 ", result > 0);
+            assertTrue("expectedResponse ", result ==expectedResponse);
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void GetSecondsFromDateSqlEmpty() {
+        String date = "";
         long expectedResponse = 0;
         try {
             long result = Utils.GetSecondsFromDateSql(date);
 
+            assertTrue("GetSecondsFromDateSql == 0 ", result == 0);
+            assertTrue("expectedResponse ", result ==expectedResponse);
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void GetSecondsFromDateSqlOK() {
+        String date = "2020-03-27 23:06";
+        long expectedResponse = 1585325160;
+        try {
+            long result = Utils.GetSecondsFromDateSql(date);
+
             assertTrue("GetSecondsFromDateSql > 0 ", result > 0);
+            assertTrue("expectedResponse ", result ==expectedResponse);
         } catch (Exception e) {
             log.error("Error: " + e);
             throw e;

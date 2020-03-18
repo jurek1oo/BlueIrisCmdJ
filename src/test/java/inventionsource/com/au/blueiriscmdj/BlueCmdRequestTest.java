@@ -275,7 +275,7 @@ public class BlueCmdRequestTest
             throw e;
         }
     }
-
+//
     @Test
     public void SendPtzButtonTest() throws Exception {
         try {
@@ -292,4 +292,26 @@ public class BlueCmdRequestTest
             log.error("Error: " + e);
             throw e;
         }
-    }}
+    }
+
+    @Test
+    public void GetList_AlertsAllTest() throws Exception {
+        String session = null;
+
+        try {
+            BlueLogin blueLogin = new BlueLogin();
+            blueLogin.BlueIrisLogin(_loginParams);
+            BlueCmdRequest blueCmdRequest = new BlueCmdRequest(blueLogin);
+            assertNotNull( "Not null " , blueCmdRequest.getSession() );
+            String camera = "index";
+            String dateStart = "1970-01-01";
+
+            Alerts alerts = blueCmdRequest.GetList_Alerts(camera, dateStart);
+            assertNotNull( "Not null alerts " ,alerts );
+            blueLogin.BlueIrisLogout();
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }
+}

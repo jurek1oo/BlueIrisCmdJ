@@ -5,12 +5,8 @@ import org.apache.logging.log4j.core.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-/**
- * Unit test for simple App.
- */
 public class CliTest
 {
     private static final Logger log =(Logger) LogManager.getLogger(BlueCmdRequestTest.class.getName());
@@ -130,7 +126,7 @@ public class CliTest
     }
 
     @Test
-    public void ListAlertsTest() throws Exception {
+    public void ListAlertsEmptyCamNameTest() throws Exception {
         try {
             LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
                     Constants4Tests.HOST);
@@ -143,7 +139,32 @@ public class CliTest
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
             assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
             assertTrue("has list-alerts: ", gob.good.indexOf("list-alerts") >= 0);
-            assertTrue("is alerts: ", cli.get_list_alerts().length()>0);
+            assertTrue("is_list_alerts: ", cli.is_list_alerts());
+
+            assertNull("get_list_alerts : ", cli.get_list_alerts());
+            assertNull("list_alerts_date()", cli.get_list_alerts_date());
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void ListAlerts4CamTest() throws Exception {
+        try {
+            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
+                    Constants4Tests.HOST);
+            loginParams.addElement("-la");
+            loginParams.addElement(Constants4Tests.CAM_NAME1);
+            String[] args = loginParams.getArgs();
+
+            Cli cli = new Cli(args);
+
+            Cli.GoodOrBad gob = cli.parse();
+            assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
+            assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
+            assertTrue("has list-alerts: ", gob.good.indexOf("list-alerts") >= 0);
+            assertTrue("is_list_alerts: ", cli.is_list_alerts());
 
         } catch (Exception e) {
             log.error("Exception: " + e);
@@ -152,7 +173,32 @@ public class CliTest
     }
 
     @Test
-    public void GetCamConfigTest() throws Exception {
+    public void ListAlertsDate_ButNoListAlertsTest() throws Exception {
+        try {
+            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
+                    Constants4Tests.HOST);
+            loginParams.addElement("-lad");
+            loginParams.addElement("2020-03-25");
+            String[] args = loginParams.getArgs();
+
+            Cli cli = new Cli(args);
+
+            Cli.GoodOrBad gob = cli.parse();
+            assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
+            assertTrue("gob.bad list-alerts-date has to be used with list-alerts option",
+                    gob.bad!=null && gob.bad.indexOf("list-alerts-date has to be used with list-alerts option")>=0);
+            assertTrue("has list-alerts: ", gob.good.indexOf("list-alerts") >= 0);
+            assertFalse("is_list_alerts: ", cli.is_list_alerts());
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void GetCamConfigTest() throws Exception
+{
         try {
             LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
                     Constants4Tests.HOST);

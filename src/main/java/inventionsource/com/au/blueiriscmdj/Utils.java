@@ -8,6 +8,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -15,26 +19,76 @@ import java.util.TimeZone;
  * GNU General Public License v2.0, 2020 March Jurek Kurianski
  */
 public class Utils {
-    private static final Logger log = (Logger) LogManager.getLogger(BlueCmdRequest.class);
+    private static final Logger log = (Logger) LogManager.getLogger(Utils.class);
 
+    public static String GetDefaultTimeZoneName() {
+        return "ID: " + TimeZone.getDefault().getID() + " : " + TimeZone.getDefault().getDisplayName();
+    }
+
+    public static LocalDateTime GetLocalDateTimeFromSeconds(long dateInSeconds) {
+        log.debug("Using dateInSeconds: " +dateInSeconds);
+                LocalDateTime localDateTime = null;
+        try {
+            if (dateInSeconds < 0) {
+                  throw new Exception( "Wrong Date in seconds.");
+            }
+            log.debug("Using date/time ZoneId: " + ZoneId.systemDefault().getId() +
+                    " : " + ZoneId.systemDefault().toString());
+            OffsetDateTime odt = OffsetDateTime.now ( ZoneId.systemDefault () );
+            ZoneOffset zoneOffset = odt.getOffset ();
+            localDateTime = LocalDateTime.ofEpochSecond(dateInSeconds, 0, zoneOffset);
+
+        } catch (Exception e){
+            log.error("Error converting seconds to date: " + dateInSeconds + ".\n" + e.toString());
+            return null;
+        }
+        return localDateTime;
+    }
 
     public static long GetSecondsFromDateSql(String sqldate) {
-        // 2020-03-27
+        log.debug("Using sqldate: " +sqldate);
+        // empty or null sqldate will return 0 seconds.
+        //   2020-03-27 23:05
+        //or 2020-03-27
+        //   1234567890123456
+        //
         long secondsSinceEpoch =0;
         try {
-            if (sqldate ==  null || sqldate.trim().length() < 10)
-                throw new Exception( "Date too short");
-            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            if (sqldate ==  null || sqldate.trim().length() < 16) {
+                // date part only
+                if (sqldate !=  null && sqldate.trim().length() == 10) {
+                    log.info("Setting time to hour:minute= 00:00");
+                    sqldate = sqldate + " 00:00";
+                } else if (sqldate ==  null || sqldate.trim().length() == 0) {
+                    log.info("Setting start date to 1970-01-01 00:00.");
+                    return 0;
+                } else {
+                    throw new Exception( "Date time too short.");
+                }
+            }
+
+            if (sqldate ==  null || sqldate.trim().length() > 16)
+                throw new Exception( "Date too long.");
+            log.debug("Using timezone: " + TimeZone.getDefault().getID() +
+                    " : " + TimeZone.getDefault().getDisplayName());
+            Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
             calendar.clear();
             log.debug("sqldate: " + sqldate + " y: " + sqldate.substring(0,4) + " m: " +
-                    sqldate.substring(5,7) + " d: " + sqldate.substring(8,10));
+                    sqldate.substring(5,7) + " d: " + sqldate.substring(8,10)+ " h: " +
+            sqldate.substring(11,13) + " min: " + sqldate.substring(14,16));
             calendar.set(Integer.parseInt(sqldate.substring(0,4)),
                     Integer.parseInt(sqldate.substring(5,7))-1,
-                    Integer.parseInt(sqldate.substring(8,10)));
-           // calendar.set(2020, Calendar.OCTOBER, 1);
+                    Integer.parseInt(sqldate.substring(8,10)),
+                            Integer.parseInt(sqldate.substring(11,13)) ,
+                            Integer.parseInt( sqldate.substring(14,16)),0);
             secondsSinceEpoch = calendar.getTimeInMillis() / 1000L;
-        }catch(Exception e){
-            String msg = "Error date format. expected yyyy-mm-dd (e.g. 2020-03-27). sqldate: " + sqldate + " ";
+            if (secondsSinceEpoch <0 && TimeZone.getDefault().getID().compareTo("UTC") != 0) {
+                 log.warn("Warn. your zone is not UTC. Set 1970-01-01 00:00:00 to proper hour, 0 is not correct secondsSinceEpoch: " +
+                        secondsSinceEpoch + " in hours: " + secondsSinceEpoch/3600);
+                secondsSinceEpoch = 0;// 1970-01-01 in not utc zone, can NOT be negative.
+            }
+        } catch (Exception e){
+            String msg = "Error date format. expected yyyy-mm-dd hh:mm (e.g. 2020-03-27 23:05). was: " + sqldate + ". ";
             log.error(msg + e.toString());
             return -1;
         }

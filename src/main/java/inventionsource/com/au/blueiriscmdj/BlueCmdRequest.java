@@ -165,11 +165,11 @@ public class BlueCmdRequest {
             boolean hasToBeSuccess = true;
             boolean getDataElement = true;
             BlueCmdRequestCore blueCmdRequestCore = new BlueCmdRequestCore(_blueLogin);
+
             JsonElement jsonDataElement = blueCmdRequestCore.RunTheCmd(cmd, null,hasToBeSuccess,getDataElement);
 
             Cameras cameras = new Cameras(jsonDataElement);
-
-            log.info(cmd + " : " + cameras.toStringAll());
+            log.debug("Cameras: " + cameras.toStringAll());
             return cameras;
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n", e);
@@ -271,17 +271,22 @@ public class BlueCmdRequest {
         }
     }
 
-    public void GetList_Alerts() throws Exception {
+    public Alerts GetList_Alerts(String camera, String dateStart) throws Exception {
         log.debug("list-alerts: "); // return json data element with all alerts details
+        // for camera short name or index, 4 all and start date/time
+        long secondsFrom1970 =  Utils.GetSecondsFromDateSql(dateStart); //seconds since January 1, 1970
         String cmd = "alertlist";
+        String cmdParams = ",\"camera\":\"" + camera + "\",\"startdate\":" + secondsFrom1970;
+        JsonElement jsonDataElement = null;
         try {
             boolean hasToBeSuccess = true;
             boolean getDataElement = true;
             BlueCmdRequestCore blueCmdRequestCore = new BlueCmdRequestCore(_blueLogin);
-            JsonElement jsonDataElement = blueCmdRequestCore.RunTheCmd(cmd, null,hasToBeSuccess,getDataElement);
+            jsonDataElement = blueCmdRequestCore.RunTheCmd(cmd, cmdParams,hasToBeSuccess,getDataElement);
 
-            //Cameras cameras = new Cameras(jsonDataElement);
-            //log.info(cmd + " : " + cameras.toStringAll());
+            Alerts alerts = new Alerts(jsonDataElement);
+            log.debug("Alerts: " + alerts.toStringAll());
+            return alerts;
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n", e);
             throw e;

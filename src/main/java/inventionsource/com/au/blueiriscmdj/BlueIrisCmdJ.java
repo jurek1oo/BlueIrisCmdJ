@@ -19,6 +19,7 @@ public class BlueIrisCmdJ
 
     public static void main( String[] args ) {
         log.info("BlueIrisCmd version: " + BlueIrisCmdJ.VERSION + " - starting!");
+        log.info("Timezone: " + Utils.GetDefaultTimeZoneName());
         MasterController masterController=  new MasterController(args);
         masterController.Action();
     }

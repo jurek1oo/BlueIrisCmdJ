@@ -21,6 +21,8 @@ mvn package -Dmaven.test.skip
 This will compile and build snapshot jar, without running tests.
 Or you can use the existing jar in /executablejar directory.
 
+For more info check the project Github wiki.
+
 This code is avaiable under GNU GPL 2 licence.  
 
 Good luck, 
