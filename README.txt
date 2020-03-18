@@ -10,7 +10,7 @@ I am not sure if I fully understand the BI operation, hence the "doc/notes_issue
 I control camera activity (recording) setting different profiles (AtHome and OnTheRoad).
 The class HelperSetProfile is used for integration with another Java code running on raspberry PI.
 
-You need to change login and other system parameters to make the unit test works, in Constants4Tests.calss.
+You need to change login and other system parameters to make the unit tests work, in Constants4Tests.calss.
 I am using InteliJ Idea community edition, as ide. To develop code on Raspberry I use Netbeans 8.2  on win10, with scripted upload of jars to PI for execution. A fully automated process. The only issue is that killing process on win10 Netbeans, dos not stop pi process. So you end up with multiple java processes running on raspberry. You need to kill them manually with pkill java, on pi. 
 
 For more, check the project wiki. Have fun and let me know if you have issues.
