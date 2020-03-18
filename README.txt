@@ -14,37 +14,13 @@ You need to change login and other system parameters to make the unit test works
 in Constants4Tests.calss. You may need to create this class, as it may not be in git. The template is attached below.
 I am using InteliJ Idea community edition, as ide. To develop code on Raspberry I use Netbeans 8.2  on win10, with scripted upload of jars to PI for execution. A fully automated process. The only issue is that killing process on win10 Netbeans, dos not stop pi process. So you end up with multiple java processes running on raspberry. You need to kill them manually with pkill java, on pi. 
 
-To make executable jar, cd to project directory with pom.xml and execute in the terminal window:
-
-mvn package -Dmaven.test.skip  
-
-This will compile and build snapshot jar, without running tests.
-Or you can use the existing jar in /executablejar directory.
-
-For more info check the project Github wiki.
+For more, check the project wiki. Have fun and let me know if you have issues.
 
 This code is avaiable under GNU GPL 2 licence.  
 
 Good luck, 
 
 Jurek Kurianski jurek@inventionsource.com.au, Phuket Thailand, March 2020.
-
------------------------------------------------------------------------------
-Use Examples
------------------------------------------------------------------------------
-
-Make sure you have Java installed in your path. The jar is build for Java 11.
-You would need to change pom from 11 to lower version of Java if you need.
-I got it working even with Java 8.
-In comand terminal change to directory where /executablejar/ is and enter:
-
-To get the list of all commands:
-java -jar blueiriscmdj-x.x.x_SNAPSHOT-jar-with-dependencies.jar -help
-
-For more, check the project wiki.
-Have fun and let me know if you have issues.
-
-Jurek 2020-March-06
 
 ----------------------- change to your values -----------------------------------
 
