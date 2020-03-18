@@ -10,8 +10,7 @@ I am not sure if I fully understand the BI operation, hence the "doc/notes_issue
 I control camera activity (recording) setting different profiles (AtHome and OnTheRoad).
 The class HelperSetProfile is used for integration with another Java code running on raspberry PI.
 
-You need to change login and other system parameters to make the unit test works,
-in Constants4Tests.calss. You may need to create this class, as it may not be in git. The template is attached below.
+You need to change login and other system parameters to make the unit test works, in Constants4Tests.calss.
 I am using InteliJ Idea community edition, as ide. To develop code on Raspberry I use Netbeans 8.2  on win10, with scripted upload of jars to PI for execution. A fully automated process. The only issue is that killing process on win10 Netbeans, dos not stop pi process. So you end up with multiple java processes running on raspberry. You need to kill them manually with pkill java, on pi. 
 
 For more, check the project wiki. Have fun and let me know if you have issues.
@@ -22,23 +21,3 @@ Good luck,
 
 Jurek Kurianski jurek@inventionsource.com.au, Phuket Thailand, March 2020.
 
------------------------ change to your values -----------------------------------
-
-package inventionsource.com.au.blueiriscmdj;
-public class Constants4Tests {
-    //
-    //TODO set here your own system values
-    //
-    public static final String CAM_NAME1 = "Ceiling1";
-
-    public static final String EXPECTED_Schedule1 = "Default";
-
-    public static final String EXPECTED_Profile1 = "AtHome";
-    public static final String EXPECTED_PROFILE_2 = "OnTheRoad";
-
-    // BlueIris user, password and host Ip:Port
-    public static final String USER = "admin";
-    public static final String PASSWORD = "password";
-    public static final String HOST = "192.168.1.42:8882";
-}
-----------------------------------------------------------------------------
