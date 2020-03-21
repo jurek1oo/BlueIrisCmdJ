@@ -31,7 +31,7 @@ public class CommandOtherTest
             CommandOther commandOther = new CommandOther(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
 
-            commandOther.TriggerCam(Constants4Tests.CAM_NAME2);
+            commandOther.TriggerCam(Constants4Tests.CAM_NAME1);
             blueLogin.BlueIrisLogout();
 
             Thread.sleep(1000);
@@ -39,7 +39,7 @@ public class CommandOtherTest
             CommandCamList commandCamList = new CommandCamList(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
             Cameras cameras = commandCamList.GetCamList();
-            camera = cameras.get(Constants4Tests.CAM_NAME2);
+            camera = cameras.get(Constants4Tests.CAM_NAME1);
             //when in mvnb build it fails sometimes.
             assertTrue( "isTriggered" , camera.isTriggered() );
             assertTrue( "getNTriggers" ,camera.getNTriggers()>0 );

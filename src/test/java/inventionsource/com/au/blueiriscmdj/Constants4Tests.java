@@ -6,8 +6,6 @@ public class Constants4Tests {
     //
 
     public static final String CAM_NAME1 = "Ceiling1";
-    public static final String CAM_NAME2 = "Front-Watashi";
-
     public static final String EXPECTED_Schedule1 = "Default";
 
     public static final String EXPECTED_Profile1 = "AtHome";
