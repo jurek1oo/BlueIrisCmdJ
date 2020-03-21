@@ -18,25 +18,6 @@ public class CommandOther {
         _blueLogin = blueLogin;
     }
 
-    public Cameras GetList_Cams() throws Exception {
-        log.debug("list-cams: "); // return json data element with all cameras details
-        String cmd = "camlist";
-        try {
-            boolean hasToBeSuccess = true;
-            boolean getDataElement = true;
-            CommandCoreRequest commandCoreRequest = new CommandCoreRequest(_blueLogin);
-
-            JsonElement jsonDataElement = commandCoreRequest.RunTheCmd(cmd, null,hasToBeSuccess,getDataElement);
-
-            Cameras cameras = new Cameras(jsonDataElement);
-            log.debug("Cameras: " + cameras.toStringAll());
-            return cameras;
-        } catch (Exception e) {
-            log.error("Error executing command: " + cmd + " for BlueIris\n", e);
-            throw e;
-        }
-    }
-
     public void TriggerCam(String camera) throws Exception {
         log.debug("trigger: " + camera);
         String cmd = "trigger";

@@ -16,19 +16,22 @@ public class MasterController {
         _args = args;
     }
 
-    public CommandOther getCommandOther() {
-        return _commandOther;
-    }
-
     public BlueLogin getBlueLogin() {   return _blueLogin;  }
 
     private BlueLogin _blueLogin = null;
     private CommandOther _commandOther = null;
     private CommandStatus _commandStatus = null;
     private CommandAlerts _commandAlerts = null;
+    private CommandCamList _commandCamList = null;
     private CommandCamConfig _commandCamConfig = null;
 
     private BlueStatus _lastBlueStatus = null;
+
+    public CommandOther getCommandOther() throws Exception { if (_commandOther==null) _commandOther = new CommandOther(_blueLogin);  return _commandOther;  }
+    public CommandCamList getCommandCamList() throws Exception { if (_commandCamList==null) _commandCamList = new CommandCamList(_blueLogin);  return _commandCamList;  }
+    public CommandAlerts getCommandAlerts() throws Exception { if (_commandAlerts==null) _commandAlerts = new CommandAlerts(_blueLogin);  return _commandAlerts;  }
+    public CommandStatus getCommandStatus() throws Exception { if (_commandStatus==null) _commandStatus = new CommandStatus(_blueLogin);  return _commandStatus;  }
+    public CommandCamConfig getCommandCamConfig() throws Exception { if (_commandCamConfig==null) _commandCamConfig = new CommandCamConfig(_blueLogin);  return _commandCamConfig;  }
 
     public BlueStatus getLastBlueStatus() { return _lastBlueStatus; }
 
@@ -49,14 +52,9 @@ public class MasterController {
                 //login and process commands
                 _blueLogin = new BlueLogin();
                 _blueLogin.BlueIrisLogin(cli.getLoginParams());
-                _commandOther = new CommandOther(_blueLogin);
-                _commandCamConfig = new CommandCamConfig(_blueLogin);
-                _commandStatus = new CommandStatus(_blueLogin);
-                _commandAlerts = new CommandAlerts(_blueLogin);
                 session = _blueLogin.getSession();
                 if (session == null || session.length() == 0) {
                     _blueLogin = null;
-                    _commandOther = null;
                     throw new Exception("Error. Could not loggin. No session. ");
                 } else {
                     log.info("Login OK host: " + cli.getLoginParams().getHost() + " user: " + cli.getLoginParams().getUser()+
@@ -71,45 +69,43 @@ public class MasterController {
                 }
                 if (cli.is_list_cams()) {
                     log.info("list-cameras: \n" +
-                            _commandOther.GetList_Cams().toStringAll());
+                            getCommandCamList().GetCamList().toStringAll());
+                }
+                if (cli.is_reset_cams_stats()) {
+                    log.info("reset-cams-stats: \n" +
+                            getCommandCamList().ResetCamsStats().toStringAll());
                 }
                 if (cli.is_list_alerts() ) {
                     log.info("list-alerts: \n" +
-                            _commandAlerts.GetList_Alerts(cli.get_list_alerts(),
+                            getCommandAlerts().GetList_Alerts(cli.get_list_alerts(),
                                     cli.get_list_alerts_date()).toString());
                 }
                 if (cli.is_delete_alerts() ) {
                     log.info("delete-alerts: \n");
-                    _commandAlerts.Delete_Alerts();
-                }
-                if (cli.get_cam_disable() != null) {
-                    _commandCamConfig.CamEnableDisable(cli.get_cam_disable(),false);
-                }
-                if (cli.get_cam_enable() != null) {
-                    _commandCamConfig.CamEnableDisable(cli.get_cam_enable(), true);
+                    getCommandAlerts().Delete_Alerts();
                 }
                 if (cli.get_trigger() != null) {
-                    _commandOther.TriggerCam(cli.get_trigger());
+                    getCommandOther().TriggerCam(cli.get_trigger());
                 }
                 if (cli.get_camconfig() != null && cli.get_camconfig().length() > 0) {
-                    _commandCamConfig.GetCamConfig(cli.get_camconfig());
+                    getCommandCamConfig().GetCamConfig(cli.get_camconfig());
                 }
                 if (cli.is_get_status()) {
-                    _lastBlueStatus = _commandStatus.GetStatus();
+                    _lastBlueStatus = getCommandStatus().GetStatus();
                     log.info(_lastBlueStatus.toString());
                 }
                 if (cli.get_set_profile() != null && cli.get_set_profile().length() > 0) {
                     int profileInt = _blueLogin.getBlueProfiles().getProfileInt(cli.get_set_profile());
-                    _lastBlueStatus = _commandStatus.SetProfile(profileInt);
+                    _lastBlueStatus = getCommandStatus().SetProfile(profileInt);
                 }
                 if (cli.get_set_schedule() != null && cli.get_set_schedule().length() > 0) {
-                    _lastBlueStatus = _commandStatus.SetSchedule(cli.get_set_schedule());
+                    _lastBlueStatus = getCommandStatus().SetSchedule(cli.get_set_schedule());
                 }
                 if (cli.get_set_signal() != null && cli.get_set_signal().length() > 0) {
-                    _lastBlueStatus = _commandStatus.SetSignal(cli.get_set_signal());
+                    _lastBlueStatus = getCommandStatus().SetSignal(cli.get_set_signal());
                 }
                 if (cli.get_ptzcam() != null ) {
-                    _commandOther.SendPtzButton(cli.get_ptzcam(),cli.get_ptzbutton());
+                    getCommandOther().SendPtzButton(cli.get_ptzcam(),cli.get_ptzbutton());
                 }
             }
         } catch (Exception e) {

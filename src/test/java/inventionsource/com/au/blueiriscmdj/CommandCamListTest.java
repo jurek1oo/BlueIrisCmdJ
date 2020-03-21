@@ -7,12 +7,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
 /*
  * GNU General Public License v2.0, 2020 March Jurek Kurianski
  */
-public class CommandOtherTest
+public class CommandCamListTest
 {
-    private static final Logger log = (Logger) LogManager.getLogger(CommandOtherTest.class.getName());
+    private static final Logger log = (Logger) LogManager.getLogger(CommandCamListTest.class.getName());
     private LoginParams _loginParams = null;
 
     @Before
@@ -22,28 +23,17 @@ public class CommandOtherTest
     }
 
     @Test
-    public void TriggerCamTest() throws Exception
-    {
+    public void GetCamlistTest() throws Exception {
+        String session = null;
+
         try {
-            Cameras.Camera camera = null;
             BlueLogin blueLogin = new BlueLogin();
-            blueLogin.BlueIrisLogin(_loginParams);
-            CommandOther commandOther = new CommandOther(blueLogin);
-            assertNotNull( "Not null " , blueLogin.getSession() );
-
-            commandOther.TriggerCam(Constants4Tests.CAM_NAME2);
-            blueLogin.BlueIrisLogout();
-
-            Thread.sleep(1000);
             blueLogin.BlueIrisLogin(_loginParams);
             CommandCamList commandCamList = new CommandCamList(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
             Cameras cameras = commandCamList.GetCamList();
-            camera = cameras.get(Constants4Tests.CAM_NAME2);
-            //when in mvnb build it fails sometimes.
-            assertTrue( "isTriggered" , camera.isTriggered() );
-            assertTrue( "getNTriggers" ,camera.getNTriggers()>0 );
-
+            assertNotNull( "Not null cameras " ,cameras );
+            assertTrue( "cameras.size()>0" ,cameras.size()>0 );
             blueLogin.BlueIrisLogout();
         } catch (Exception e) {
             log.error("Error: " + e);
@@ -52,20 +42,22 @@ public class CommandOtherTest
     }
 
     @Test
-    public void SendPtzButtonTest() throws Exception {
+    public void ResetStatsCamsListTest() throws Exception {
+        String session = null;
+
         try {
             BlueLogin blueLogin = new BlueLogin();
             blueLogin.BlueIrisLogin(_loginParams);
-            CommandOther commandOther = new CommandOther(blueLogin);
+            CommandCamList commandCamList = new CommandCamList(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
-
-            int ptzButton = 1;
-            commandOther.SendPtzButton(Constants4Tests.CAM_NAME1,ptzButton);
-
+            Cameras cameras = commandCamList.ResetCamsStats();
+            assertNotNull( "Not null cameras " ,cameras );
+            assertTrue( "cameras.size()>0" ,cameras.size()>0 );
             blueLogin.BlueIrisLogout();
         } catch (Exception e) {
             log.error("Error: " + e);
             throw e;
         }
     }
+
 }

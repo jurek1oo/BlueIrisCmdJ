@@ -6,6 +6,7 @@ import org.apache.logging.log4j.core.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -33,7 +34,7 @@ public class CommandCamConfigTest
             CommandCamConfig commandCamConfig = new CommandCamConfig(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
 
-            JsonElement jsonElement= commandCamConfig.GetCamConfig(Constants4Tests.CAM_NAME2);
+            JsonElement jsonElement= commandCamConfig.GetCamConfig(Constants4Tests.CAM_NAME1);
 
             assertNotNull( "Not null jsonElement" ,jsonElement );
             assertTrue( "jsonElement.toString().length()>0" ,jsonElement.toString().length()>0 );
@@ -44,46 +45,71 @@ public class CommandCamConfigTest
         }
     }
 
-
     @Test
     public void CamDisableEnableTest() throws Exception {
         try {
             Cameras.Camera camera = null;
             BlueLogin blueLogin = new BlueLogin();
+            Thread.sleep(1000);
 
             blueLogin.BlueIrisLogin(_loginParams);
             CommandCamConfig commandCamConfig = new CommandCamConfig(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
-            JsonElement jsonElement= commandCamConfig.CamEnableDisable(Constants4Tests.CAM_NAME1, false);
+
+            String json = "{ \"enable\":false }";
+
+            JsonElement jsonElement= commandCamConfig.SetCamConfig(Constants4Tests.CAM_NAME1, json);
             assertNotNull( "Not null jsonElement" ,jsonElement );
+            assertNotNull( "Not null getAsJsonObject" ,jsonElement.getAsJsonObject() );
+
+            Thread.sleep(5000);
+            Cameras.Camera cam = (new CommandCamList(blueLogin)).GetCamList().get(Constants4Tests.CAM_NAME1);
+
+            assertNotNull( "Not null get(enable)" ,cam);
+            assertFalse( "Not null cam(enable) false" , cam.isEnabled());
             blueLogin.BlueIrisLogout();
 
- //           Thread.sleep(1000);
-//            blueCmdRequest = new BlueCmdRequest(blueLogin);
- //           assertNotNull( "Not null " , blueCmdRequest.getSession() );
-            //camera = blueCmdRequest.GetList_Cams().get(Constants4Tests.CAM_NAME1);
-           // assertNotNull( "Not null camera" ,camera );
-           // assertTrue( "!camera.isEnabled() " ,!camera.isEnabled() );
-            //blueLogin.BlueIrisLogout();
-
-            Thread.sleep(1000);
+            Thread.sleep(5000);
             blueLogin.BlueIrisLogin(_loginParams);
             commandCamConfig = new CommandCamConfig(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
-            jsonElement= commandCamConfig.CamEnableDisable(Constants4Tests.CAM_NAME1, true);
+
+            json = "{ \"enable\":true }";
+
+            jsonElement= commandCamConfig.SetCamConfig(Constants4Tests.CAM_NAME1, json);
             assertNotNull( "Not null jsonElement" ,jsonElement );
+
+
+            Thread.sleep(5000);
+            cam = (new CommandCamList(blueLogin)).GetCamList().get(Constants4Tests.CAM_NAME1);
+
+            assertNotNull( "Not null get(enable)" ,cam);
+            assertTrue( "Not null cam(enable) false" , cam.isEnabled());
             blueLogin.BlueIrisLogout();
 
-           // Thread.sleep(1000);
-            //blueCmdRequest = new BlueCmdRequest(blueLogin);
-            //assertNotNull( "Not null " , blueCmdRequest.getSession() );
-          //  camera = blueCmdRequest.GetList_Cams().get(Constants4Tests.CAM_NAME1);
-          //  assertNotNull( "Not null camera" ,camera );
-          //  assertTrue( "camera.isEnabled() " ,camera.isEnabled() );
-           // blueLogin.BlueIrisLogout();
         } catch (Exception e) {
             log.error("Error: " + e);
             throw e;
         }
     }
-}
+
+    @Test
+    public void SetCamConfigTest() throws Exception {
+        try {
+            Cameras.Camera camera = null;
+            String json = "{ \"reset\":true, \"enable\":true, \"pause\":0 }";
+
+            BlueLogin blueLogin = new BlueLogin();
+
+            blueLogin.BlueIrisLogin(_loginParams);
+            CommandCamConfig commandCamConfig = new CommandCamConfig(blueLogin);
+            assertNotNull( "Not null " , blueLogin.getSession() );
+            JsonElement jsonElement= commandCamConfig.SetCamConfig(Constants4Tests.CAM_NAME1, json);
+            assertNotNull( "Not null jsonElement" ,jsonElement );
+            blueLogin.BlueIrisLogout();
+
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }}

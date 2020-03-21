@@ -27,6 +27,7 @@ public class Cameras {
                 return (Camera)_cameras.get(i);
             }
         }
+
         throw new Exception("Error. No camera with the optionValue: " + optionValue);
     }
 
@@ -190,6 +191,37 @@ public class Cameras {
 
         public String toString() {
             return Utils.GetPrettyJsonString(_jsonObject);
+        }
+
+        public String jsonHelp(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("camlist get/set json:\n");
+            sb.append("reset:true reset the all camera's statistics\n");
+            sb.append("optionsDisplay: the camera or group name\n");
+            sb.append("optionsValue: the camera or group short name, used for other requests and\n");
+            sb.append("              commands requiring a camera short name\n");
+            sb.append("FPS: the current number of frames/second delivered from the camera\n");
+            sb.append("color: 24-bit RGB value (red least significant) representing the camera's display color\n");
+            sb.append("clipsCreated: the number of clips created since the camera stats were last reset\n");
+            sb.append("isAlerting: true or false; currently sending an alert\n");
+            sb.append("isEnabled: true or false\n");
+            sb.append("isOnline true or false\n");
+            sb.append("isMotion: true or false\n");
+            sb.append("isNoSignal: true or false\n");
+            sb.append("isPaused: true or false\n");
+            sb.append("isTriggered: true or false\n");
+            sb.append("isRecording: true or false\n");
+            sb.append("isYellow: true or false; the yellow caution icon\n");
+            sb.append("profile: the camera's currently active profile, or as overridden by\n");
+            sb.append("         the global schedule or the UI profile buttons.\n");
+            sb.append("ptz: is PTZ supported, true or false\n");
+            sb.append("audio: is audio supported, true or false\n");
+            sb.append("width: width of the standard video frame\n");
+            sb.append("height: height of the standard video frame\n");
+            sb.append("nTriggers: number of trigger events since last reset\n");
+            sb.append("nNoSignal: number of no signal events since last reset\n");
+            sb.append("nClips: number of no recording events since last reset\n");
+            return sb.toString();
         }
     }
 }

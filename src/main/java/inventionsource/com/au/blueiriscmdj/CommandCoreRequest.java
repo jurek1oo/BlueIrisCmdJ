@@ -20,17 +20,6 @@ public class CommandCoreRequest {
         }
     }
 
-    /*
-    public JsonElement RunTheCmd(String cmd, String cmdParams ) throws Exception {
-         // cmdParams = ",\"signal\":" + signalInt
-        // cmdParams = ',"signal":red' -- add to jsondata before }
-        log.debug("RunTheCmd: " + cmd + " cmdParams: " + cmdParams);
-        boolean resultHasToBeSuccess = false ;
-        boolean getDataElemet =  true;
-        return RunTheCmd( cmd,  cmdParams,  resultHasToBeSuccess,  getDataElemet);
-    }
-*/
-
     public JsonElement RunTheCmd(String cmd, String cmdParams, boolean resultHasToBeSuccess, boolean getDataElemet) throws Exception {
         // cmdParams = ",\"signal\":" + signalInt
         // cmdParams = ',"signal":red' -- add to jsondata before }

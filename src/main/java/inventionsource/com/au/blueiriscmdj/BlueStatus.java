@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
  * GNU General Public License v2.0, 2020 March Jurek Kurianski
  */
 public class BlueStatus {
-    //private ArrayList<String> _profiles = null;
     private JsonElement _dataElement = null;
     private int _activeProfileInt = -1;
     private String _activeSchedule = null;

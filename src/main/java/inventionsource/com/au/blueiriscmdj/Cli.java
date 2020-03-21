@@ -28,8 +28,7 @@ public class Cli {
     private boolean _list_profiles=false;
     private boolean _list_schedules=false;
     private boolean _list_cams=false;
-
-
+    private boolean _is_reset_cams_stats=false;
     private boolean _is_list_alerts = false;
 
     private boolean _is_delete_alerts = false;
@@ -39,13 +38,12 @@ public class Cli {
     private String _set_profile=null;
     private String _set_schedule=null;
     private String _set_signal=null;
-
     private String _get_camconfig =null;
+    private String _json=null;
+    private String _set_camconfig =null;
     private String _trigger=null;
     private String _ptzcam=null;
     private int _ptzbutton=-1;
-    private String _cam_enable=null;
-    private String _cam_disable=null;
 
     public String get_user() {
         return _user;
@@ -65,6 +63,7 @@ public class Cli {
     }
     public boolean is_list_schedules() { return _list_schedules; }
     public boolean is_list_cams() { return _list_cams; }
+    public boolean is_reset_cams_stats() {   return _is_reset_cams_stats;  }
     public boolean is_list_alerts() { return _is_list_alerts; }
     public boolean is_delete_alerts() { return _is_delete_alerts; }
 
@@ -78,6 +77,8 @@ public class Cli {
         return _set_signal;
     }
     public String get_camconfig() { return _get_camconfig; }
+    public String get_set_camconfig() {  return _set_camconfig;  }
+    public String get_json() {  return _json; }
     public String get_trigger() {
         return _trigger;
     }
@@ -85,14 +86,9 @@ public class Cli {
         return _ptzcam;
     }
 
+
     public int get_ptzbutton() {
         return _ptzbutton;
-    }
-    public String get_cam_enable() {
-        return _cam_enable;
-    }
-    public String get_cam_disable() {
-        return _cam_disable;
     }
     public String get_list_alerts() { return _list_alerts;  }
     public String get_list_alerts_date() { return _list_alerts_date; }
@@ -112,6 +108,7 @@ public class Cli {
         options.addOption("lp", "list-profiles", false, "List all available profiles.");
         options.addOption("lsch", "list-schedules", false, "List all avaiable schedules.");
         options.addOption("lc", "list-cams", false, "List all avaiable cameras.");
+        options.addOption("rct", "reset-cams-stats", false, "Reset statistics of for all cameras.");
         Option option = new Option("la", "list-alerts", true, "List alerts for camera short name, optional.");
         option.setOptionalArg(true);
         options.addOption(option);
@@ -123,11 +120,11 @@ public class Cli {
         options.addOption("sch", "set-schedule", true, "Set current schedule: schedule name.");
         options.addOption("ss", "set-signal", true, "Set current signal.");
         options.addOption("gcc", "get-camconfig", true, "Get camera configuration: cam short name.");
+        options.addOption("scc", "set-camconfig", true, "Get camera configuration: cam short name.");
+        options.addOption("j", "json", true, "Json for set-camconfig.");
         options.addOption("t", "trigger", true, "Trigger camera: camera-short-name.");
         options.addOption("ptzcam", "ptz-cam", true, "PTZ camera-short-name to send PTZ Button Number: ptz-button to.");
         options.addOption("ptzbutton", "ptz-button", true, "PTZ Button Number: ptz-button to send to cam");
-        options.addOption("ce", "cam-enable", true, "Camera enable: camera-short-name.");
-        options.addOption("cd", "cam-disable", true, "Camera disable: camera-short-name.");
     }
 
     public GoodOrBad parse() {
@@ -210,6 +207,10 @@ public class Cli {
                 _list_cams = true;
                 sb.append("Using cli option -list-cams\n");
             }
+            if (cmd.hasOption("rct")) {
+                _is_reset_cams_stats = true;
+                sb.append("Using cli option -reset-cams-stats\n");
+            }
             if (cmd.hasOption("la")) {
                 _is_list_alerts = true;
                 sb.append("Using cli option -list-alerts\n");
@@ -245,7 +246,20 @@ public class Cli {
             }
             if (cmd.hasOption("gcc")) {
                 _get_camconfig= cmd.getOptionValue("gcc");
-               sb.append("Using cli option -get-camconfig\n");
+                sb.append("Using cli option -get-camconfig\n");
+            }
+            if ((cmd.hasOption("j") || cmd.hasOption("scc")) &&
+                !(cmd.hasOption("j") && cmd.hasOption("scc")) ){
+                        errSb.append("Error: Both options need to be present, when one is used:" +
+                        " -set-camconfig and -json.");
+                }
+            if (cmd.hasOption("j")) {
+                _json = cmd.getOptionValue("j");
+                sb.append("Using cli argument -json=" + _json + "\n");
+            }
+            if (cmd.hasOption("scc")) {
+                _set_camconfig = cmd.getOptionValue("scc");
+                sb.append("Using cli option -set-camconfig\n");
             }
             if (cmd.hasOption("t")) {
                 _trigger = cmd.getOptionValue("t");
@@ -267,14 +281,6 @@ public class Cli {
                     !(cmd.hasOption("ptzcam") && cmd.hasOption("ptzbutton") ))
             {
                 errSb.append("Missing ptz option. If one ptz option is present, the other has to be present as well.\n");
-            }
-            if (cmd.hasOption("ce")) {
-                _cam_enable = cmd.getOptionValue("ce");
-                sb.append("Using cli argument -cam-enable=" + _cam_enable + "\n");
-            }
-            if (cmd.hasOption("cd")) {
-                _cam_disable = cmd.getOptionValue("cd");
-                sb.append("Using cli argument -cam-disable=" + _cam_disable + "\n");
             }
             gob.good = sb.toString();
             gob.bad = errSb.toString();

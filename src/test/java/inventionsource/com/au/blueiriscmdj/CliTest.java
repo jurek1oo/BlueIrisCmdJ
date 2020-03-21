@@ -126,30 +126,6 @@ public class CliTest
     }
 
     @Test
-    public void GetCamConfigTest() throws Exception
-{
-        try {
-            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
-                    Constants4Tests.HOST);
-            loginParams.addElement("-gcc");
-            loginParams.addElement(Constants4Tests.CAM_NAME1);
-            String[] args = loginParams.getArgs();
-
-            Cli cli = new Cli(args);
-
-            Cli.GoodOrBad gob = cli.parse();
-            assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
-            assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
-            assertTrue("has camconfig: ", gob.good.indexOf("camconfig") >= 0);
-            assertTrue("is get_camconfig=CAM_NAME1: ", cli.get_camconfig().compareTo(Constants4Tests.CAM_NAME1)==0);
-
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
-
-    @Test
     public void TriggerTest() throws Exception {
         try {
             LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
@@ -172,51 +148,6 @@ public class CliTest
         }
     }
 
-    @Test
-    public void CamEnableTest()  throws Exception{
-        try {
-            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
-                    Constants4Tests.HOST);
-            loginParams.addElement("-ce");
-            loginParams.addElement(Constants4Tests.CAM_NAME1);
-            String[] args = loginParams.getArgs();
-
-            Cli cli = new Cli(args);
-
-            Cli.GoodOrBad gob = cli.parse();
-            assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
-            assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
-            assertTrue("has enable: ", gob.good.indexOf("enable") >= 0);
-            assertTrue("is get_cam_enable=CAM_NAME1: ", cli.get_cam_enable().compareTo(Constants4Tests.CAM_NAME1)==0);
-
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
-
-    @Test
-    public void CamDisableTest()  throws Exception{
-        try {
-            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
-                    Constants4Tests.HOST);
-            loginParams.addElement("-cd");
-            loginParams.addElement(Constants4Tests.CAM_NAME1);
-            String[] args = loginParams.getArgs();
-
-            Cli cli = new Cli(args);
-
-            Cli.GoodOrBad gob = cli.parse();
-            assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
-            assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
-            assertTrue("has disable: ", gob.good.indexOf("disable") >= 0);
-            assertTrue("is get_cam_disable=CAM_NAME1: ", cli.get_cam_disable().compareTo(Constants4Tests.CAM_NAME1)==0);
-
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
 
     @Test
     public void PtzCamPtzButtonTestOK()  throws Exception{
@@ -387,4 +318,74 @@ public class CliTest
         }
     }
 
-}
+    @Test
+    public void GetCamConfigTest() throws Exception
+    {
+        try {
+            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
+                    Constants4Tests.HOST);
+            loginParams.addElement("-gcc");
+            loginParams.addElement(Constants4Tests.CAM_NAME1);
+            String[] args = loginParams.getArgs();
+
+            Cli cli = new Cli(args);
+
+            Cli.GoodOrBad gob = cli.parse();
+            assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
+            assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
+            assertTrue("has camconfig: ", gob.good.indexOf("camconfig") >= 0);
+            assertTrue("is get_camconfig=CAM_NAME1: ", cli.get_camconfig().compareTo(Constants4Tests.CAM_NAME1)==0);
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void SetCamConfigTestFail() throws Exception
+    {
+        try {
+            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
+                    Constants4Tests.HOST);
+            loginParams.addElement("-scc");
+            loginParams.addElement(Constants4Tests.CAM_NAME1);
+            String[] args = loginParams.getArgs();
+
+            Cli cli = new Cli(args);
+
+            Cli.GoodOrBad gob = cli.parse();
+            assertTrue("gob.bad is not null or empty", gob.bad!=null || gob.bad.length()>0);
+            assertTrue("has Both options need to be present: ",
+                    gob.bad.indexOf("Both options need to be present") >= 0);
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void SetCamConfigTestOK() throws Exception
+    {
+        try {
+            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
+                    Constants4Tests.HOST);
+            loginParams.addElement("-scc");
+            loginParams.addElement(Constants4Tests.CAM_NAME1);
+            loginParams.addElement("-j");
+            loginParams.addElement("{ \"reset\":true }");
+            String[] args = loginParams.getArgs();
+
+            Cli cli = new Cli(args);
+
+            Cli.GoodOrBad gob = cli.parse();
+            assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
+            assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
+            assertTrue("has set-camconfig: ", gob.good.indexOf("set-camconfig") >= 0);
+            assertTrue("is set_camconfig=CAM_NAME1: ", cli.get_set_camconfig().compareTo(Constants4Tests.CAM_NAME1)==0);
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }}

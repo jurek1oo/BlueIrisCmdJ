@@ -50,9 +50,6 @@ public class MasterControllerTest {
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
-            assertNotNull(" assertNotNull getBlueCmdRequest",
-                    masterController.getCommandOther());
-
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;
@@ -69,7 +66,6 @@ public class MasterControllerTest {
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
-            assertNotNull(" assertNotNull getBlueCmdRequest", masterController.getCommandOther());
 
             Thread.sleep(3000);
             loginParams  =
@@ -243,6 +239,38 @@ public class MasterControllerTest {
             BlueProfiles blueProfiles = masterController.getBlueLogin().getBlueProfiles();
             int expectedProfileInt = blueProfiles.getProfileInt(Constants4Tests.EXPECTED_Profile1);
 
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void cams_list () throws Exception
+    {
+        try {
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-lc");//list-cams
+            String[] args = loginParams.getArgs();
+            MasterController masterController = new MasterController(args);
+            masterController.Action();
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void reset_cams_stats() throws Exception
+    {
+        try {
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-rct");//reset-cams-stats
+            String[] args = loginParams.getArgs();
+            MasterController masterController = new MasterController(args);
+            masterController.Action();
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;
