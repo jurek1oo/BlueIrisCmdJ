@@ -69,11 +69,11 @@ public class MasterController {
                 }
                 if (cli.is_list_cams()) {
                     log.info("list-cameras: \n" +
-                            getCommandCamList().GetCamList().toStringAll());
+                            getCommandCamList().GetCamList().toString());
                 }
                 if (cli.is_reset_cams_stats()) {
                     log.info("reset-cams-stats: \n" +
-                            getCommandCamList().ResetCamsStats().toStringAll());
+                            getCommandCamList().ResetCamsStats().toString());
                 }
                 if (cli.is_list_alerts() ) {
                     log.info("list-alerts: \n" +

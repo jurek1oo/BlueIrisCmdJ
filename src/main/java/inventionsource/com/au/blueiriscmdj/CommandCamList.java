@@ -53,7 +53,6 @@ camlist
     public CommandCamList(BlueLogin blueLogin) throws Exception {
         _blueLogin = blueLogin;
     }
-
     public Cameras GetCamList() throws Exception {
         log.debug("camlist: "); // return json data element with all cameras details
         String cmd = "camlist";
@@ -65,7 +64,7 @@ camlist
             JsonElement jsonDataElement = commandCoreRequest.RunTheCmd(cmd, null,hasToBeSuccess,getDataElement);
 
             Cameras cameras = new Cameras(jsonDataElement);
-            log.debug("Cameras: " + cameras.toStringAll());
+            log.debug("Cameras: " + cameras.toString());
             return cameras;
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n" + "\n\n", e);
@@ -85,7 +84,7 @@ camlist
             JsonElement jsonDataElement = commandCoreRequest.RunTheCmd(cmd, cmdParams,hasToBeSuccess,getDataElement);
 
             Cameras cameras = new Cameras(jsonDataElement);
-            log.debug("Cameras: " + cameras.toStringAll());
+            log.debug("Cameras: " + cameras.toString());
             return cameras;
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n" + "\n\n", e);

@@ -1,4 +1,4 @@
-//https://github.com/jurek1oo/blueiriscmdj
+https://github.com/jurek1oo/blueiriscmdj
 
 https://www.houselogix.com/docs/blue-iris/BlueIris/json.htm
 

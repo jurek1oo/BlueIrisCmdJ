@@ -25,6 +25,24 @@ public class CommandCamConfigTest
     }
 
     @Test
+    public void GetCamConfigHelpTest() throws Exception
+    {
+        try {
+            Thread.sleep(1000);// let BI rest
+            BlueLogin blueLogin = new BlueLogin();
+            blueLogin.BlueIrisLogin(_loginParams);
+            CommandCamConfig commandCamConfig = new CommandCamConfig(blueLogin);
+            assertNotNull( "Not null " , blueLogin.getSession() );
+
+            log.info(commandCamConfig.setJsonHelp());
+
+            blueLogin.BlueIrisLogout();
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }
+    @Test
     public void GetCamConfigTest() throws Exception
     {
         try {

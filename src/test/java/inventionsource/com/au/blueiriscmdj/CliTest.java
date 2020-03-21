@@ -51,12 +51,13 @@ public class CliTest
          }
     }
     @Test
-    public void help()  throws Exception{
+    public void helpTest()  throws Exception{
         String[] args = new String[1];
         args[0] = "-h";// help
         Cli cli = new Cli(args);
         try {
             Cli.GoodOrBad gob = cli.parse();
+            log.info(gob.good);
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
             assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
             assertTrue("has help: ", gob.good.indexOf("help") >= 0);

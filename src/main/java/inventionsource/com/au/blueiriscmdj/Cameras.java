@@ -35,7 +35,7 @@ public class Cameras {
         return _cameras.size();
     }
 
-    public String toStringAll() {
+    public String toString() {
         if (size()>0){
             StringBuilder sb = new StringBuilder();
             for(int i = 0; i < size(); i++){
@@ -59,6 +59,7 @@ public class Cameras {
         for (int i = 0, size = jsonArray.size(); i < size; i++)
         {
             JsonElement jsonElement = jsonArray.get(i);
+
             JsonObject jsonObject =  jsonElement.getAsJsonObject();
             try {
                 active = jsonObject.get("active").getAsBoolean();
@@ -70,6 +71,39 @@ public class Cameras {
         }
 
     }
+
+    public String GetJsonHelp(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("camlist get/set json:\n");
+        sb.append("reset:true reset the all camera's statistics\n");
+        sb.append("optionsDisplay: the camera or group name\n");
+        sb.append("optionsValue: the camera or group short name, used for other requests and\n");
+        sb.append("              commands requiring a camera short name\n");
+        sb.append("FPS: the current number of frames/second delivered from the camera\n");
+        sb.append("color: 24-bit RGB value (red least significant) representing the camera's display color\n");
+        sb.append("clipsCreated: the number of clips created since the camera stats were last reset\n");
+        sb.append("isAlerting: true or false; currently sending an alert\n");
+        sb.append("isEnabled: true or false\n");
+        sb.append("isOnline true or false\n");
+        sb.append("isMotion: true or false\n");
+        sb.append("isNoSignal: true or false\n");
+        sb.append("isPaused: true or false\n");
+        sb.append("isTriggered: true or false\n");
+
+        sb.append("isRecording: true or false\n");
+        sb.append("isYellow: true or false; the yellow caution icon\n");
+        sb.append("profile: the camera's currently active profile, or as overridden by\n");
+        sb.append("         the global schedule or the UI profile buttons.\n");
+        sb.append("ptz: is PTZ supported, true or false\n");
+        sb.append("audio: is audio supported, true or false\n");
+        sb.append("width: width of the standard video frame\n");
+        sb.append("height: height of the standard video frame\n");
+        sb.append("nTriggers: number of trigger events since last reset\n");
+        sb.append("nNoSignal: number of no signal events since last reset\n");
+        sb.append("nClips: number of no recording events since last reset\n");
+        return sb.toString();
+    }
+
     public class  Camera {
         private final Logger log = (Logger)LogManager.getLogger(Cameras.class.getName());
 
@@ -129,9 +163,7 @@ public class Cameras {
         public boolean isManRec() {
             return _isManRec;
         }
-        public boolean isNoSignal() {
-            return _isNoSignal;
-        }
+        public boolean isNoSignal() { return _isNoSignal;  }
         public boolean is_isAlerting() {
             return _isAlerting;
         }
@@ -193,35 +225,5 @@ public class Cameras {
             return Utils.GetPrettyJsonString(_jsonObject);
         }
 
-        public String jsonHelp(){
-            StringBuilder sb = new StringBuilder();
-            sb.append("camlist get/set json:\n");
-            sb.append("reset:true reset the all camera's statistics\n");
-            sb.append("optionsDisplay: the camera or group name\n");
-            sb.append("optionsValue: the camera or group short name, used for other requests and\n");
-            sb.append("              commands requiring a camera short name\n");
-            sb.append("FPS: the current number of frames/second delivered from the camera\n");
-            sb.append("color: 24-bit RGB value (red least significant) representing the camera's display color\n");
-            sb.append("clipsCreated: the number of clips created since the camera stats were last reset\n");
-            sb.append("isAlerting: true or false; currently sending an alert\n");
-            sb.append("isEnabled: true or false\n");
-            sb.append("isOnline true or false\n");
-            sb.append("isMotion: true or false\n");
-            sb.append("isNoSignal: true or false\n");
-            sb.append("isPaused: true or false\n");
-            sb.append("isTriggered: true or false\n");
-            sb.append("isRecording: true or false\n");
-            sb.append("isYellow: true or false; the yellow caution icon\n");
-            sb.append("profile: the camera's currently active profile, or as overridden by\n");
-            sb.append("         the global schedule or the UI profile buttons.\n");
-            sb.append("ptz: is PTZ supported, true or false\n");
-            sb.append("audio: is audio supported, true or false\n");
-            sb.append("width: width of the standard video frame\n");
-            sb.append("height: height of the standard video frame\n");
-            sb.append("nTriggers: number of trigger events since last reset\n");
-            sb.append("nNoSignal: number of no signal events since last reset\n");
-            sb.append("nClips: number of no recording events since last reset\n");
-            return sb.toString();
-        }
     }
 }

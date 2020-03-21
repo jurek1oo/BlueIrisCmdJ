@@ -62,6 +62,27 @@ public class CamerasTest
      }
 
     @Test
+    public void GetCamerasHelpTest() throws Exception {
+        try {
+            JsonElement jsonElement = (new Gson()).fromJson (_dataJson, JsonElement.class);
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            JsonElement dataElement = jsonObject.get("data");
+
+            Cameras cameras = new Cameras(dataElement);
+
+            log.info(cameras.GetJsonHelp());
+            assertNotNull("assertNotNull cameras ", cameras);
+            assertTrue("size()", cameras.size() > 0);
+
+            Cameras.Camera camera = cameras.get(Constants4Tests.CAM_NAME1);
+            assertNotNull("assertNotNull cameras.get(0)", camera);
+
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }
+    @Test
     public void CreateCamerasTest() throws Exception {
         try {
             JsonElement jsonElement = (new Gson()).fromJson (_dataJson, JsonElement.class);
