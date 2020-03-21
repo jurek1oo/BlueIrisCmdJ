@@ -47,8 +47,8 @@ public class BlueLoginTest
             assertNotNull( "Not null " , blueLogin.getSession() );
             assertTrue( "session.length()>0" , blueLogin.getSession().length()>0 );
 
-            assertNotNull( "Not null " , blueLogin.getProfiles() );
-            assertTrue( "session.length()>0" , blueLogin.getProfiles().size()>0 );
+            assertNotNull( "Not null " , blueLogin.getBlueProfiles() );
+            assertTrue( "session.length()>0" , blueLogin.getBlueProfiles().size()>0 );
             assertNotNull( "Not null getSchedules" , blueLogin.getSchedules() );
             assertTrue( "getSchedules.length()>0" , blueLogin.getSchedules().size()>0 );
 

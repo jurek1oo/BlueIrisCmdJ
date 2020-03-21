@@ -6,9 +6,10 @@ import java.util.Arrays;
  * GNU General Public License v2.0, 2020 March Jurek Kurianski
  */
 public class BlueSignals {
-    private ArrayList<String> _signalsList = new ArrayList<String>();
+    private ArrayList<String> _signalsList = null;
 
     public BlueSignals() {
+        _signalsList = new ArrayList<String>();
         _signalsList.add("red");//0
         _signalsList.add("green");//1
         _signalsList.add("yellow");//2

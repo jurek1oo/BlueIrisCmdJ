@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
  * GNU General Public License v2.0, 2020 March Jurek Kurianski
  */
 public class RequestHttp {
-    private static final Logger log = (Logger)LogManager.getLogger(BlueCmdRequest.class);
+    private static final Logger log = (Logger)LogManager.getLogger(RequestHttp.class);
 
     public String PostRequest(String url, String jsonData) throws IOException {
         log.debug("url: " + url + " jsonData: " + jsonData);

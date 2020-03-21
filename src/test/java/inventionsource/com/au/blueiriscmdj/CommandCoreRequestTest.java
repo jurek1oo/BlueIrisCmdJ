@@ -8,9 +8,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class BlueCmdRequestCoreTest
+public class CommandCoreRequestTest
 {
-    private static final Logger log = (Logger) LogManager.getLogger(BlueCmdRequestCoreTest.class.getName());
+    private static final Logger log = (Logger) LogManager.getLogger(CommandCoreRequestTest.class.getName());
     private LoginParams _loginParams = null;
 
     @Before
@@ -20,15 +20,19 @@ public class BlueCmdRequestCoreTest
     }
 
     @Test
-    public void GetStatusTest() throws Exception {
+    public void GetBlueStatusTest() throws Exception {
         try {
             String cmd = "status";
+            boolean resultHasToBeSuccess = false ;
+            boolean getDataElemet =  true;
+
             BlueLogin blueLogin = new BlueLogin();
             blueLogin.BlueIrisLogin(_loginParams);
-            BlueCmdRequestCore blueCmdRequestCore = new BlueCmdRequestCore(blueLogin);
+            CommandCoreRequest commandCoreRequest = new CommandCoreRequest(blueLogin);
             BlueStatus blueStatus =
-                    (new BlueStatus(blueCmdRequestCore.RunTheCmd(cmd,null),blueLogin.getProfiles()));
-            String jsonresult = blueStatus.toJsonString();
+                    (new BlueStatus(commandCoreRequest.RunTheCmd(
+                            cmd,null, resultHasToBeSuccess, getDataElemet)));
+            String jsonresult = blueStatus.toString();
             assertNotNull( "Not null blueStatus" ,jsonresult );
             assertTrue( "blueStatus length()>0" ,jsonresult.length()>0 );
             assertTrue( "signal is there" ,jsonresult.indexOf("signal")>0 );

@@ -23,10 +23,10 @@ public class HelperSetProfilesTest
             LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,Constants4Tests.HOST);
             HelperSetProfiles helper = new HelperSetProfiles(loginParams);
 
-            String profile = helper.GetActiveProfile();
+            int profile = helper.GetActiveProfile();
 
             assertNotNull("assertNotNull profile ", profile);
-            assertTrue("profile.length() > 0 ", profile.length() > 0);
+            assertTrue("profile.length() > 0 ", profile >= 0);
         } catch (Exception e) {
             log.error("Error: " + e);
             throw e;
@@ -40,11 +40,11 @@ public class HelperSetProfilesTest
             LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,Constants4Tests.HOST);
             HelperSetProfiles helper = new HelperSetProfiles(loginParams);
 
-            String profile = helper.GetActiveProfile();
+            int profile = helper.GetActiveProfile();
             helper.SetProfile((profile));
 
             assertNotNull("assertNotNull profile ", profile);
-            assertTrue("profile.length() > 0 ", profile.length() > 0);
+            assertTrue("profile.length() > 0 ", profile >= 0);
         } catch (Exception e) {
             log.error("Error: " + e);
             throw e;

@@ -20,8 +20,6 @@ public class MasterControllerTest {
     public void setUp() throws Exception {
         Log4j2Config log4j = new Log4j2Config("test.log","info");
     }
-
-
     @Test
     public void setPtzButtonTest() throws Exception
     {
@@ -52,7 +50,8 @@ public class MasterControllerTest {
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
-            assertNotNull(" assertNotNull getBlueCmdRequest", masterController.getBlueCmdRequest());
+            assertNotNull(" assertNotNull getBlueCmdRequest",
+                    masterController.getCommandOther());
 
         } catch (Exception e) {
             log.error("Exception: " + e);
@@ -70,7 +69,7 @@ public class MasterControllerTest {
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
-            assertNotNull(" assertNotNull getBlueCmdRequest", masterController.getBlueCmdRequest());
+            assertNotNull(" assertNotNull getBlueCmdRequest", masterController.getCommandOther());
 
             Thread.sleep(3000);
             loginParams  =
@@ -97,14 +96,13 @@ public class MasterControllerTest {
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
-            assertNotNull(" assertNotNull getBlueCmdRequest", masterController.getBlueCmdRequest());
+            assertNotNull(" assertNotNull getBlueCmdRequest", masterController.getCommandOther());
 
-            assertNotNull("assertNotNull GetStatus", masterController.getBlueCmdRequest().getBlueStatus());
+            assertNotNull("assertNotNull GetStatus", masterController.getLastBlueStatus());
             assertNotNull("assertNotNull GetStatus().toJsonString",
-                    masterController.getBlueCmdRequest().getBlueStatus().toJsonString());
-            assertTrue("GetStatus().toJsonString().length() ",masterController.getBlueCmdRequest().
-                    getBlueStatus().toJsonString().length()>0);
-
+                    masterController.getLastBlueStatus());
+            assertTrue("GetStatus().toJsonString().length() ",
+                    masterController.getLastBlueStatus().toString().length()>0);
 
         } catch (Exception e) {
             log.error("Exception: " + e);
@@ -122,13 +120,13 @@ public class MasterControllerTest {
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
-            assertNotNull(" assertNotNull getBlueCmdRequest", masterController.getBlueCmdRequest());
+            assertNotNull(" assertNotNull getBlueCmdRequest", masterController.getCommandOther());
 
-            assertNotNull("assertNotNull GetStatus", masterController.getBlueCmdRequest().getBlueStatus());
+            assertNotNull("assertNotNull GetStatus", masterController.getLastBlueStatus());
             assertNotNull("assertNotNull getSignal",
-                    masterController.getBlueCmdRequest().getBlueStatus().getSignal());
-            assertTrue("status has active signal : red ",masterController.getBlueCmdRequest().
-                    getBlueStatus().getSignal().indexOf("red")>=0);
+                    masterController.getLastBlueStatus().getSignal());
+            assertTrue("status has active signal : red ",
+                    masterController.getLastBlueStatus().getSignal().indexOf("red")>=0);
 
             Thread.sleep(1000);
             loginParams  =
@@ -139,9 +137,9 @@ public class MasterControllerTest {
             masterController = new MasterController(args);
             masterController.Action();
 
-            assertNotNull("result has text", masterController.getBlueCmdRequest().getBlueStatus());
-            assertTrue("status has active signal : ",masterController.getBlueCmdRequest().
-                    getBlueStatus().getSignal().indexOf("green")>=0);
+            assertNotNull("result has text", masterController.getLastBlueStatus());
+            assertTrue("status has active signal : ",
+                    masterController.getLastBlueStatus().getSignal().indexOf("green")>=0);
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;
@@ -159,9 +157,9 @@ public class MasterControllerTest {
             MasterController masterController = new MasterController(args);
             masterController.Action();
 
-            assertNotNull("result has text", masterController.getBlueCmdRequest().getBlueStatus());
-            assertTrue("status has active signal : ",masterController.getBlueCmdRequest().
-                    getBlueStatus().getSignal().indexOf("green")>=0);
+            assertNotNull("result has text", masterController.getLastBlueStatus());
+            assertTrue("status has active signal : ",
+                    masterController.getLastBlueStatus().getSignal().indexOf("green")>=0);
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;
@@ -178,7 +176,7 @@ public class MasterControllerTest {
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
-            ArrayList<String> schedules  = masterController.getBlueCmdRequest().getSchedules();
+            ArrayList<String> schedules  = masterController.getBlueLogin().getSchedules();
             assertTrue("result schedules has text", schedules != null);
             assertTrue("list-schedules has expected schedule: ",
                     Arrays.toString(schedules.toArray()).indexOf(Constants4Tests.EXPECTED_Schedule1)>=0);
@@ -197,9 +195,8 @@ public class MasterControllerTest {
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
-            assertNotNull("result has text", masterController.getBlueCmdRequest().getBlueStatus());
-            assertNotNull("status has schedule: ",
-                    masterController.getBlueCmdRequest().getBlueStatus().getActiveProfile());
+            assertNotNull("result has text", masterController.getLastBlueStatus());
+            assertNotNull("status has schedule: ",  masterController.getLastBlueStatus());
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;
@@ -218,9 +215,12 @@ public class MasterControllerTest {
             MasterController masterController = new MasterController(args);
             masterController.Action();
 
-            assertNotNull("result has text", masterController.getBlueCmdRequest().getBlueStatus());
+            BlueProfiles blueProfiles = masterController.getBlueLogin().getBlueProfiles();
+            int expectedProfileInt = blueProfiles.getProfileInt(Constants4Tests.EXPECTED_Profile1);
+
+            assertNotNull("result has text", masterController.getLastBlueStatus());
             assertTrue("status has active profile : ",
-                    masterController.getBlueCmdRequest().getBlueStatus().getActiveProfile().indexOf(Constants4Tests.EXPECTED_Profile1)>=0);
+                    masterController.getLastBlueStatus().getActiveProfileInt() ==expectedProfileInt);
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;
@@ -237,11 +237,12 @@ public class MasterControllerTest {
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
-            assertNotNull("",masterController.getBlueCmdRequest() );
-            assertNotNull("",masterController.getBlueCmdRequest().getProfiles());
-            ArrayList<String> profiles  = masterController.getBlueCmdRequest().getProfiles();
-            assertTrue("list-profiles has expected profile: ",
-                    Arrays.toString(profiles.toArray()).indexOf(Constants4Tests.EXPECTED_Profile1)>=0);
+            assertNotNull("",masterController.getCommandOther() );
+            assertNotNull("",masterController.getBlueLogin().getBlueProfiles());
+
+            BlueProfiles blueProfiles = masterController.getBlueLogin().getBlueProfiles();
+            int expectedProfileInt = blueProfiles.getProfileInt(Constants4Tests.EXPECTED_Profile1);
+
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;

@@ -1,44 +1,44 @@
 package inventionsource.com.au.blueiriscmdj;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 /*
  * GNU General Public License v2.0, 2020 March Jurek Kurianski
  */
-public class BlueCmdRequestCore {
-    private static final Logger log = (Logger)LogManager.getLogger(BlueCmdRequest.class);
+public class CommandCoreRequest {
+
+    private static final Logger log = (Logger)LogManager.getLogger(CommandCoreRequest.class);
 
     private RequestHttp _requestHttp = new RequestHttp();
     private BlueLogin _blueLogin = null;
 
 
-    public BlueCmdRequestCore(BlueLogin blueLogin) throws Exception {
+    public CommandCoreRequest(BlueLogin blueLogin) throws Exception {
         _blueLogin = blueLogin;
         if (blueLogin ==null || blueLogin.getSession() == null || blueLogin.getSession().length()<1){
             throw new Exception("Error. Login first.");
         }
     }
 
+    /*
     public JsonElement RunTheCmd(String cmd, String cmdParams ) throws Exception {
-        // cmdParams = ",\"signal\":" + signalInt
+         // cmdParams = ",\"signal\":" + signalInt
         // cmdParams = ',"signal":red' -- add to jsondata before }
         log.debug("RunTheCmd: " + cmd + " cmdParams: " + cmdParams);
         boolean resultHasToBeSuccess = false ;
         boolean getDataElemet =  true;
         return RunTheCmd( cmd,  cmdParams,  resultHasToBeSuccess,  getDataElemet);
     }
+*/
 
     public JsonElement RunTheCmd(String cmd, String cmdParams, boolean resultHasToBeSuccess, boolean getDataElemet) throws Exception {
         // cmdParams = ",\"signal\":" + signalInt
         // cmdParams = ',"signal":red' -- add to jsondata before }
-
         log.debug("get-status: " );
 
         String result = null;
         String jsonData = null;
         JsonElement dataElement = null;
-        JsonObject jsonObject = null;
         try {
             if (_blueLogin.getSession()==null) {
                 throw new Exception("Error. session is null - login first.");
@@ -54,7 +54,7 @@ public class BlueCmdRequestCore {
             if(getDataElemet) {
                 dataElement = (new JsonEater()).GetDataElement(result,resultHasToBeSuccess);
             } else {
-                jsonObject = (new JsonEater()).GetResultElement(result,resultHasToBeSuccess);
+               (new JsonEater()).GetResultElement(result,resultHasToBeSuccess);
             }
             log.debug("got dataElement: " + dataElement );
             return dataElement;

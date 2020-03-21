@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class CliTest
 {
-    private static final Logger log =(Logger) LogManager.getLogger(BlueCmdRequestTest.class.getName());
+    private static final Logger log =(Logger) LogManager.getLogger(CliTest.class.getName());
         @Before
     public void setUp() throws Exception {
         Log4j2Config log4j = new Log4j2Config("test.log","info");

@@ -27,7 +27,7 @@ public class BlueLogin {
 
     private String _md5HexResponse = null;
     private String _systemName = null;
-    private ArrayList<String> _profiles = null;
+    private BlueProfiles _blueProfiles = null;
     private ArrayList<String> _schedules = null;
 
     public String getUrl() {  return _url;  }
@@ -35,8 +35,8 @@ public class BlueLogin {
     public String getSystemName() {
         return _systemName;
     }
-    public ArrayList<String> getProfiles() {
-        return _profiles;
+    public BlueProfiles getBlueProfiles() {
+        return _blueProfiles;
     }
     public ArrayList<String> getSchedules() { return _schedules; }
 
@@ -51,7 +51,7 @@ public class BlueLogin {
             }
             String result = _requestHttp.PostRequest(
                     _url, Utils.MakeCmdJson(cmd,_session,_md5HexResponse));
-            JsonObject jsonObject = JsonEater.GetResultElement(result, hasToBeSuccess);
+            JsonEater.GetResultElement(result, hasToBeSuccess);
 
             _session=null;
             _md5HexResponse=null;
@@ -81,6 +81,9 @@ public class BlueLogin {
 
             JsonObject jsonObject = JsonEater.GetResultElement(result, hasToBeSuccess);
             _session = jsonObject.get("session").getAsString();
+            if (_session == null) {
+                throw new Exception("_session = null - cant login");
+            }
 
             log.debug("1st login call: OK");
 
@@ -100,8 +103,9 @@ public class BlueLogin {
             log.debug(status);
 
             JsonElement profilesElement = dataElement.getAsJsonObject().get("profiles");
-            _profiles = (new Gson()).fromJson(profilesElement, new TypeToken<ArrayList<String>>() {}.getType());
-            log.debug("profiles list: " + _profiles.size() + " : " + Arrays.toString(_profiles.toArray()));
+            ArrayList<String> profiles = (new Gson()).fromJson(profilesElement, new TypeToken<ArrayList<String>>() {}.getType());
+            _blueProfiles =  new BlueProfiles(profiles);
+            log.debug("profiles list: " + _blueProfiles.size() + " : " + _blueProfiles);
 
             JsonElement schedulesElement = dataElement.getAsJsonObject().get("schedules");
             _schedules = (new Gson()).fromJson(schedulesElement, new TypeToken<ArrayList<String>>() {}.getType());
