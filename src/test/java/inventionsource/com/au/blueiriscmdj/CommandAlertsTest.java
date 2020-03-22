@@ -22,7 +22,7 @@ public class CommandAlertsTest
     }
 
     @Test
-    public void GetList_AlertsAllTest() throws Exception {
+    public void Alerts_List_AllTest() throws Exception {
         String session = null;
 
         try {
@@ -38,7 +38,7 @@ public class CommandAlertsTest
             // 1584542112 - 2020-03-18T21:35:12
             boolean reset = false;
 
-            Alerts alerts = commandAlerts.GetList_Alerts(camera, dateStart);
+            Alerts alerts = commandAlerts.GetAlertsList(camera, dateStart);
             log.debug(alerts.toString());
             assertNotNull( "Not null alerts " ,alerts );
             blueLogin.BlueIrisLogout();
@@ -49,14 +49,14 @@ public class CommandAlertsTest
     }
 
     @Test
-    public void DeleteAlertsTest() throws Exception {
+    public void AlertsDeleteTest() throws Exception {
         try {
             BlueLogin blueLogin = new BlueLogin();
             blueLogin.BlueIrisLogin(_loginParams);
             CommandAlerts commandAlerts = new CommandAlerts(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
 
-            commandAlerts.Delete_Alerts();
+            commandAlerts.AlertsDelete();
             blueLogin.BlueIrisLogout();
         } catch (Exception e) {
             log.error("Error: " + e);

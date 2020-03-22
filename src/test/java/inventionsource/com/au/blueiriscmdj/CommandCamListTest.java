@@ -42,7 +42,7 @@ public class CommandCamListTest
     }
 
     @Test
-    public void ResetStatsCamsListTest() throws Exception {
+    public void CamsResetStatsTest() throws Exception {
         String session = null;
 
         try {

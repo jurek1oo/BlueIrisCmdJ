@@ -19,8 +19,9 @@ public class CommandAlerts {
         _blueLogin = blueLogin;
     }
 
-    public Alerts GetList_Alerts(String camera, String dateStart) throws Exception {
-        log.debug("list-alerts: "); // return json data element with all alerts details
+    public Alerts GetAlertsList(String camera, String dateStart) throws Exception {
+        log.debug("camera: " + camera + " dateStart: " + dateStart );
+        // return json data element with all alerts details
         // for camera short name or index, 4 all and start date/time
         long secondsFrom1970 =  Utils.GetSecondsFromDateSql(dateStart); //seconds since January 1, 1970
         String cmd = "alertlist";
@@ -41,8 +42,8 @@ public class CommandAlerts {
         }
     }
 
-    public void Delete_Alerts() throws Exception {
-        log.debug("delete-alerts: ");
+    public void AlertsDelete() throws Exception {
+        log.debug("AlertsDelete");
         String cmd = "alertlist";
         String cmdParams = ",\"camera\":\"index\",\"startdate\":0,\"reset\":true" ;
         try {

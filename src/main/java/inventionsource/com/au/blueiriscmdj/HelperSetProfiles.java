@@ -3,6 +3,9 @@ package inventionsource.com.au.blueiriscmdj;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
+/*
+ * A helper class used by Raspberry pi 3 Java software.
+ */
 public class HelperSetProfiles {
 
     private static final Logger log = (Logger) LogManager.getLogger(HelperSetProfiles.class);
@@ -15,7 +18,7 @@ public class HelperSetProfiles {
         _loginParams =  loginParams;
     }
 
-    public void SetProfile(int profileInt) throws Exception
+    public void SetActiveProfile(int profileInt) throws Exception
     {
         Login();
         try {

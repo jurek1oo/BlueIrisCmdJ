@@ -60,29 +60,29 @@ public class MasterController {
                     log.info("Login OK host: " + cli.getLoginParams().getHost() + " user: " + cli.getLoginParams().getUser()+
                             " password: ***" + cli.getLoginParams().getPassword().length() + "***");
                 }
-                if (cli.is_list_profiles()) {
-                    log.info("list-profiles: " +_blueLogin.getBlueProfiles());
+                if (cli.is_profiles_list()) {
+                    log.info("profiles-list: " +_blueLogin.getBlueProfiles());
                 }
-                if (cli.is_list_schedules()) {
-                    log.info("list-schedules: " +
+                if (cli.is_schedules_list()) {
+                    log.info("schedules-list: " +
                             Arrays.toString(_blueLogin.getSchedules().toArray()));
                 }
-                if (cli.is_list_cams()) {
-                    log.info("list-cameras: \n" +
+                if (cli.is_cams_list()) {
+                    log.info("cameras-list: \n" +
                             getCommandCamList().GetCamList().toString());
                 }
-                if (cli.is_reset_cams_stats()) {
-                    log.info("reset-cams-stats: \n" +
+                if (cli.is_cams_reset_stats()) {
+                    log.info("cams-reset-stats: \n" +
                             getCommandCamList().ResetCamsStats().toString());
                 }
-                if (cli.is_list_alerts() ) {
-                    log.info("list-alerts: \n" +
-                            getCommandAlerts().GetList_Alerts(cli.get_list_alerts(),
-                                    cli.get_list_alerts_date()).toString());
+                if (cli.is_alerts_list() ) {
+                    log.info("alerts-list: \n" +
+                            getCommandAlerts().GetAlertsList(cli.get_alerts_list(),
+                                    cli.get_alerts_list_date()).toString());
                 }
-                if (cli.is_delete_alerts() ) {
-                    log.info("delete-alerts: \n");
-                    getCommandAlerts().Delete_Alerts();
+                if (cli.is_alerts_delete() ) {
+                    log.info("alerts-delete: \n");
+                    getCommandAlerts().AlertsDelete();
                 }
                 if (cli.get_trigger() != null) {
                     getCommandOther().TriggerCam(cli.get_trigger());
@@ -90,19 +90,17 @@ public class MasterController {
                 if (cli.get_camconfig() != null && cli.get_camconfig().length() > 0) {
                     getCommandCamConfig().GetCamConfig(cli.get_camconfig());
                 }
-                if (cli.is_get_status()) {
+                if (cli.is_status_get()) {
                     _lastBlueStatus = getCommandStatus().GetStatus();
                     log.info(_lastBlueStatus.toString());
                 }
-                if (cli.get_set_profile() != null && cli.get_set_profile().length() > 0) {
-                    int profileInt = _blueLogin.getBlueProfiles().getProfileInt(cli.get_set_profile());
-                    _lastBlueStatus = getCommandStatus().SetProfile(profileInt);
-                }
-                if (cli.get_set_schedule() != null && cli.get_set_schedule().length() > 0) {
-                    _lastBlueStatus = getCommandStatus().SetSchedule(cli.get_set_schedule());
-                }
-                if (cli.get_set_signal() != null && cli.get_set_signal().length() > 0) {
-                    _lastBlueStatus = getCommandStatus().SetSignal(cli.get_set_signal());
+                if (cli.is_status_set()) {
+                    if (cli.get_json() !=null && cli.get_json().length()>0) {
+                        _lastBlueStatus = getCommandStatus().SetStatus(cli.get_json() );
+                        log.info(_lastBlueStatus.toString());
+                    } else {
+                        throw new Exception("-status_set option needs -json to be provided.");
+                    }
                 }
                 if (cli.get_ptzcam() != null ) {
                     getCommandOther().SendPtzButton(cli.get_ptzcam(),cli.get_ptzbutton());

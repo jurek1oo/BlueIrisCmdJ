@@ -23,7 +23,8 @@ public class CommandCoreRequest {
     public JsonElement RunTheCmd(String cmd, String cmdParams, boolean resultHasToBeSuccess, boolean getDataElemet) throws Exception {
         // cmdParams = ",\"signal\":" + signalInt
         // cmdParams = ',"signal":red' -- add to jsondata before }
-        log.debug("get-status: " );
+        log.debug("cmd: " + cmd + " cmdParams: " + cmdParams + " resultHasToBeSuccess: " + resultHasToBeSuccess +
+                " getDataElemet: " + getDataElemet);
 
         String result = null;
         String jsonData = null;

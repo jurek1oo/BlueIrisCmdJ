@@ -24,23 +24,27 @@ public class CommandOtherTest
     @Test
     public void TriggerCamTest() throws Exception
     {
+        // This test only works if the cam is in active state, i.e. it can be triggered.
+        // cam1 is active in profile "OnTheRoad",
+        // cam2 is active in profile "AtHome".
+        // So we use cam2, as the default system profile is "AtHome",
+        // where only  front house cam2 is active and is recording constantly.
         try {
             Cameras.Camera camera = null;
+            String camName = Constants4Tests.CAM_NAME2;
+
             BlueLogin blueLogin = new BlueLogin();
             blueLogin.BlueIrisLogin(_loginParams);
+
             CommandOther commandOther = new CommandOther(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
 
-            commandOther.TriggerCam(Constants4Tests.CAM_NAME1);
-            blueLogin.BlueIrisLogout();
+            commandOther.TriggerCam(camName);
 
             Thread.sleep(1000);
-            blueLogin.BlueIrisLogin(_loginParams);
-            CommandCamList commandCamList = new CommandCamList(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
-            Cameras cameras = commandCamList.GetCamList();
-            camera = cameras.get(Constants4Tests.CAM_NAME1);
-            //when in mvnb build it fails sometimes.
+
+            camera = (new CommandCamList(blueLogin)).GetCamList().get(camName);
             assertTrue( "isTriggered" , camera.isTriggered() );
             assertTrue( "getNTriggers" ,camera.getNTriggers()>0 );
 

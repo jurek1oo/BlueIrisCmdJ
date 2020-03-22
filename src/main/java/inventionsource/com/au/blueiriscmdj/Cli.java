@@ -24,26 +24,29 @@ public class Cli {
     private String _user=null;
     private String _host=null;
     private String _password=null;
-    private boolean _get_status =false;
-    private boolean _list_profiles=false;
-    private boolean _list_schedules=false;
-    private boolean _list_cams=false;
-    private boolean _is_reset_cams_stats=false;
-    private boolean _is_list_alerts = false;
 
-    private boolean _is_delete_alerts = false;
-    private String _list_alerts = null;
+    private boolean _is_alerts_delete = false;
+    private boolean _is_alerts_list = false;
+    private boolean _is_cams_list =false;
+    private boolean _is_cams_reset_stats =false;
+    private boolean _is_status_get =false;
+    private boolean _is_profiles_list =false;
+    private boolean _is_schedules_list =false;
 
-    private String _list_alerts_date = null;
-    private String _set_profile=null;
-    private String _set_schedule=null;
-    private String _set_signal=null;
-    private String _get_camconfig =null;
+
+    private boolean _is_status_set =false;
+
+    private String _alerts_list_4_cam = null;
+    private String _alerts_list_date = null;
+    private String _camconfig_get =null;
+    private String _camconfig_set =null;
     private String _json=null;
-    private String _set_camconfig =null;
-    private String _trigger=null;
     private String _ptzcam=null;
     private int _ptzbutton=-1;
+    //private String _set_profile=null;
+    //private String _set_schedule=null;
+    //private String _set_signal=null;
+    private String _trigger=null;
 
     public String get_user() {
         return _user;
@@ -55,18 +58,17 @@ public class Cli {
         return _password;
     }
 
-    public boolean is_get_status() {
-        return _get_status;
+    public boolean is_alerts_delete() { return _is_alerts_delete; }
+    public boolean is_alerts_list() { return _is_alerts_list; }
+    public boolean is_cams_list() { return _is_cams_list; }
+    public boolean is_cams_reset_stats() {   return _is_cams_reset_stats;  }
+    public boolean is_profiles_list() {        return _is_profiles_list;    }
+    public boolean is_schedules_list() {        return _is_schedules_list;    }
+    public boolean is_status_get() {        return _is_status_get;    }
+    public boolean is_status_set() {
+        return _is_status_set;
     }
-    public boolean is_list_profiles() {
-        return _list_profiles;
-    }
-    public boolean is_list_schedules() { return _list_schedules; }
-    public boolean is_list_cams() { return _list_cams; }
-    public boolean is_reset_cams_stats() {   return _is_reset_cams_stats;  }
-    public boolean is_list_alerts() { return _is_list_alerts; }
-    public boolean is_delete_alerts() { return _is_delete_alerts; }
-
+    /*
     public String get_set_profile() {
         return _set_profile;
     }
@@ -75,56 +77,45 @@ public class Cli {
     }
     public String get_set_signal() {
         return _set_signal;
-    }
-    public String get_camconfig() { return _get_camconfig; }
-    public String get_set_camconfig() {  return _set_camconfig;  }
+    } */
+
+    public String get_camconfig() { return _camconfig_get; }
+    public String get_camconfig_set() {  return _camconfig_set;  }
     public String get_json() {  return _json; }
-    public String get_trigger() {
-        return _trigger;
-    }
-    public String get_ptzcam() {
-        return _ptzcam;
-    }
-
-
-    public int get_ptzbutton() {
-        return _ptzbutton;
-    }
-    public String get_list_alerts() { return _list_alerts;  }
-    public String get_list_alerts_date() { return _list_alerts_date; }
+    public String get_trigger() {       return _trigger;   }
+    public String get_ptzcam() {        return _ptzcam;    }
+    public int get_ptzbutton() {        return _ptzbutton;    }
+    public String get_alerts_list() { return _alerts_list_4_cam;  }
+    public String get_alerts_list_date() { return _alerts_list_date; }
 
     public Cli(String[] args) {
 
         this.args = args;
 
-        options.addOption("h", "help", false, "show help.");
-        options.addOption("v", "version", false, "show BlueIrisCmdJ version.");
-        options.addOption("debug", "debug", false, "Debug Log level - to be compatible with BlueIrisCmd. sets -ll debug.");
-        options.addOption("ll", "log-level", true, "Log level: error, info, debug or trace.");
-        options.addOption("lf", "log-file", true, "log file name, eg. /home/jurek/biLog.log.");
-        options.addOption("u", "user", true, "User to use when connecting.");
-        options.addOption("p", "password", true, "Password to use when connecting.");
-        options.addOption("host", "host", true,"Blue Iris host to connect to.");
-        options.addOption("lp", "list-profiles", false, "List all available profiles.");
-        options.addOption("lsch", "list-schedules", false, "List all avaiable schedules.");
-        options.addOption("lc", "list-cams", false, "List all avaiable cameras.");
-        options.addOption("rct", "reset-cams-stats", false, "Reset statistics of for all cameras.");
-        Option option = new Option("la", "list-alerts", true, "List alerts for camera short name, optional.");
+        options.addOption("ad", "alerts-delete", false, "Delete all alerts.");
+        Option option = new Option("al", "alerts-list", true, "List alerts for camera short name, optional.");
         option.setOptionalArg(true);
         options.addOption(option);
-        //options.addOption("la", "list-alerts", true, "List alerts for camera short name, 'index' - for all cameras");
-        options.addOption("lad", "list-alerts-date", true, "List alerts from date (sql type) yyyy-mm-dd hh:mm e.g. 2020-03-27 23:05");
-        options.addOption("da", "delete-alerts", false, "Delete all alerts.");
-        options.addOption("sp", "set-profile", true, "Set current profile: profile name");
-        options.addOption("gs", "get-status", false, "Get Blue Iris status: signal, active profile and schedule");
-        options.addOption("sch", "set-schedule", true, "Set current schedule: schedule name.");
-        options.addOption("ss", "set-signal", true, "Set current signal.");
-        options.addOption("gcc", "get-camconfig", true, "Get camera configuration: cam short name.");
-        options.addOption("scc", "set-camconfig", true, "Get camera configuration: cam short name.");
-        options.addOption("j", "json", true, "Json for set-camconfig.");
+        options.addOption("ald", "alerts-list-date", true, "List alerts from date (sql type) yyyy-mm-dd hh:mm e.g. 2020-03-27 23:05");
+        options.addOption("ccg", "camconfig-get", true, "Get camera configuration: cam short name.");
+        options.addOption("ccs", "camconfig-set", true, "Get camera configuration: cam short name. Use -json.");
+        options.addOption("cl", "cams-list", false, "List all avaiable cameras.");
+        options.addOption("cr", "cams-reset-stats", false, "Reset statistics of for all cameras.");
+        options.addOption("h", "help", false, "show help.");
+        options.addOption("host", "host", true,"Blue Iris host to connect to.");
+        options.addOption("j", "json", true, "Json for options: -camconfig-set or -status-set. Check project Github wiki for help.");
+        options.addOption("ll", "log-level", true, "Log level: error, info, debug or trace.");
+        options.addOption("lf", "log-file", true, "log file name, eg. /temp/BlueIrisCmdJ.log.");
+        options.addOption("schl", "schedules-list", false, "List all avaiable schedules.");
+        options.addOption("p", "password", true, "Password to use when connecting.");
+        options.addOption("pl", "profiles-list", false, "List all available profiles.");
+        options.addOption("ptzc", "ptz-cam", true, "PTZ camera-short-name to send PTZ Button Number: ptz-button to.");
+        options.addOption("ptzb", "ptz-button", true, "PTZ Button Number: ptz-button to send to cam");
+        options.addOption("stg", "status-get", false, "Get Blue Iris status: signal, active profile and schedule");
+        options.addOption("sts", "status-set", true, "Set Blue Iris status: signal, active profile or/and schedule. Use -json.");
         options.addOption("t", "trigger", true, "Trigger camera: camera-short-name.");
-        options.addOption("ptzcam", "ptz-cam", true, "PTZ camera-short-name to send PTZ Button Number: ptz-button to.");
-        options.addOption("ptzbutton", "ptz-button", true, "PTZ Button Number: ptz-button to send to cam");
+        options.addOption("u", "user", true, "User to use when connecting.");
+        options.addOption("v", "version", false, "show BlueIrisCmdJ version.");
     }
 
     public GoodOrBad parse() {
@@ -134,6 +125,8 @@ public class Cli {
         GoodOrBad gob = new GoodOrBad();
 
         StringBuilder errSb = new StringBuilder();
+
+
         StringBuilder sb = new StringBuilder();
 
         CommandLine cmd = null;
@@ -154,20 +147,14 @@ public class Cli {
                 gob.good = "Ignoring ALL other arguments. Only -version used: \n" ;
                 return gob;
             }
-            if (cmd.hasOption("debug")) {
-                logLevel = "debug";
-                sb.append ("Logging -log-level: " + logLevel + "\n");
-            } else {
-                if (cmd.hasOption("ll")) {
-                    logLevel = cmd.getOptionValue("ll");
-                    sb.append("Logging -log-level: " + logLevel + "\n");
-                }
+            if (cmd.hasOption("ll")) {
+                logLevel = cmd.getOptionValue("ll");
+                sb.append("Logging -log-level: " + logLevel + "\n");
             }
             if (cmd.hasOption("lf")) {
                 logFile = cmd.getOptionValue("lf");
                 sb.append ("Logging -log-file: " + logFile + "\n");
             }
-
             Log4j2Config log4j = new Log4j2Config(logFile, logLevel);
 
             if (cmd.hasOption("u")) {
@@ -195,92 +182,94 @@ public class Cli {
             }
             _loginParams = new LoginParams(_user, _password, _host);
 
-            if (cmd.hasOption("lp")) {
-                _list_profiles = true;
-                sb.append("Using cli option -list-profiles\n");
+// ******************************************************************************
+
+            if (cmd.hasOption("ad")) {
+                _is_alerts_delete = true;
+                sb.append("Using cli option alerts-delete\n");
             }
-            if (cmd.hasOption("lsch")) {
-                _list_schedules = true;
-                sb.append("Using cli option -list-schedules\n");
+            if (cmd.hasOption("al")) {
+                _is_alerts_list = true;
+                _alerts_list_4_cam = cmd.getOptionValue("alerts-list");
+                sb.append("Using cli option alerts-list cam name: " + _alerts_list_4_cam +"\n");
             }
-            if (cmd.hasOption("lc")) {
-                _list_cams = true;
-                sb.append("Using cli option -list-cams\n");
-            }
-            if (cmd.hasOption("rct")) {
-                _is_reset_cams_stats = true;
-                sb.append("Using cli option -reset-cams-stats\n");
-            }
-            if (cmd.hasOption("la")) {
-                _is_list_alerts = true;
-                sb.append("Using cli option -list-alerts\n");
-                _list_alerts = cmd.getOptionValue("list-alerts");
-                sb.append("Using cli option -list-alerts cam name: " + _list_alerts +"\n");
-            }
-            if (cmd.hasOption("lad")) {
-                _list_alerts_date = cmd.getOptionValue("list-alerts-date");
-                sb.append("Using cli option -list-alerts-date=start from date e.g.: 2020-03-27 23:05\n");
-                if (!cmd.hasOption("la")) {
-                    errSb.append("Error: list-alerts-date has to be used with list-alerts option, which is not present.");
+            if (cmd.hasOption("ald")) {
+                _alerts_list_date = cmd.getOptionValue("-alerts-list-date");
+                sb.append("Using cli option -alerts-list-datee=start from date e.g.: 2020-03-27 23:05\n");
+                if (!cmd.hasOption("al")) {
+                    errSb.append("Error: alerts-list-date has to be used with alerts-list option, which is not present.");
                 }
             }
-            if (cmd.hasOption("da")) {
-                _is_delete_alerts = true;
-                sb.append("Using cli option -delete-alerts\n");
+            if (cmd.hasOption("ccg")) {
+                _camconfig_get = cmd.getOptionValue("ccg");
+                sb.append("Using cli option -camconfig-get\n");
             }
-            if (cmd.hasOption("gs")) {
-                _get_status = true;
-                sb.append("Using cli option -get-status\n");
-            }
-            if (cmd.hasOption("sp")) {
-                _set_profile = cmd.getOptionValue("sp");
-                sb.append("Using cli argument -set-profile=" + _set_profile);
-            }
-            if (cmd.hasOption("sch")) {
-                _set_schedule = cmd.getOptionValue("sch");
-                sb.append("Using cli argument -set-schedule=" + _set_schedule + "\n");
-            }
-            if (cmd.hasOption("ss")) {
-                _set_signal = cmd.getOptionValue("ss");
-                sb.append("Using cli argument -set-signal=" + _set_signal + "\n");
-            }
-            if (cmd.hasOption("gcc")) {
-                _get_camconfig= cmd.getOptionValue("gcc");
-                sb.append("Using cli option -get-camconfig\n");
-            }
-            if ((cmd.hasOption("j") || cmd.hasOption("scc")) &&
-                !(cmd.hasOption("j") && cmd.hasOption("scc")) ){
-                        errSb.append("Error: Both options need to be present, when one is used:" +
-                        " -set-camconfig and -json.");
+            if (cmd.hasOption("ccs")) {
+                if ( !cmd.hasOption("j")) {
+                    errSb.append("Error: Both options need to be present -camconfig-set and -json.");
                 }
+                _camconfig_set = cmd.getOptionValue("ccs");
+                sb.append("Using cli option -camconfig-set\n");
+            }
+            if (cmd.hasOption("cl")) {
+                _is_cams_list = true;
+                sb.append("Using cli option -cams-list\n");
+            }
+            if (cmd.hasOption("crt")) {
+                _is_cams_reset_stats = true;
+                sb.append("Using cli option cams_reset_stats\n");
+            }
             if (cmd.hasOption("j")) {
                 _json = cmd.getOptionValue("j");
                 sb.append("Using cli argument -json=" + _json + "\n");
             }
-            if (cmd.hasOption("scc")) {
-                _set_camconfig = cmd.getOptionValue("scc");
-                sb.append("Using cli option -set-camconfig\n");
+            if (cmd.hasOption("pl")) {
+                _is_profiles_list = true;
+                sb.append("Using cli option -profiles-list\n");
+            }
+            if (cmd.hasOption("ptzc")) {
+                _ptzcam = cmd.getOptionValue("ptzc");
+                sb.append("Using cli argument -ptz-cam=" + _ptzcam + "\n");
+            }
+            if (cmd.hasOption("ptzb")) {
+                try {
+                    _ptzbutton = Integer.parseInt(cmd.getOptionValue("ptzb"));
+                    sb.append("Using cli argument -ptz-button=" + _ptzbutton + "\n");
+                } catch (Exception ex) {
+                    errSb.append("Error: ptz-button not an integer: "+ cmd.getOptionValue("ptzb"));
+                }
+            }
+            if( (cmd.hasOption("ptzc") || cmd.hasOption("ptzb")) &&
+                    !(cmd.hasOption("ptzc") && cmd.hasOption("ptzb") ))
+            {
+                errSb.append("Missing one of ptz option. You need -ptz-cam and -ptz-button.\n");
+            }
+            if (cmd.hasOption("schl")) {
+                _is_schedules_list = true;
+                sb.append("Using cli option -schedules-list\n");
+            }
+            if (cmd.hasOption("stg")) {
+                _is_status_get = true;
+                sb.append("Using cli option -status-get\n");
+            }
+            if (cmd.hasOption("sts")) {
+                _is_status_set = true;
+                sb.append("Using cli option -status-set\n");
+                if ( !cmd.hasOption("j")) {
+                    errSb.append("Error: Both options need to be present -status-set and -json.");
+                }
+            }
+            if (cmd.hasOption("sts") && cmd.hasOption("ccs")){
+                errSb.append("Error: Only one of the options can be used at one time:" +
+                        " -status-set or -camconfig-set.");
+            }
+            if (cmd.hasOption("j")  &&
+                    !(cmd.hasOption("ccs") || cmd.hasOption("sts"))  ){
+                errSb.append("Error: -json option needs to be used with -camconfig-set or -status-set.");
             }
             if (cmd.hasOption("t")) {
                 _trigger = cmd.getOptionValue("t");
                 sb.append("Using cli argument -trigger=" + _trigger + "\n");
-            }
-            if (cmd.hasOption("ptzcam")) {
-                _ptzcam = cmd.getOptionValue("ptz-cam");
-                sb.append("Using cli argument -ptz-cam=" + _ptzbutton + "\n");
-            }
-            if (cmd.hasOption("ptzbutton")) {
-                try {
-                    _ptzbutton = Integer.parseInt(cmd.getOptionValue("ptz-button"));
-                    sb.append("Using cli argument -ptz-button=" + _ptzbutton + "\n");
-                } catch (Exception ex) {
-                    errSb.append("Error: ptz-button not an integer: "+ cmd.getOptionValue("ptz-button"));
-                }
-            }
-            if((cmd.hasOption("ptzcam") || cmd.hasOption("ptzbutton")) &&
-                    !(cmd.hasOption("ptzcam") && cmd.hasOption("ptzbutton") ))
-            {
-                errSb.append("Missing ptz option. If one ptz option is present, the other has to be present as well.\n");
             }
             gob.good = sb.toString();
             gob.bad = errSb.toString();

@@ -81,7 +81,7 @@ camconfig - set json elements:
     }
     public String setJsonHelp(){
         StringBuilder sb = new StringBuilder();
-        sb.append("set-camconfig json example:\n{ \"reset\":false,\"enable\":true,\"pause\":0," +
+        sb.append("camconfig-set json example:\n{ \"reset\":false,\"enable\":true,\"pause\":0," +
                 "\"motion\":true,\"schedule\":true,\"ptzcycle\":true," +
                 "\"ptzevents\":true,\"alerts\":0\"record\":2}\n");
         sb.append("reset:true reset the camera\n");

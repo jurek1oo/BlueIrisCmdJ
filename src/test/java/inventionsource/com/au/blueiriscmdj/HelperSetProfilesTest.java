@@ -41,7 +41,7 @@ public class HelperSetProfilesTest
             HelperSetProfiles helper = new HelperSetProfiles(loginParams);
 
             int profile = helper.GetActiveProfile();
-            helper.SetProfile((profile));
+            helper.SetActiveProfile((profile));
 
             assertNotNull("assertNotNull profile ", profile);
             assertTrue("profile.length() > 0 ", profile >= 0);

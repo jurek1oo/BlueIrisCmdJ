@@ -20,6 +20,7 @@ public class MasterControllerTest {
     public void setUp() throws Exception {
         Log4j2Config log4j = new Log4j2Config("test.log","info");
     }
+
     @Test
     public void setPtzButtonTest() throws Exception
     {
@@ -56,39 +57,12 @@ public class MasterControllerTest {
         }
     }
     @Test
-    public void camDisableEnableTest() throws Exception
+    public void StatusGetTest() throws Exception
     {
         try {
             LoginParams loginParams  =
                     new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-cd");//cam-disable
-            loginParams.addElement(Constants4Tests.CAM_NAME1);
-            String[] args = loginParams.getArgs();
-            MasterController masterController = new MasterController(args);
-            masterController.Action();
-
-            Thread.sleep(3000);
-            loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-ce");//cam-enable
-            loginParams.addElement(Constants4Tests.CAM_NAME1);
-            args = loginParams.getArgs();
-            masterController = new MasterController(args);
-            masterController.Action();
-
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
-
-    @Test
-    public void getStatusTest() throws Exception
-    {
-        try {
-            LoginParams loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-get-status");
+            loginParams.addElement("-status-get");
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
@@ -106,75 +80,18 @@ public class MasterControllerTest {
         }
     }
     @Test
-    public void set_signalTest() throws Exception
+    public void schedules_list() throws Exception
     {
         try {
             LoginParams loginParams  =
                     new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-set-signal");//set-signal
-            loginParams.addElement("red");//signal
-            String[] args = loginParams.getArgs();
-            MasterController masterController = new MasterController(args);
-            masterController.Action();
-            assertNotNull(" assertNotNull getBlueCmdRequest", masterController.getCommandOther());
-
-            assertNotNull("assertNotNull GetStatus", masterController.getLastBlueStatus());
-            assertNotNull("assertNotNull getSignal",
-                    masterController.getLastBlueStatus().getSignal());
-            assertTrue("status has active signal : red ",
-                    masterController.getLastBlueStatus().getSignal().indexOf("red")>=0);
-
-            Thread.sleep(1000);
-            loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-set-signal");
-            loginParams.addElement("green");
-            args = loginParams.getArgs();
-            masterController = new MasterController(args);
-            masterController.Action();
-
-            assertNotNull("result has text", masterController.getLastBlueStatus());
-            assertTrue("status has active signal : ",
-                    masterController.getLastBlueStatus().getSignal().indexOf("green")>=0);
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
-    @Test
-    public void set_signal_green() throws Exception
-    {
-        try {
-            LoginParams loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-set-signal");
-            loginParams.addElement("green");
-            String[] args = loginParams.getArgs();
-            MasterController masterController = new MasterController(args);
-            masterController.Action();
-
-            assertNotNull("result has text", masterController.getLastBlueStatus());
-            assertTrue("status has active signal : ",
-                    masterController.getLastBlueStatus().getSignal().indexOf("green")>=0);
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
-
-    @Test
-    public void list_schedules() throws Exception
-    {
-        try {
-            LoginParams loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-lsch");//list-schedules
+            loginParams.addElement("-schl");//is_schedules_list
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
             ArrayList<String> schedules  = masterController.getBlueLogin().getSchedules();
             assertTrue("result schedules has text", schedules != null);
-            assertTrue("list-schedules has expected schedule: ",
+            assertTrue("is_schedules_list has expected schedule: ",
                     Arrays.toString(schedules.toArray()).indexOf(Constants4Tests.EXPECTED_Schedule1)>=0);
        } catch (Exception e) {
             log.error("Exception: " + e);
@@ -182,12 +99,12 @@ public class MasterControllerTest {
         }
     }
     @Test
-    public void get_status () throws Exception
+    public void status_get () throws Exception
     {
         try {
             LoginParams loginParams  =
                     new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-gs");//get-status
+            loginParams.addElement("-stg");//status-get
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
@@ -200,36 +117,65 @@ public class MasterControllerTest {
     }
 
     @Test
-    public void set_profile () throws Exception
+    public void status_set() throws Exception
     {
         try {
+            String activeSchedule = "Default";
+
             LoginParams loginParams  =
                     new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-set-profile");//set-profile
-            loginParams.addElement(Constants4Tests.EXPECTED_Profile1);//profile name
-            String[] args = loginParams.getArgs();
-            MasterController masterController = new MasterController(args);
+            loginParams.addElement("-sts");//status-set
+            loginParams.addElement("-j");//json
+            //
+            //{"signal":1,"profile":1,"schedule":"Default"}
+            //
+            loginParams.addElement(
+                    "{\"signal\":2,\"profile\":2,\"schedule\":\"" + activeSchedule + "\"}");
+
+            MasterController masterController = new MasterController(loginParams.getArgs());
             masterController.Action();
+            BlueStatus blueStatus = masterController.getLastBlueStatus();
 
-            BlueProfiles blueProfiles = masterController.getBlueLogin().getBlueProfiles();
-            int expectedProfileInt = blueProfiles.getProfileInt(Constants4Tests.EXPECTED_Profile1);
+            assertNotNull("result has blueStatus", blueStatus);
+            assertTrue("status has activeProfileInt: ",
+                    blueStatus.getActiveProfileInt() == 2);
+            assertTrue("status has signalInt: ",
+                    blueStatus.getSignalInt() == 2);
+            assertTrue("status has activeSchedule: ",
+                    blueStatus.getActiveSchedule().contains(activeSchedule));
 
-            assertNotNull("result has text", masterController.getLastBlueStatus());
-            assertTrue("status has active profile : ",
-                    masterController.getLastBlueStatus().getActiveProfileInt() ==expectedProfileInt);
+            // ------ back to default --------------------------------------
+
+            loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-sts");//status-set
+            loginParams.addElement("-j");//json
+            loginParams.addElement(
+                    "{\"signal\":1,\"profile\":1,\"schedule\":\"" + activeSchedule + "\"}");
+
+            masterController = new MasterController(loginParams.getArgs());
+            masterController.Action();
+            blueStatus = masterController.getLastBlueStatus();
+
+            assertNotNull("result has blueStatus", blueStatus);
+            assertTrue("status has activeProfileInt: ",
+                    blueStatus.getActiveProfileInt() == 1);
+            assertTrue("status has signalInt: ",
+                    blueStatus.getSignalInt() == 1);
+            assertTrue("status has activeSchedule: ",
+                    blueStatus.getActiveSchedule().contains(activeSchedule));
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;
         }
     }
-
     @Test
-    public void list_profiles () throws Exception
+    public void profiles_list () throws Exception
     {
         try {
             LoginParams loginParams  =
                     new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-lp");//list-profiles
+            loginParams.addElement("-pl");//profiles-list
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
@@ -251,7 +197,7 @@ public class MasterControllerTest {
         try {
             LoginParams loginParams  =
                     new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-lc");//list-cams
+            loginParams.addElement("-cl");//cams-list
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();
@@ -262,12 +208,12 @@ public class MasterControllerTest {
     }
 
     @Test
-    public void reset_cams_stats() throws Exception
+    public void cams_reset_stats() throws Exception
     {
         try {
             LoginParams loginParams  =
                     new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-rct");//reset-cams-stats
+            loginParams.addElement("-crt");//cams-reset-stats
             String[] args = loginParams.getArgs();
             MasterController masterController = new MasterController(args);
             masterController.Action();

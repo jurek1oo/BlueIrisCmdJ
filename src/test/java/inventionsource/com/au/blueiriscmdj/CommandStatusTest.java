@@ -23,6 +23,59 @@ public class CommandStatusTest
     }
 
     @Test
+    public void Status_GetSetJsonTest() throws Exception
+    {
+        String json = "";
+        try {
+            BlueLogin blueLogin = new BlueLogin();
+            blueLogin.BlueIrisLogin(_loginParams);
+            assertNotNull( "Not null " , blueLogin.getSession() );
+
+            CommandStatus commandStatus = new CommandStatus(blueLogin);
+            BlueStatus blueStatusStart = commandStatus.GetStatus();
+
+            int signalCurrentInt = 1;
+            int profileCurrentInt = 1;
+            String scheduleCurrent = "Default";
+
+            Thread.sleep(1000);// give time to  BI to rest
+
+            if(signalCurrentInt ==1) {
+                json = "\"signal\":" + 0 ;
+            } else{
+                json = "\"signal\":" + 1 ;
+            }
+            if(profileCurrentInt ==1) {
+                json = json + ",\"profile\":" + 2;
+            } else{
+                json = json + ",\"profile\":" + 1;
+            }
+            json = json + ",\"schedule\":\"" + scheduleCurrent + "\"";
+
+            Thread.sleep(2000);// give time to  BI to rest
+            BlueStatus blueStatusAfter = commandStatus.SetStatus(json);
+
+            assertNotNull( "Not null blueStatus " ,blueStatusAfter );
+            assertTrue( "blueStatusAfter !=signalCurrentInt" ,blueStatusAfter.getSignalInt()!=signalCurrentInt);
+            assertTrue( "blueStatusAfter !=profileCurrentInt" ,blueStatusAfter.getActiveProfileInt()!=profileCurrentInt);
+
+            String jsonAtStart = "{\"signal\":" +signalCurrentInt + ",\"profile\":" + profileCurrentInt +
+                    ",\"schedule\":\"" + scheduleCurrent + "\"}";
+
+            Thread.sleep(2000);// give time to  BI to rest
+            BlueStatus blueStatusBackToStart = commandStatus.SetStatus(jsonAtStart);
+            assertTrue( "blueStatusAfter !=signalCurrentInt" ,
+                    blueStatusBackToStart.getSignalInt()==signalCurrentInt);
+            assertTrue( "blueStatusAfter !=profileCurrentInt" ,
+                    blueStatusBackToStart.getActiveProfileInt()==profileCurrentInt);
+
+            blueLogin.BlueIrisLogout();
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }
+    @Test
     public void GetSetSignalTest() throws Exception
     {
         //TODO fix signal setting

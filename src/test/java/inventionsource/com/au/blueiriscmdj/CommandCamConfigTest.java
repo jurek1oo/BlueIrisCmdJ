@@ -25,7 +25,7 @@ public class CommandCamConfigTest
     }
 
     @Test
-    public void GetCamConfigHelpTest() throws Exception
+    public void CamConfig_SetJsonHelpTest() throws Exception
     {
         try {
             Thread.sleep(1000);// let BI rest
@@ -43,7 +43,7 @@ public class CommandCamConfigTest
         }
     }
     @Test
-    public void GetCamConfigTest() throws Exception
+    public void CamConfigGetTest() throws Exception
     {
         try {
             Thread.sleep(1000);// let BI rest
@@ -64,7 +64,7 @@ public class CommandCamConfigTest
     }
 
     @Test
-    public void CamDisableEnableTest() throws Exception {
+    public void CamConfig_DisableEnableTest() throws Exception {
         try {
             Cameras.Camera camera = null;
             BlueLogin blueLogin = new BlueLogin();
@@ -112,7 +112,7 @@ public class CommandCamConfigTest
     }
 
     @Test
-    public void SetCamConfigTest() throws Exception {
+    public void CamConfigSetTest() throws Exception {
         try {
             Cameras.Camera camera = null;
             String json = "{ \"reset\":true, \"enable\":true, \"pause\":0 }";
