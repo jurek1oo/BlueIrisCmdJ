@@ -22,6 +22,33 @@ public class CommandAlertsTest
     }
 
     @Test
+    public void Alerts_List_partTest() throws Exception {
+        String session = null;
+
+        try {
+            BlueLogin blueLogin = new BlueLogin();
+            blueLogin.BlueIrisLogin(_loginParams);
+            CommandAlerts commandAlerts = new CommandAlerts(blueLogin);
+            assertNotNull( "Not null " , blueLogin.getSession() );
+            String camera = "index";
+            String dateStart = "2020-03-23 17:00";
+            //"1970-01-01"; 1584542400 -2020-0 3-18 21:40 |
+            // 1584542728 - 2020-03-18T21:45:28
+            // 1584542375 - 2020-03-18T21:39:35
+            // 1584542112 - 2020-03-18T21:35:12
+            boolean reset = false;
+
+            Alerts alerts = commandAlerts.GetAlertsList(camera, dateStart);
+            log.debug(alerts.toString());
+            assertNotNull( "Not null alerts " ,alerts );
+            blueLogin.BlueIrisLogout();
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }
+
+    @Test
     public void Alerts_List_AllTest() throws Exception {
         String session = null;
 
@@ -47,7 +74,6 @@ public class CommandAlertsTest
             throw e;
         }
     }
-
     @Test
     public void AlertsDeleteTest() throws Exception {
         try {

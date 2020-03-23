@@ -243,8 +243,34 @@ public class CliTest
             assertTrue("has alerts-list: ", gob.good.indexOf("alerts-list") >= 0);
             assertTrue("is_alerts_list: ", cli.is_alerts_list());
 
-            assertNull("alerts_list : ", cli.get_alerts_list());
+            assertNull("alerts_list : ", cli.get_alerts_list_4_cam());
             assertNull("list_alerts_date()", cli.get_alerts_list_date());
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void Alerts_List4CamAndDateTest() throws Exception {
+        try {
+            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
+                    Constants4Tests.HOST);
+            loginParams.addElement("-al");//alerts-list 4 cam
+            loginParams.addElement(Constants4Tests.CAM_NAME1);
+            loginParams.addElement("-ald");//alerts-list-date
+            loginParams.addElement("2020-03-23 18:00");
+            String[] args = loginParams.getArgs();
+
+            Cli cli = new Cli(args);
+
+            Cli.GoodOrBad gob = cli.parse();
+            assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
+            assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
+            assertTrue("has alerts_list: ", gob.good.indexOf("alerts-list") >= 0);
+            assertTrue("is_alerts_list: ", cli.is_alerts_list());
+            assertTrue("is_alerts_list: ", cli.get_alerts_list_date().contains("2020-03-23 18:00"));
+
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;

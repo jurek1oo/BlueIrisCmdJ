@@ -61,7 +61,7 @@ public class Cli {
     public String get_trigger() {       return _trigger;   }
     public String get_ptzcam() {        return _ptzcam;    }
     public int get_ptzbutton() {        return _ptzbutton;    }
-    public String get_alerts_list() { return _alerts_list_4_cam;  }
+    public String get_alerts_list_4_cam() { return _alerts_list_4_cam;  }
     public String get_alerts_list_date() { return _alerts_list_date; }
 
     public Cli(String[] args) {
@@ -116,35 +116,35 @@ public class Cli {
             cmd = parser.parse(options, args);
 
             if (cmd.hasOption("h")) {
-                gob.good = "Ignoring ALL other arguments. Only -help used: \n" + help(null) + getPtzNumbersHelp();
+                gob.good = "Ignoring ALL other arguments. Only --help used: \n" + help(null) + getPtzNumbersHelp();
                 return gob;
             }
             if (cmd.hasOption("v")) {
-                gob.good = "Ignoring ALL other arguments. Only -version used: \n" ;
+                gob.good = "Ignoring ALL other arguments. Only --version used: \n" ;
                 return gob;
             }
             sb.append("\n");
             if (cmd.hasOption("ll")) {
                 logLevel = cmd.getOptionValue("ll");
-                sb.append("Logging -log-level: " + logLevel + "\n");
+                sb.append("Logging --log-level: " + logLevel + "\n");
             }
             if (cmd.hasOption("lf")) {
                 logFile = cmd.getOptionValue("lf");
-                sb.append ("Logging -log-file: " + logFile + "\n");
+                sb.append ("Logging --log-file: " + logFile + "\n");
             }
             Log4j2Config log4j = new Log4j2Config(logFile, logLevel);
 
             if (cmd.hasOption("u")) {
                 _user = cmd.getOptionValue("u");
-                sb.append("Using cli argument -user=" + _user + "\n");
+                sb.append("Using cli argument --user=" + _user + "\n");
             } else {
                 errSb.append("Missing -user option\n");
             }
             if (cmd.hasOption("p")) {
                 _password = cmd.getOptionValue("p");
-                sb.append("Using cli argument -password=***" + _password.length() + "***\n");
+                sb.append("Using cli argument --password=***" + _password.length() + "***\n");
             } else {
-                errSb.append("Missing -password option\n");
+                errSb.append("Missing --password option\n");
             }
             if (cmd.hasOption("host")) {
                 _host = cmd.getOptionValue("host");
@@ -163,55 +163,55 @@ public class Cli {
 
             if (cmd.hasOption("ad")) {
                 _is_alerts_delete = true;
-                sb.append("Using cli option alerts-delete\n");
+                sb.append("Using cli option --alerts-delete\n");
             }
             if (cmd.hasOption("al")) {
                 _is_alerts_list = true;
                 _alerts_list_4_cam = cmd.getOptionValue("alerts-list");
-                sb.append("Using cli option alerts-list cam name: " + _alerts_list_4_cam +"\n");
+                sb.append("Using cli option --alerts-list cam name: " + _alerts_list_4_cam +"\n");
             }
             if (cmd.hasOption("ald")) {
-                _alerts_list_date = cmd.getOptionValue("-alerts-list-date");
-                sb.append("Using cli option -alerts-list-datee=start from date e.g.: 2020-03-27 23:05\n");
+                _alerts_list_date = cmd.getOptionValue("alerts-list-date");
+                sb.append("Using cli option --alerts-list-date: " +_alerts_list_date + "\n");
                 if (!cmd.hasOption("al")) {
-                    errSb.append("Error: alerts-list-date has to be used with alerts-list option, which is not present.");
+                    errSb.append("Error: --alerts-list-date has to be used with --alerts-list option, which is not present.");
                 }
             }
             if (cmd.hasOption("ccg")) {
                 _camconfig_get = cmd.getOptionValue("ccg");
-                sb.append("Using cli option -camconfig-get\n");
+                sb.append("Using cli option --camconfig-get: " +  _camconfig_get + "\n");
             }
             if (cmd.hasOption("ccs")) {
                 if ( !cmd.hasOption("j")) {
-                    errSb.append("Error: Both options need to be present -camconfig-set and -json.");
+                    errSb.append("Error: Both options need to be present --camconfig-set and --json.");
                 }
                 _camconfig_set = cmd.getOptionValue("ccs");
-                sb.append("Using cli option -camconfig-set\n");
+                sb.append("Using cli option --camconfig-set: " + _camconfig_set + "\n");
             }
             if (cmd.hasOption("cl")) {
                 _is_cams_list = true;
-                sb.append("Using cli option -cams-list\n");
+                sb.append("Using cli option --cams-list\n");
             }
             if (cmd.hasOption("crt")) {
                 _is_cams_reset_stats = true;
-                sb.append("Using cli option cams_reset_stats\n");
+                sb.append("Using cli option --cams_reset_stats\n");
             }
             if (cmd.hasOption("j")) {
                 _json = cmd.getOptionValue("j");
-                sb.append("Using cli argument -json=" + _json + "\n");
+                sb.append("Using cli argument --json=" + _json + "\n");
             }
             if (cmd.hasOption("pl")) {
                 _is_profiles_list = true;
-                sb.append("Using cli option -profiles-list\n");
+                sb.append("Using cli option --profiles-list\n");
             }
             if (cmd.hasOption("ptzc")) {
                 _ptzcam = cmd.getOptionValue("ptzc");
-                sb.append("Using cli argument -ptz-cam=" + _ptzcam + "\n");
+                sb.append("Using cli argument --ptz-cam=" + _ptzcam + "\n");
             }
             if (cmd.hasOption("ptzb")) {
                 try {
                     _ptzbutton = Integer.parseInt(cmd.getOptionValue("ptzb"));
-                    sb.append("Using cli argument -ptz-button=" + _ptzbutton + "\n");
+                    sb.append("Using cli argument --ptz-button=" + _ptzbutton + "\n");
                 } catch (Exception ex) {
                     errSb.append("Error: ptz-button not an integer: "+ cmd.getOptionValue("ptzb"));
                 }
@@ -219,26 +219,26 @@ public class Cli {
             if( (cmd.hasOption("ptzc") || cmd.hasOption("ptzb")) &&
                     !(cmd.hasOption("ptzc") && cmd.hasOption("ptzb") ))
             {
-                errSb.append("Missing one of ptz option. You need -ptz-cam and -ptz-button.\n");
+                errSb.append("Missing one of ptz option. You need --ptz-cam and --ptz-button.\n");
             }
             if (cmd.hasOption("schl")) {
                 _is_schedules_list = true;
-                sb.append("Using cli option -schedules-list\n");
+                sb.append("Using cli option --schedules-list\n");
             }
             if (cmd.hasOption("stg")) {
                 _is_status_get = true;
-                sb.append("Using cli option -status-get\n");
+                sb.append("Using cli option --status-get\n");
             }
             if (cmd.hasOption("sts")) {
                 _is_status_set = true;
-                sb.append("Using cli option -status-set\n");
+                sb.append("Using cli option --status-set\n");
                 if ( !cmd.hasOption("j")) {
                     errSb.append("Error: Both options need to be present -status-set and -json.");
                 }
             }
             if (cmd.hasOption("sts") && cmd.hasOption("ccs")){
                 errSb.append("Error: Only one of the options can be used at one time:" +
-                        " -status-set or -camconfig-set.");
+                        " --status-set or --camconfig-set.");
             }
             if (cmd.hasOption("j")  &&
                     !(cmd.hasOption("ccs") || cmd.hasOption("sts"))  ){
@@ -246,7 +246,7 @@ public class Cli {
             }
             if (cmd.hasOption("t")) {
                 _trigger = cmd.getOptionValue("t");
-                sb.append("Using cli argument -trigger=" + _trigger + "\n");
+                sb.append("Using cli argument --trigger=" + _trigger + "\n");
             }
             gob.good = sb.toString();
             gob.bad = errSb.toString();

@@ -3,6 +3,7 @@ package inventionsource.com.au.blueiriscmdj;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /*
@@ -59,14 +60,18 @@ public class MasterController {
                     log.info("Login OK.");
                 }
                 if (cli.is_profiles_list()) {
-                    log.info("profiles-list: " +_blueLogin.getBlueProfiles());
+                    BlueProfiles profiles =_blueLogin.getBlueProfiles();
+                    log.info("profiles-list: number: " + profiles.size() + "\n" +
+                            profiles);
                 }
                 if (cli.is_schedules_list()) {
-                    log.info("schedules-list: " +
-                            Arrays.toString(_blueLogin.getSchedules().toArray()));
+                    ArrayList<String> schedules =_blueLogin.getSchedules();
+                    log.info("schedules-list: number: " + schedules.size() + "\n" +
+                            Arrays.toString(schedules.toArray()));
                 }
                 if (cli.is_cams_list()) {
-                    log.info("cameras-list: \n" +
+                    Cameras cameras =  getCommandCamList().GetCamList();
+                    log.info("cameras-list number: " +  getCommandCamList().GetCamList().size() + "\n" +
                             getCommandCamList().GetCamList().toString());
                 }
                 if (cli.is_cams_reset_stats()) {
@@ -74,10 +79,11 @@ public class MasterController {
                             getCommandCamList().ResetCamsStats().toString());
                 }
                 if (cli.is_alerts_list() ) {
-                    log.info("alerts-list: \n" +
-                            getCommandAlerts().GetAlertsList(
-                                    cli.get_alerts_list(),
-                                    cli.get_alerts_list_date()).toString());
+                    Alerts alersts = getCommandAlerts().GetAlertsList(
+                            cli.get_alerts_list_4_cam(),
+                            cli.get_alerts_list_date());
+                    log.info("alerts-list number: " + alersts.size() + "\n" +
+                            alersts.toString());
                 }
                 if (cli.is_alerts_delete() ) {
                     log.info("alerts-delete: \n");
@@ -87,7 +93,9 @@ public class MasterController {
                     getCommandOther().TriggerCam(cli.get_trigger());
                 }
                 if (cli.get_camconfig() != null && cli.get_camconfig().length() > 0) {
-                    getCommandCamConfig().GetCamConfig(cli.get_camconfig());
+                    log.info("CamConfig: " + cli.get_camconfig() + "\n" +
+                            Utils.GetPrettyJsonString(
+                                    getCommandCamConfig().GetCamConfig(cli.get_camconfig())));
                 }
                 if (cli.is_status_get()) {
                     _lastBlueStatus = getCommandStatus().GetStatus();

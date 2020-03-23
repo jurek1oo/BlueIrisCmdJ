@@ -37,7 +37,7 @@ public class Alerts {
                 }
                 sb.append(get(i).toString());
             }
-            sb.append("\n}\n]\n");
+            sb.append("\n]\n");
             return sb.toString();
         }
         return "[]";
