@@ -68,16 +68,6 @@ public class Cli {
     public boolean is_status_set() {
         return _is_status_set;
     }
-    /*
-    public String get_set_profile() {
-        return _set_profile;
-    }
-    public String get_set_schedule() {
-        return _set_schedule;
-    }
-    public String get_set_signal() {
-        return _set_signal;
-    } */
 
     public String get_camconfig() { return _camconfig_get; }
     public String get_camconfig_set() {  return _camconfig_set;  }
@@ -106,13 +96,13 @@ public class Cli {
         options.addOption("j", "json", true, "Json for options: -camconfig-set or -status-set. Check project Github wiki for help.");
         options.addOption("ll", "log-level", true, "Log level: error, info, debug or trace.");
         options.addOption("lf", "log-file", true, "log file name, eg. /temp/BlueIrisCmdJ.log.");
-        options.addOption("schl", "schedules-list", false, "List all avaiable schedules.");
         options.addOption("p", "password", true, "Password to use when connecting.");
         options.addOption("pl", "profiles-list", false, "List all available profiles.");
         options.addOption("ptzc", "ptz-cam", true, "PTZ camera-short-name to send PTZ Button Number: ptz-button to.");
         options.addOption("ptzb", "ptz-button", true, "PTZ Button Number: ptz-button to send to cam");
+        options.addOption("schl", "schedules-list", false, "List all avaiable schedules.");
         options.addOption("stg", "status-get", false, "Get Blue Iris status: signal, active profile and schedule");
-        options.addOption("sts", "status-set", true, "Set Blue Iris status: signal, active profile or/and schedule. Use -json.");
+        options.addOption("sts", "status-set", false, "Set Blue Iris status: signal, active profile or/and schedule. Use -json.");
         options.addOption("t", "trigger", true, "Trigger camera: camera-short-name.");
         options.addOption("u", "user", true, "User to use when connecting.");
         options.addOption("v", "version", false, "show BlueIrisCmdJ version.");
