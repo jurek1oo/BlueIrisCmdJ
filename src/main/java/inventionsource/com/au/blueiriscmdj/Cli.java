@@ -6,7 +6,6 @@ import org.apache.logging.log4j.core.Logger;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Arrays;
 /*
  * GNU General Public License v2.0, 2020 March Jurek Kurianski
  */
@@ -43,20 +42,7 @@ public class Cli {
     private String _json=null;
     private String _ptzcam=null;
     private int _ptzbutton=-1;
-    //private String _set_profile=null;
-    //private String _set_schedule=null;
-    //private String _set_signal=null;
     private String _trigger=null;
-
-    public String get_user() {
-        return _user;
-    }
-    public String get_host() {
-        return _host;
-    }
-    public String get_password() {
-        return _password;
-    }
 
     public boolean is_alerts_delete() { return _is_alerts_delete; }
     public boolean is_alerts_list() { return _is_alerts_list; }
@@ -125,7 +111,7 @@ public class Cli {
                 gob.bad = "Error. No arguments.\n" + help(null)+getPtzNumbersHelp();
                 return gob;
             } else {
-                log.debug("Cmd line arguments: " + Arrays.toString(args));
+//log.debug("Cmd line arguments: " + Arrays.toString(args));
             }
             cmd = parser.parse(options, args);
 
@@ -137,6 +123,7 @@ public class Cli {
                 gob.good = "Ignoring ALL other arguments. Only -version used: \n" ;
                 return gob;
             }
+            sb.append("\n");
             if (cmd.hasOption("ll")) {
                 logLevel = cmd.getOptionValue("ll");
                 sb.append("Logging -log-level: " + logLevel + "\n");

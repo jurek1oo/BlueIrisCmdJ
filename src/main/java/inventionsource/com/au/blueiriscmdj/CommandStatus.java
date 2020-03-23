@@ -39,6 +39,7 @@ public class CommandStatus {
 
     public BlueStatus SetStatus(String json) throws Exception {
         log.debug("json: " + json);
+// {"signal":1,"profile":1,"schedule":"Default"}
 
         if(json==null || json.length()==0) throw new Exception("Error empty json string");
          String jsonInside = json.replace("{","").replace("}","").

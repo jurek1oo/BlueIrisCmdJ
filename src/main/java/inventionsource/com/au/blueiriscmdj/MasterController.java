@@ -36,7 +36,6 @@ public class MasterController {
     public BlueStatus getLastBlueStatus() { return _lastBlueStatus; }
 
     public void Action() {
-        log.debug("BlueIrisCmdJ MasterController in action.");
         String session = null;
         Cli cli = new Cli(_args);
         try {
@@ -57,8 +56,7 @@ public class MasterController {
                     _blueLogin = null;
                     throw new Exception("Error. Could not loggin. No session. ");
                 } else {
-                    log.info("Login OK host: " + cli.getLoginParams().getHost() + " user: " + cli.getLoginParams().getUser()+
-                            " password: ***" + cli.getLoginParams().getPassword().length() + "***");
+                    log.info("Login OK.");
                 }
                 if (cli.is_profiles_list()) {
                     log.info("profiles-list: " +_blueLogin.getBlueProfiles());
@@ -77,7 +75,8 @@ public class MasterController {
                 }
                 if (cli.is_alerts_list() ) {
                     log.info("alerts-list: \n" +
-                            getCommandAlerts().GetAlertsList(cli.get_alerts_list(),
+                            getCommandAlerts().GetAlertsList(
+                                    cli.get_alerts_list(),
                                     cli.get_alerts_list_date()).toString());
                 }
                 if (cli.is_alerts_delete() ) {
@@ -109,8 +108,7 @@ public class MasterController {
         } catch (Exception e) {
             log.error("Exception: " + e);
         } finally {
-            log.info("Logging out.");
-            if( _blueLogin != null && _blueLogin.getSession()!=null){
+             if( _blueLogin != null && _blueLogin.getSession()!=null){
                 try {
                     _blueLogin.BlueIrisLogout();
                     log.info("Logout OK.");

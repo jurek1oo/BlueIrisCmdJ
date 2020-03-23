@@ -222,4 +222,26 @@ public class MasterControllerTest {
             throw e;
         }
     }
+
+    @Test
+    public void alerts_listAllCams() throws Exception
+    {
+        try {
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-al");//alerts-list
+            String[] args = loginParams.getArgs();
+            MasterController masterController = new MasterController(args);
+            masterController.Action();
+            assertNotNull("",masterController.getCommandOther() );
+            assertNotNull("",masterController.getBlueLogin().getBlueProfiles());
+
+            BlueProfiles blueProfiles = masterController.getBlueLogin().getBlueProfiles();
+            int expectedProfileInt = blueProfiles.getProfileInt(Constants4Tests.EXPECTED_Profile1);
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
 }

@@ -25,6 +25,8 @@ public class CommandStatusTest
     @Test
     public void Status_GetSetJsonTest() throws Exception
     {
+        //{"signal":1,"profile":1,"schedule":"Default"}
+
         String json = "";
         try {
             BlueLogin blueLogin = new BlueLogin();
