@@ -42,6 +42,8 @@ public class CommandStatus {
 // {"signal":1,"profile":1,"schedule":"Default"}
 
         if(json==null || json.length()==0) throw new Exception("Error empty json string");
+        if (!Utils.isJSONValid(json)) throw new Exception("Error not valid json->" + json + "<-");
+
          String jsonInside = json.replace("{","").replace("}","").
                 replace('"', '\"');
         String cmd = "status";
@@ -55,7 +57,8 @@ public class CommandStatus {
             return blueStatus;
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " json: " +
-                    json + " after changes blueStatus: " + blueStatus.toString(), e);
+                    json + " after changes blueStatus: " + blueStatus.toString() +
+                    " : " + setJsonHelp() + "\n", e);
             throw e;
         }
     }
@@ -72,7 +75,7 @@ public class CommandStatus {
         try {
             if (signalInt < 0 || signalInt > 2 )
                 throw new Exception("Error. 0-2 Wrong signal: " +signalInt);
-            String json = "\"signal\":" + signalInt ;
+            String json = "{\"signal\":" + signalInt +"}";
             blueStatus = SetStatus(json);;
 
             if (blueStatus.getSignalInt()==signalInt) {
@@ -85,7 +88,8 @@ public class CommandStatus {
         } catch (Exception e) {
             log.error("Error executing command:SetSignal signal: " +
                     signalInt + " for BlueIris\n" +
-                    " after changes blueStatus: " + blueStatus.toString(), e);
+                    " after changes blueStatus: " + blueStatus.toString() +
+                    "\n" +setJsonHelp() + "\n", e);
             throw e;
         }
     }
@@ -103,7 +107,7 @@ public class CommandStatus {
                             " not found. Use -get-schedules command to get all of them.");
                 }
             }
-            String json = "\"schedule\":\"" + schedule + "\"";
+            String json = "{\"schedule\":\"" + schedule + "\"}";
             blueStatus = SetStatus(json);
             if (blueStatus.toString().indexOf(schedule) >= 0) {
                 log.info("set-schedule: " + schedule + " OK. After changes blueStatus: \n" +
@@ -116,7 +120,8 @@ public class CommandStatus {
             return blueStatus;
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n" +
-                    " after changes blueStatus: " + blueStatus.toString(), e);
+                    " after changes blueStatus: " + blueStatus.toString() +
+                    "\n" +setJsonHelp() + "\n", e);
             throw e;
         }
     }
@@ -128,14 +133,22 @@ public class CommandStatus {
             if (profileInt < 0 || profileInt > 7) {
                 throw new Exception("Error. profile out of range 0-7. profileInt: " + profileInt);
             }
-            String json = "\"profile\":" + profileInt;
+            String json = "{\"profile\":" + profileInt + "}";
             blueStatus = SetStatus(json);
             return blueStatus;
         } catch (Exception e) {
             log.error("Error executing command: SetProfile for BlueIris profileInt: " +
-                            profileInt + " after changes blueStatus: " + blueStatus.toString(), e);
+                            profileInt + " after changes blueStatus: " + blueStatus.toString() +
+                    "\n" +setJsonHelp() + "\n", e);
             throw e;
         }
+    }
+
+    public String setJsonHelp(){
+        // {"signal":1,"profile":1,"schedule":"Default"}
+        StringBuilder sb = new StringBuilder();
+        sb.append("status-set json example:\n'{ \"signal\":1,\"profile\":1,\"schedule\":\"Default\"}'\n");
+        return sb.toString();
     }
 
 }

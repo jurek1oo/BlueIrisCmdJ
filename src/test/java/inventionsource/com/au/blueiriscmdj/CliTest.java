@@ -192,7 +192,7 @@ public class CliTest
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
             assertTrue("gob.bad is Not empty", gob.bad!=null || gob.bad.length()>0);
             assertTrue("has ptz-cam: ", gob.good.indexOf("ptz-cam") >= 0);
-            assertTrue("Missing ptz option\" ", gob.bad.indexOf("Missing one of ptz option. You need -ptz-cam and -ptz-button") >= 0);
+            assertTrue("Missing ptz option\" ", gob.bad.indexOf("Missing one of ptz option. You need --ptz-cam and --ptz-button") >= 0);
             assertTrue("is get_ptz-cam=CAM_NAME1: ", cli.get_ptzcam().compareTo(Constants4Tests.CAM_NAME1)==0);
 
 
@@ -314,7 +314,7 @@ public class CliTest
             Cli.GoodOrBad gob = cli.parse();
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
             assertTrue("gob.bad alerts-list-date has to be used with alerts-list option",
-                    gob.bad!=null && gob.bad.indexOf("alerts-list-date has to be used with alerts-list option")>=0);
+                    gob.bad!=null && gob.bad.indexOf("--alerts-list-date has to be used with --alerts-list option")>=0);
 
         } catch (Exception e) {
             log.error("Exception: " + e);

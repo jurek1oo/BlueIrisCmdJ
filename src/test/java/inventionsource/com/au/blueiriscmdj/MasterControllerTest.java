@@ -117,6 +117,55 @@ public class MasterControllerTest {
     }
 
     @Test
+    public void status_set_signal() throws Exception
+    {
+        try {
+            String activeSchedule = "Default";
+
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-status-set");//status-set
+            loginParams.addElement("-j");//json
+            //
+            //{"signal":1,"profile":1,"schedule":"Default"}
+            //
+            loginParams.addElement(
+                    "{\"signal\":2}");
+
+            MasterController masterController = new MasterController(loginParams.getArgs());
+            masterController.Action();
+            BlueStatus blueStatus = masterController.getLastBlueStatus();
+
+            assertNotNull("result has blueStatus", blueStatus);
+             assertTrue("status has signalInt: ",
+                    blueStatus.getSignalInt() == 2);
+            assertTrue("status has activeSchedule: ",
+                    blueStatus.getActiveSchedule().contains(activeSchedule));
+
+            // ------ back to default --------------------------------------
+
+            loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-status-set");//status-set
+            loginParams.addElement("-j");//json
+            loginParams.addElement(
+                    "{\"signal\":1}");
+
+            masterController = new MasterController(loginParams.getArgs());
+            masterController.Action();
+            blueStatus = masterController.getLastBlueStatus();
+
+            assertNotNull("result has blueStatus", blueStatus);
+             assertTrue("status has signalInt: ",
+                    blueStatus.getSignalInt() == 1);
+            assertTrue("status has activeSchedule: ",
+                    blueStatus.getActiveSchedule().contains(activeSchedule));
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+    @Test
     public void status_set() throws Exception
     {
         try {

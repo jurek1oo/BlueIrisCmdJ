@@ -7,8 +7,7 @@ import org.junit.Test;
 
 import java.time.LocalDateTime;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class UtilsTest
 {
@@ -18,6 +17,24 @@ public class UtilsTest
     public void setUp() throws Exception {
         Log4j2Config log4j = new Log4j2Config("test.log","debug");
      }
+
+    @Test
+    public void isJSONValidTest() {
+        try {
+            String validJsonString = "{ \"developers\": [{ \"firstName\":\"Linus\" , \"lastName\":\"Torvalds\" }, " +
+                    "{ \"firstName\":\"John\" , \"lastName\":\"von Neumann\" } ]}";
+
+// Invalid String with a missing parenthesis at the beginning.
+            String invalidJsonString = "\"developers\": [ \"firstName\":\"Linus\" , \"lastName\":\"Torvalds\" }, " +
+                    "{ \"firstName\":\"John\" , \"lastName\":\"von Neumann\" } ]}";
+
+            assertTrue("VALID_JSON_STRING",Utils.isJSONValid(validJsonString));
+            assertFalse("NOT_VALID_JSON_STRING",Utils.isJSONValid(invalidJsonString));
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }
 
     @Test
     public void GetDateFromsecondsTest() {

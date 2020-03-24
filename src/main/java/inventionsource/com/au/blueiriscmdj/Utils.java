@@ -25,6 +25,16 @@ public class Utils {
         return "ID: " + TimeZone.getDefault().getID() + " : " + TimeZone.getDefault().getDisplayName();
     }
 
+    public static boolean isJSONValid(String jsonInString) {
+        try {
+            Gson gson = new Gson();
+            gson.fromJson(jsonInString, Object.class);
+            return true;
+        } catch(com.google.gson.JsonSyntaxException ex) {
+            return false;
+        }
+    }
+
     public static LocalDateTime GetLocalDateTimeFromSeconds(long dateInSeconds) {
         log.debug("Using dateInSeconds: " +dateInSeconds);
                 LocalDateTime localDateTime = null;

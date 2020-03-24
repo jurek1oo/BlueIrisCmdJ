@@ -42,17 +42,7 @@ public class CommandStatusTest
 
             Thread.sleep(1000);// give time to  BI to rest
 
-            if(signalCurrentInt ==1) {
-                json = "\"signal\":" + 0 ;
-            } else{
-                json = "\"signal\":" + 1 ;
-            }
-            if(profileCurrentInt ==1) {
-                json = json + ",\"profile\":" + 2;
-            } else{
-                json = json + ",\"profile\":" + 1;
-            }
-            json = json + ",\"schedule\":\"" + scheduleCurrent + "\"";
+            json = "{\"signal\":" + 2 + ",\"profile\":" + 2 + ",\"schedule\":\"" + scheduleCurrent + "\"}";
 
             Thread.sleep(2000);// give time to  BI to rest
             BlueStatus blueStatusAfter = commandStatus.SetStatus(json);
@@ -61,8 +51,7 @@ public class CommandStatusTest
             assertTrue( "blueStatusAfter !=signalCurrentInt" ,blueStatusAfter.getSignalInt()!=signalCurrentInt);
             assertTrue( "blueStatusAfter !=profileCurrentInt" ,blueStatusAfter.getActiveProfileInt()!=profileCurrentInt);
 
-            String jsonAtStart = "{\"signal\":" +signalCurrentInt + ",\"profile\":" + profileCurrentInt +
-                    ",\"schedule\":\"" + scheduleCurrent + "\"}";
+            String jsonAtStart = "{\"signal\":1,\"profile\":1,\"schedule\":\"" + scheduleCurrent + "\"}";
 
             Thread.sleep(2000);// give time to  BI to rest
             BlueStatus blueStatusBackToStart = commandStatus.SetStatus(jsonAtStart);

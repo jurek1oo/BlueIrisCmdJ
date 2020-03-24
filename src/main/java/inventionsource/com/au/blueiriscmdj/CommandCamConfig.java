@@ -56,6 +56,7 @@ camconfig - set json elements:
         String msg ="camera: " + camera + " json: " + json;
         log.debug(msg);
         if(json==null || json.length()==0) throw new Exception("Error empty json string");
+        if (!Utils.isJSONValid(json)) throw new Exception("Error not valid json->" + json + "<-");
     //{"cmd":"camconfig","session":"65e833d64d6349a578801ce90c944f0a","response":"1a703c5c8f0017804aca748069433a0b",
     // "camera":"Ceiling1","enable":1}
         String cmd = "camconfig";
@@ -81,9 +82,9 @@ camconfig - set json elements:
     }
     public String setJsonHelp(){
         StringBuilder sb = new StringBuilder();
-        sb.append("camconfig-set json example:\n{ \"reset\":false,\"enable\":true,\"pause\":0," +
+        sb.append("camconfig-set json example:\n'{ \"reset\":false,\"enable\":true,\"pause\":0," +
                 "\"motion\":true,\"schedule\":true,\"ptzcycle\":true," +
-                "\"ptzevents\":true,\"alerts\":0\"record\":2}\n");
+                "\"ptzevents\":true,\"alerts\":0\"record\":2}'\n");
         sb.append("reset:true reset the camera\n");
         sb.append("enable:true or false enable or disable the camera\n");
         sb.append("pause:n sends a pause command, and returns a value in seconds\n");
