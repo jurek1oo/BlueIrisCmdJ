@@ -22,7 +22,7 @@ public class CommandCoreRequest {
 
     public JsonElement RunTheCmd(String cmd, String cmdParams, boolean resultHasToBeSuccess, boolean getDataElemet) throws Exception {
         // cmdParams = ",\"signal\":" + signalInt
-        // cmdParams = ',"signal":red' -- add to jsondata before }
+        // cmdParams = ',"signal": 1' --> add to jsondata before }
         log.debug("cmd: " + cmd + " cmdParams: " + cmdParams + " resultHasToBeSuccess: " + resultHasToBeSuccess +
                 " getDataElemet: " + getDataElemet);
 
@@ -35,10 +35,9 @@ public class CommandCoreRequest {
             }
             jsonData = Utils.MakeCmdJson(cmd, _blueLogin.getSession(), _blueLogin.getMd5HexResponse());
             if (cmdParams!= null && cmdParams.trim().length()>0) {
-                jsonData = jsonData.replace("}",cmdParams + "}");
+                jsonData = jsonData.replace("}",cmdParams + "}");// ", \"enable\": 1}"
             }
             log.debug("Cmd url: " + _blueLogin.getUrl() + " jsondata: " + jsonData );
-
             result = _requestHttp.PostRequest(_blueLogin.getUrl(), jsonData);
 
             if(getDataElemet) {

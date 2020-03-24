@@ -28,17 +28,23 @@ public class MasterController {
 
     private BlueStatus _lastBlueStatus = null;
 
+
+    private BlueCamConfig _blueCamConfig = null;
+
     public CommandOther getCommandOther() throws Exception { if (_commandOther==null) _commandOther = new CommandOther(_blueLogin);  return _commandOther;  }
     public CommandCamList getCommandCamList() throws Exception { if (_commandCamList==null) _commandCamList = new CommandCamList(_blueLogin);  return _commandCamList;  }
     public CommandAlerts getCommandAlerts() throws Exception { if (_commandAlerts==null) _commandAlerts = new CommandAlerts(_blueLogin);  return _commandAlerts;  }
     public CommandStatus getCommandStatus() throws Exception { if (_commandStatus==null) _commandStatus = new CommandStatus(_blueLogin);  return _commandStatus;  }
     public CommandCamConfig getCommandCamConfig() throws Exception { if (_commandCamConfig==null) _commandCamConfig = new CommandCamConfig(_blueLogin);  return _commandCamConfig;  }
 
+    public BlueCamConfig getBlueCamConfig() {      return _blueCamConfig;    }
     public BlueStatus getLastBlueStatus() { return _lastBlueStatus; }
 
     public void Action() {
         String session = null;
         Cli cli = new Cli(_args);
+        boolean foundOneCmd=false;
+
         try {
             Cli.GoodOrBad gob = cli.parse();
             if (gob.bad != null && gob.bad.length() > 0) {
@@ -60,11 +66,13 @@ public class MasterController {
                     log.info("Login OK.");
                 }
                 if (cli.is_profiles_list()) {
+                    foundOneCmd = true;
                     BlueProfiles profiles =_blueLogin.getBlueProfiles();
                     log.info("profiles-list: number: " + profiles.size() + "\n" +
                             profiles);
                 }
                 if (cli.is_schedules_list()) {
+                    foundOneCmd = true;
                     ArrayList<String> schedules =_blueLogin.getSchedules();
                     log.info("schedules-list: number: " + schedules.size() + "\n" +
                             Arrays.toString(schedules.toArray()));
@@ -75,10 +83,12 @@ public class MasterController {
                             getCommandCamList().GetCamList().toString());
                 }
                 if (cli.is_cams_reset_stats()) {
+                    foundOneCmd = true;
                     log.info("cams-reset-stats: \n" +
                             getCommandCamList().ResetCamsStats().toString());
                 }
                 if (cli.is_alerts_list() ) {
+                    foundOneCmd = true;
                     Alerts alersts = getCommandAlerts().GetAlertsList(
                             cli.get_alerts_list_4_cam(),
                             cli.get_alerts_list_date());
@@ -86,22 +96,33 @@ public class MasterController {
                             alersts.toString());
                 }
                 if (cli.is_alerts_delete() ) {
+                    foundOneCmd = true;
                     log.info("alerts-delete: \n");
                     getCommandAlerts().AlertsDelete();
                 }
                 if (cli.get_trigger() != null) {
+                    foundOneCmd = true;
                     getCommandOther().TriggerCam(cli.get_trigger());
                 }
                 if (cli.get_camconfig() != null && cli.get_camconfig().length() > 0) {
-                    log.info("CamConfig: " + cli.get_camconfig() + "\n" +
-                            Utils.GetPrettyJsonString(
-                                    getCommandCamConfig().GetCamConfig(cli.get_camconfig())));
+                    foundOneCmd = true;
+                    _blueCamConfig = getCommandCamConfig().GetCamConfig(cli.get_camconfig());
+                    log.info("CamConfigGet: " + cli.get_camconfig() + "\n" +
+                            _blueCamConfig.toStringPretyJson());
+                }
+                if (cli.get_camconfig_set()!= null && cli.get_camconfig_set().length() > 0) {
+                    foundOneCmd = true;
+                    _blueCamConfig = getCommandCamConfig().SetCamConfig(cli.get_camconfig_set(),
+                            cli.get_json());
+                    log.info("CamConfigSet: " + cli.get_camconfig_set() + "\n" +_blueCamConfig.toStringPretyJson());
                 }
                 if (cli.is_status_get()) {
+                    foundOneCmd = true;
                     _lastBlueStatus = getCommandStatus().GetStatus();
                     log.info(_lastBlueStatus.toString());
                 }
                 if (cli.is_status_set()) {
+                    foundOneCmd = true;
                     if (cli.get_json() !=null && cli.get_json().length()>0) {
                         _lastBlueStatus = getCommandStatus().SetStatus(cli.get_json() );
                         log.info(_lastBlueStatus.toString());
@@ -110,9 +131,11 @@ public class MasterController {
                     }
                 }
                 if (cli.get_ptzcam() != null ) {
+                    foundOneCmd = true;
                     getCommandOther().SendPtzButton(cli.get_ptzcam(),cli.get_ptzbutton());
                 }
             }
+            if (!foundOneCmd) log.info("Nothing to do...");
         } catch (Exception e) {
             log.error("Exception: " + e);
         } finally {

@@ -293,4 +293,72 @@ public class MasterControllerTest {
             throw e;
         }
     }
+
+    @Test
+    public void camconfig_get() throws Exception
+    {
+        BlueCamConfig blueCamConfig= null;
+        try {
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-ccg");//camconfig-get
+            loginParams.addElement(Constants4Tests.CAM_NAME1);
+            MasterController masterController = new MasterController(loginParams.getArgs());
+            masterController.Action();
+            blueCamConfig = masterController.getBlueCamConfig();
+
+            assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertTrue("getCamera name: ",  blueCamConfig.getCameraName().contains(Constants4Tests.CAM_NAME1));
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+    @Test
+    public void camconfig_set() throws Exception
+    {
+        BlueCamConfig blueCamConfig= null;
+        try {
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-ccs");//camconfig-set
+            loginParams.addElement(Constants4Tests.CAM_NAME1);
+            loginParams.addElement("-j");//json
+            //
+            loginParams.addElement(
+                    "{\"enable\": 0}");
+
+            MasterController masterController = new MasterController(loginParams.getArgs());
+            masterController.Action();
+            blueCamConfig = masterController.getBlueCamConfig();
+
+            assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertTrue("getCamera name: ",  blueCamConfig.getCameraName().contains(Constants4Tests.CAM_NAME1));
+
+
+            // ------ back to default --------------------------------------
+
+            loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-ccs");//status-set
+            loginParams.addElement(Constants4Tests.CAM_NAME1);
+            loginParams.addElement("-j");//json
+
+            loginParams.addElement(
+                    "{\"enable\": 1}");
+
+            masterController = new MasterController(loginParams.getArgs());
+            masterController.Action();
+            blueCamConfig = masterController.getBlueCamConfig();
+
+            assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertTrue("getCamera name: ",  blueCamConfig.getCameraName().contains(Constants4Tests.CAM_NAME1));
+
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
 }

@@ -28,8 +28,10 @@ public class UtilsTest
             String invalidJsonString = "\"developers\": [ \"firstName\":\"Linus\" , \"lastName\":\"Torvalds\" }, " +
                     "{ \"firstName\":\"John\" , \"lastName\":\"von Neumann\" } ]}";
 
+            String invalidsignal = "{signal:0}";
             assertTrue("VALID_JSON_STRING",Utils.isJSONValid(validJsonString));
             assertFalse("NOT_VALID_JSON_STRING",Utils.isJSONValid(invalidJsonString));
+            assertFalse("invalidsignal",Utils.isJSONValid(invalidsignal));
         } catch (Exception e) {
             log.error("Error: " + e);
             throw e;

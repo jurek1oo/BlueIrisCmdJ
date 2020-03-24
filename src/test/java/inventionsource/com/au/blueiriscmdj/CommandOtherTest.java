@@ -41,7 +41,7 @@ public class CommandOtherTest
 
             commandOther.TriggerCam(camName);
 
-            Thread.sleep(1000);
+            Thread.sleep(3000);
             assertNotNull( "Not null " , blueLogin.getSession() );
 
             camera = (new CommandCamList(blueLogin)).GetCamList().get(camName);

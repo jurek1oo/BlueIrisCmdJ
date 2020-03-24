@@ -29,8 +29,12 @@ public class Utils {
         try {
             Gson gson = new Gson();
             gson.fromJson(jsonInString, Object.class);
+            if (!jsonInString.contains("\":")) {
+                throw new Exception("Error. Element names are not double quoted." +
+                        "Enclose json with single quotes.\n");
+            }
             return true;
-        } catch(com.google.gson.JsonSyntaxException ex) {
+        } catch(Exception ex) {
             return false;
         }
     }
@@ -132,7 +136,7 @@ public class Utils {
     }
 
     public static String MakeCmdJson(String cmd, String session, String md5HexResponse) {
-        return "{\"cmd\":\"" + cmd + "\",\"session\":\"" +
-                session + "\",\"response\":\"" + md5HexResponse + "\"}";
+        return "{\"session\": \"" + session + "\", \"response\": \"" + md5HexResponse + "\"" +
+                ", \"cmd\": \"" + cmd + "\"}";
     }
 }

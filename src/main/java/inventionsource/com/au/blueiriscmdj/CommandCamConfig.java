@@ -33,25 +33,27 @@ camconfig - set json elements:
         _blueLogin = blueLogin;
     }
 
-    public JsonElement GetCamConfig(String camera) throws Exception {
+    public BlueCamConfig GetCamConfig(String camera) throws Exception {
         String msg ="camera: " + camera ;
         log.debug(msg);
         String cmd = "camconfig";
-        String cmdParams = ",\"camera\":\"" + camera + "\"";
+        String cmdParams = ", \"camera\": \"" + camera + "\"";
         boolean hasToBeSuccess = true;
         boolean getDataElement = true;
         try {
             CommandCoreRequest commandCoreRequest = new CommandCoreRequest(_blueLogin);
             JsonElement jsonDataElement = commandCoreRequest.RunTheCmd(cmd, cmdParams, hasToBeSuccess, getDataElement);
-            log.debug(camConfigPrytty(camera, jsonDataElement));
-            return jsonDataElement;
+            BlueCamConfig blueCamConfig = new BlueCamConfig(jsonDataElement, camera);
+            log.debug(blueCamConfig.toStringPretyJson());
+            return blueCamConfig;
         } catch (Exception e) {
-            log.error("Error executing command: " + cmd  + " : " + msg + " for BlueIris\n", e);
+            log.error("\nError executing command: " + cmd  + " : " + msg + " for BlueIris.\n" +
+                    "Make sure the camera name is correct, Get list of cameras using -cl option.\n.", e);
             throw e;
         }
     }
 
-    public JsonElement SetCamConfig(String camera, String json) throws Exception {
+    public BlueCamConfig SetCamConfig(String camera, String json) throws Exception {
         // json = { "reset":true, "enable":true, "pause":0 } - check setJsonHelp()
         String msg ="camera: " + camera + " json: " + json;
         log.debug(msg);
@@ -63,23 +65,23 @@ camconfig - set json elements:
         String jsonInside = json.replace("{","").replace("}","").
                 replace('"', '\"');
 
-        String cmdParams = ",\"camera\":\"" + camera + "\"," + jsonInside;
+        String cmdParams = ", \"camera\": \"" + camera + "\", " + jsonInside;
         boolean hasToBeSuccess = true;
         boolean getDataElement = true;
         try {
             CommandCoreRequest commandCoreRequest = new CommandCoreRequest(_blueLogin);
             JsonElement jsonDataElement = commandCoreRequest.RunTheCmd(cmd, cmdParams, hasToBeSuccess, getDataElement);
-            log.debug(camConfigPrytty(camera, jsonDataElement));
-            return jsonDataElement;
+            BlueCamConfig blueCamConfig = new BlueCamConfig(jsonDataElement, camera);
+
+            log.debug(blueCamConfig.toStringPretyJson());
+            return blueCamConfig;
         } catch (Exception e) {
-            log.error("Error executing: " + cmd  + " : " +  msg +
-                    "  \nGet list of cameras using -lc option.\n" + setJsonHelp(), e);
+            log.error("\nError executing: " + cmd  + " : " +  msg +
+                    "  \nGet list of cameras using -cl option.\n" + setJsonHelp(), e);
             throw e;
         }
     }
-    public String camConfigPrytty(String camera, JsonElement jsonDataElement){
-        return "camera: " + camera + "\n" + Utils.GetPrettyJsonString(jsonDataElement);
-    }
+
     public String setJsonHelp(){
         StringBuilder sb = new StringBuilder();
         sb.append("camconfig-set json example:\n'{ \"reset\":false,\"enable\":true,\"pause\":0," +

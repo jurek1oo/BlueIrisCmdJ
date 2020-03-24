@@ -1,0 +1,31 @@
+{
+  "result": "success",
+  "session": "3b2873501b1d685863782e5072d46882",
+  "data": {
+    "profile": 0,
+    "lock": 0,
+    "pause": 0,
+    "push": false,
+    "audio": true,
+    "motion": true,
+    "schedule": false,
+    "ptzcycle": false,
+    "ptzevents": false,
+    "alerts": 0,
+    "output": false,
+    "setmotion": {
+      "audio_trigger": false,
+      "audio_sense": 10000,
+      "usemask": true,
+      "sense": 10480,
+      "contrast": 40,
+      "showmotion": 2,
+      "shadows": true,
+      "luminance": false,
+      "objects": true,
+      "maketime": 10,
+      "breaktime": 100
+    },
+    "record": 2
+  }
+}

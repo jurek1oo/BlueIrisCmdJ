@@ -27,7 +27,7 @@ def main():
     parser.add_argument('--ptzbutton', action='store', help='Send PTZ Button Number', metavar='ptz-button-name', default=None)
     parser.add_argument('--ptzcam', action='store', help='Send PTZ Command', metavar='ptz-cam-name', default=None)
     parser.add_argument('--cam-enable', action='stor, mee', help='Camera enable', metavar='camera-short-name', default=None)
-                                                                                      parser.add_argument('--cam-disable', action='store', help='Camera disable'tavar='camera-short-name', default=None)
+    parser.add_argument('--cam-disable', action='store', help='Camera disable'tavar='camera-short-name', default=None)
 
     args = parser.parse_args()
 
@@ -133,8 +133,8 @@ class BlueIris:
         args.update(params)
 
         # print self.url
-        # print "Sending Data: "
-        # print json.dumps(args)
+        print "Sending Data: "
+        print json.dumps(args)
         r = requests.post(self.url, data=json.dumps(args))
 
         if self.debug:
