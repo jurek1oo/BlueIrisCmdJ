@@ -6,7 +6,7 @@ For the reference, Python version is in doc/python directory.
 
 As from version 1.2.00 blueiriscmdj diverted from original blueiriscmd. Command line naming convention changed and additional functionality was added. All Classes have coresponding tests.
 
-For full list of cnd line commands have a look at Github [wiki](Command-Line-Arguments) .  
+For full list of cmd line commands have a look at https://github.com/jurek1oo/blueiriscmdj/wiki/Command-Line-Arguments.  
 
 
 For the unit tests to work, you need to change the login and other system parameters, in Constants4Tests class.
