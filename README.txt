@@ -4,7 +4,8 @@ This is Java port of blueiriscmd Python software written by Magnus Appelquist (h
 I have used Python code as the template, and have upgraded the code to run on Python 3.8.
 For the reference, Python version is in doc/python directory.
 
-As from version 1.2.00 blueiriscmdj diverted from original blueiriscmd. Command line naming convention changed and additional functionality was added. All Classes have coresponding tests.
+As from version 1.2.00 blueiriscmdj diverted from original blueiriscmd. Command line naming convention changed 
+and additional functionality was added. All Classes have coresponding tests.
 
 For full list of cmd line commands have a look at https://github.com/jurek1oo/blueiriscmdj/wiki/Command-Line-Arguments.  
 
