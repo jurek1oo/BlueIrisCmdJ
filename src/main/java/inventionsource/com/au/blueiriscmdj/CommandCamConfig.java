@@ -54,7 +54,7 @@ camconfig - set json elements:
     }
 
     public BlueCamConfig SetCamConfig(String camera, String json) throws Exception {
-        // json = { "reset":true, "enable":true, "pause":0 } - check setJsonHelp()
+        // json = { "reset":0, "enable":1, "pause":0 } - check setJsonHelp()
         String msg ="camera: " + camera + " json: " + json;
         log.debug(msg);
         if(json==null || json.length()==0) throw new Exception("Error empty json string");
@@ -84,7 +84,7 @@ camconfig - set json elements:
 
     public String setJsonHelp(){
         StringBuilder sb = new StringBuilder();
-        sb.append("camconfig-set json example:\n'{ \"reset\":false,\"enable\":true,\"pause\":0," +
+        sb.append("camconfig-set json example:\n'{ \"reset\":0,\"enable\":1,\"pause\":0," +
                 "\"motion\":true,\"schedule\":true,\"ptzcycle\":true," +
                 "\"ptzevents\":true,\"alerts\":0\"record\":2}'\n");
         sb.append("reset:true reset the camera\n");
