@@ -119,14 +119,22 @@ public class Utils {
     }
 
     public static String GetPrettyJsonString(JsonElement jsonElement) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(jsonElement);
+        if (jsonElement != null) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            return gson.toJson(jsonElement);
+        } else {
+            return "{}";
+        }
     }
 
     public static String GetPrettyJsonString(JsonObject jsonObject) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(jsonObject);
-    }
+        if (jsonObject != null) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            return gson.toJson(jsonObject);
+        } else {
+            return "{}";
+        }
+     }
 
     public static String Md5HexResponse(String user, String session, String password) {
         String md5HexResponse = null;

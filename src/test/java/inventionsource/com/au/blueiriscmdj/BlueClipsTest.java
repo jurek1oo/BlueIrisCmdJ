@@ -418,7 +418,7 @@ public class BlueClipsTest
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             JsonElement dataElement = jsonObject.get("data");
 
-            BlueClips blueClips = new BlueClips(dataElement);
+            BlueClips blueClips = new BlueClips(dataElement,0,Utils.GetSecondsFromDateSql((Utils.DateStringNow())));
 
             assertNotNull("assertNotNull cameras ", blueClips);
             assertTrue("size()", blueClips.size() > 0);

@@ -44,6 +44,43 @@ public class CommandClipListTest
         }
     }
 
+
+    @Test
+    public void GetClipsJustOneTest() throws Exception {
+/*{
+"camera":"Front-Watashi"
+"path":"@116993071.bvr"
+"offset":0
+"date":1585224065
+"localdatetime":2020-03-26T19:01:05
+"color":8151097
+"flags":0
+"res":"720x1280"
+"msec":14471
+"filesize":"17sec (1.65M)"
+"filetype":"bvr H264 New"
+} */
+        try {
+            String dateNow = Utils.DateStringNow();
+
+            //1585224065
+            long startdatesec = 1585224000;
+            long enddatesec   = 1585224120;
+            Thread.sleep(1000);
+            BlueLogin blueLogin = new BlueLogin();
+            blueLogin.BlueIrisLogin(_loginParams);
+            assertNotNull( "Not null " , blueLogin.getSession() );
+            CommandClipList commandClipList = new CommandClipList(blueLogin);
+            BlueClips blueClips = commandClipList.GetClips(
+                    Constants4Tests.CAM_NAME2, startdatesec, enddatesec,false);
+            assertNotNull( "Not null blueClipList " , blueClips);
+            assertTrue( "blueClips.size()>0" ,blueClips.size()>0 );
+            blueLogin.BlueIrisLogout();
+        } catch (Exception e) {
+            log.error("Error: " + e);
+            throw e;
+        }
+    }
     @Test
     public void GetClipsByJsonGoodTest() throws Exception {
         try {

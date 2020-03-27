@@ -37,7 +37,7 @@ public class CommandClipList {
         String dateNow = Utils.DateStringNow();
 
         String camera = "index";
-        String startDateUsedStr = "1970-01-02 00;00:00";
+        String startDateUsedStr = "1970-01-02 00:00:00";
         String endDateUsedStr = dateNow;;
         long startDate = 0;
         long endDate = Utils.GetSecondsFromDateSql(dateNow);;
@@ -56,22 +56,22 @@ public class CommandClipList {
                     startDateUsedStr = Utils.CorrectDateString(jsonObject.get("startdate").getAsString());
                     startDate = Utils.GetSecondsFromDateSql(startDateUsedStr);
                 } catch (Exception e) {
-                    log.warn("Warn startdate not present or invalid, used: 1970-01-01 00:00");
+                    log.warn("Warn startdate not present or invalid, used: "+ startDateUsedStr);
                 }
                 try {
                     endDateUsedStr = Utils.CorrectDateString(jsonObject.get("enddate").getAsString());
                     endDate = Utils.GetSecondsFromDateSql(endDateUsedStr);
                 } catch (Exception e) {
-                    log.warn("Warn. enddate not present or invalid, used: " + dateNow);
+                    log.warn("Warn. enddate not present or invalid, used: " + endDateUsedStr);
                 }
                 try {
                     tiles = jsonObject.get("tiles").getAsBoolean();
                 } catch (Exception e) {
-                    log.warn("Warn tiles not present, replaces by false");
+                    log.warn("Warn tiles not present, replaces by: " + tiles);
                 }
             } else {
-                log.warn("Warn. Empty json, used: camera index, startdate 1970-01-02 00:00:00, enddate : " +
-                        dateNow + ", tiles: false");
+                log.warn("Warn. Empty json, used: camera index, startdate: " + startDateUsedStr + " enddate : " +
+                        endDateUsedStr + ", tiles: " + tiles);
             }
 
             log.info("Used :camera: "+ camera + " startDate: " + startDateUsedStr + " endDate: " + endDateUsedStr+
@@ -102,7 +102,7 @@ public class CommandClipList {
 
             JsonElement jsonDataElement = commandCoreRequest.RunTheCmd(cmd, cmdParams,hasToBeSuccess,getDataElement);
 
-            BlueClips blueClips = new BlueClips(jsonDataElement) ;
+            BlueClips blueClips = new BlueClips(jsonDataElement, startDate, endDate ) ;
             log.debug("blueClipList: " + blueClips.toString());
             return blueClips;
         } catch (Exception e) {

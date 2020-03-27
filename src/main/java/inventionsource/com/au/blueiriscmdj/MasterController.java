@@ -85,6 +85,7 @@ public class MasterController {
                             getCommandCamList().GetCamList().toString());
                 }
                 if (cli.is_clips_list()) {
+                    foundOneCmd = true;
                     BlueClips clips =  getCommandClipList().GetClips(cli.get_json());
                     log.info("Clips-list number: " + clips.size() + "\n" +
                             clips);

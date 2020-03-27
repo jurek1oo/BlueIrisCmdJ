@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class BlueClips {
@@ -22,22 +23,39 @@ public class BlueClips {
     private JsonElement _dataJson = null;
 
     public String toString() {
-        return Utils.GetPrettyJsonString(_dataJson);
+        StringBuilder sb = new StringBuilder();
+        sb.append("[ ");
+        int size = _blueClips.size();
+        for (int i = 0 ; i < size; i++)
+        {
+            BlueClip blueClip = get(i);
+            if (i== size-1) {
+                sb.append(blueClip.toString() + " ]\n");
+            } else {
+                sb.append(blueClip.toString() + ",\n");
+            }
+        }
+        return sb.toString();
     }
 
 
-    public BlueClips(JsonElement dataJson) throws Exception {
+    public BlueClips(JsonElement dataJson, long startdate, long enddate) throws Exception {
+        _dataJson = dataJson;
         try {
-            if(dataJson==null) throw new Exception("Error. null dataJson");
-            _dataJson = dataJson;
-            JsonArray jsonArray = dataJson.getAsJsonArray();
-            for (int i = 0, size = jsonArray.size(); i < size; i++)
+            if(dataJson!=null) // no clips if null
             {
-                JsonElement jsonElement = jsonArray.get(i);
-                JsonObject jsonObject =  jsonElement.getAsJsonObject();
-                BlueClip blueClip = new BlueClip(jsonObject);
-                _blueClips.add(blueClip);
-            }
+                JsonArray jsonArray = dataJson.getAsJsonArray();
+                for (int i = 0, size = jsonArray.size(); i < size; i++)
+                {
+                    JsonElement jsonElement = jsonArray.get(i);
+                    JsonObject jsonObject =  jsonElement.getAsJsonObject();
+                    BlueClip blueClip = new BlueClip(jsonObject);
+                    // limit clip number, as BI does not.
+                    if (blueClip._date >= startdate && blueClip._date <= enddate) {
+                        _blueClips.add(blueClip);
+                    }
+                 }
+             }
         } catch (Exception e) {
             log.error("\nError in dataJson: " +  dataJson +
                     " : " + setJsonHelp(), e);
@@ -74,6 +92,7 @@ public class BlueClips {
             private String _camera = null;
             private String _path = null;
             private int _date = -1;
+            private LocalDateTime _localdatetime = null;
             private int _color = -1;
             private int _offset = -1;
             private int _flags = -1;
@@ -91,6 +110,7 @@ public class BlueClips {
             public String getCameraName() {        return _camera;    }
             public String getPath() {        return _path;    }
             public int getDate() {        return _date;    }
+            public LocalDateTime getLocalDateTime() {        return _localdatetime;    }
             public int getColor() {        return _color;    }
 
             public BlueClip(JsonObject jsonObject) {
@@ -105,11 +125,27 @@ public class BlueClips {
                 _filetype = _jsonObject.get("filetype").getAsString();
                 _path = _jsonObject.get("path").getAsString();
                 _date = _jsonObject.get("date").getAsInt();
+                _localdatetime = Utils.GetLocalDateTimeFromSeconds(_date);
                 _color = _jsonObject.get("color").getAsInt();
             }
 
             public String toString() {
-                return Utils.GetPrettyJsonString(_jsonObject);
+                StringBuilder sb = new StringBuilder();
+                sb.append("{\n");
+
+                sb.append("\"camera\":\"" + _camera + "\"\n");
+                sb.append("\"path\":\"" + _path + "\"\n");
+                sb.append("\"offset\":" + _offset + "\n");
+                sb.append("\"date\":" + _date + "\n");
+                sb.append("\"localdatetime\":" + _localdatetime + "\n");
+                sb.append("\"color\":" + _color + "\n");
+                sb.append("\"flags\":" + _flags + "\n");
+                sb.append("\"res\":\"" + _res + "\"\n");
+                sb.append("\"msec\":" + _msec + "\n");
+                sb.append("\"filesize\":\"" + _filesize + "\"\n");
+                sb.append("\"filetype\":\"" + _filetype + "\"\n");
+                sb.append("}\n");
+                return sb.toString();
             }
         }
     }
