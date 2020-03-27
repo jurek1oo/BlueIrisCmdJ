@@ -65,7 +65,7 @@ public class CommandCamConfigTest
     public void CamConfig_DisableEnableTest() throws Exception {
         BlueCamConfig blueCamConfig=null;
         try {
-            Cameras.Camera camera = null;
+            BlueCameras.BlueCamera camera = null;
             BlueLogin blueLogin = new BlueLogin();
             Thread.sleep(1000);
 
@@ -114,7 +114,7 @@ public class CommandCamConfigTest
     public void CamConfigSetTest() throws Exception {
         BlueCamConfig blueCamConfig=null;
         try {
-            Cameras.Camera camera = null;
+            BlueCameras.BlueCamera camera = null;
             String json = "{ \"reset\": 0, \"enable\": 1, \"pause\": 0 }";
 
             BlueLogin blueLogin = new BlueLogin();

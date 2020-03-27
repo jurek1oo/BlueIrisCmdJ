@@ -10,21 +10,21 @@ import java.util.ArrayList;
 /*
  * GNU General Public License v2.0, 2020 March Jurek Kurianski
  */
-public class Cameras {
-    private static final Logger log = (Logger)LogManager.getLogger(Cameras.class.getName());
+public class BlueCameras {
+    private static final Logger log = (Logger)LogManager.getLogger(BlueCameras.class.getName());
 
     private JsonElement _dataJson = null;
 
-    private ArrayList<Camera> _cameras = new ArrayList<Camera>();
+    private ArrayList<BlueCamera> _cameras = new ArrayList<BlueCamera>();
 
-    public Camera get(int i) {
-        return (Camera)_cameras.get(i);
+    public BlueCamera get(int i) {
+        return (BlueCamera)_cameras.get(i);
     }
 
-    public Camera get(String optionValue) throws Exception {
+    public BlueCamera get(String optionValue) throws Exception {
         for (int i=0; i < size(); i++) {
             if (get(i).getOptionValue().compareTo((optionValue))==0) {
-                return (Camera)_cameras.get(i);
+                return (BlueCamera)_cameras.get(i);
             }
         }
 
@@ -50,7 +50,7 @@ public class Cameras {
         return null;
     }
 
-    public Cameras (JsonElement dataJson) throws Exception {
+    public BlueCameras (JsonElement dataJson) throws Exception {
         if(dataJson==null)
             throw new Exception("Error. null dataJson");
         _dataJson = dataJson;
@@ -66,7 +66,7 @@ public class Cameras {
             } catch (Exception ex) {
                 continue;
             }
-            Camera camera = new Camera(jsonObject);
+            BlueCamera camera = new BlueCamera(jsonObject);
             _cameras.add(camera);
         }
 
@@ -104,8 +104,8 @@ public class Cameras {
         return sb.toString();
     }
 
-    public class  Camera {
-        private final Logger log = (Logger)LogManager.getLogger(Cameras.class.getName());
+    public class  BlueCamera {
+        private final Logger log = (Logger)LogManager.getLogger(BlueCamera.class.getName());
 
         private JsonObject _jsonObject = null;
         private String _optionDisplay = null;
@@ -195,7 +195,7 @@ public class Cameras {
             return _nNoSignal;
         }
 
-        public Camera(JsonObject jsonObject) {
+        public BlueCamera(JsonObject jsonObject) {
             _jsonObject = jsonObject;
 
             _optionDisplay = jsonObject.get("optionDisplay").getAsString();

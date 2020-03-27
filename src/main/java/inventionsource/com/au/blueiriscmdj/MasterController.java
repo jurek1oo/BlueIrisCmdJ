@@ -24,6 +24,7 @@ public class MasterController {
     private CommandStatus _commandStatus = null;
     private CommandAlerts _commandAlerts = null;
     private CommandCamList _commandCamList = null;
+    private CommandClipList _commandClipList = null;
     private CommandCamConfig _commandCamConfig = null;
 
     private BlueStatus _lastBlueStatus = null;
@@ -33,6 +34,7 @@ public class MasterController {
 
     public CommandOther getCommandOther() throws Exception { if (_commandOther==null) _commandOther = new CommandOther(_blueLogin);  return _commandOther;  }
     public CommandCamList getCommandCamList() throws Exception { if (_commandCamList==null) _commandCamList = new CommandCamList(_blueLogin);  return _commandCamList;  }
+    public CommandClipList getCommandClipList() throws Exception { if (_commandClipList==null) _commandClipList = new CommandClipList(_blueLogin);  return _commandClipList;  }
     public CommandAlerts getCommandAlerts() throws Exception { if (_commandAlerts==null) _commandAlerts = new CommandAlerts(_blueLogin);  return _commandAlerts;  }
     public CommandStatus getCommandStatus() throws Exception { if (_commandStatus==null) _commandStatus = new CommandStatus(_blueLogin);  return _commandStatus;  }
     public CommandCamConfig getCommandCamConfig() throws Exception { if (_commandCamConfig==null) _commandCamConfig = new CommandCamConfig(_blueLogin);  return _commandCamConfig;  }
@@ -78,9 +80,14 @@ public class MasterController {
                             Arrays.toString(schedules.toArray()));
                 }
                 if (cli.is_cams_list()) {
-                    Cameras cameras =  getCommandCamList().GetCamList();
+                    BlueCameras cameras =  getCommandCamList().GetCamList();
                     log.info("cameras-list number: " +  getCommandCamList().GetCamList().size() + "\n" +
                             getCommandCamList().GetCamList().toString());
+                }
+                if (cli.is_clips_list()) {
+                    BlueClips clips =  getCommandClipList().GetClips(cli.get_json());
+                    log.info("Clips-list number: " + clips.size() + "\n" +
+                            clips);
                 }
                 if (cli.is_cams_reset_stats()) {
                     foundOneCmd = true;
@@ -89,7 +96,7 @@ public class MasterController {
                 }
                 if (cli.is_alerts_list() ) {
                     foundOneCmd = true;
-                    Alerts alersts = getCommandAlerts().GetAlertsList(
+                    BlueAlerts alersts = getCommandAlerts().GetAlertsList(
                             cli.get_alerts_list_4_cam(),
                             cli.get_alerts_list_date());
                     log.info("alerts-list number: " + alersts.size() + "\n" +

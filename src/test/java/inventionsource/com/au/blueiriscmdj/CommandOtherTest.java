@@ -30,7 +30,7 @@ public class CommandOtherTest
         // So we use cam2, as the default system profile is "AtHome",
         // where only  front house cam2 is active and is recording constantly.
         try {
-            Cameras.Camera camera = null;
+            BlueCameras.BlueCamera camera = null;
             String camName = Constants4Tests.CAM_NAME2;
 
             BlueLogin blueLogin = new BlueLogin();

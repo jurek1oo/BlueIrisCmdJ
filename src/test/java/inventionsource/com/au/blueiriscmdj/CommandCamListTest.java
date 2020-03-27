@@ -31,7 +31,7 @@ public class CommandCamListTest
             blueLogin.BlueIrisLogin(_loginParams);
             CommandCamList commandCamList = new CommandCamList(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
-            Cameras cameras = commandCamList.GetCamList();
+            BlueCameras cameras = commandCamList.GetCamList();
             assertNotNull( "Not null cameras " ,cameras );
             assertTrue( "cameras.size()>0" ,cameras.size()>0 );
             blueLogin.BlueIrisLogout();
@@ -50,7 +50,7 @@ public class CommandCamListTest
             blueLogin.BlueIrisLogin(_loginParams);
             CommandCamList commandCamList = new CommandCamList(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
-            Cameras cameras = commandCamList.ResetCamsStats();
+            BlueCameras cameras = commandCamList.ResetCamsStats();
             assertNotNull( "Not null cameras " ,cameras );
             assertTrue( "cameras.size()>0" ,cameras.size()>0 );
             blueLogin.BlueIrisLogout();

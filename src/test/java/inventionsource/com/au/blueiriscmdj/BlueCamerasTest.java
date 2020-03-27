@@ -11,9 +11,9 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
-public class CamerasTest
+public class BlueCamerasTest
 {
-    private static final Logger log = (Logger) LogManager.getLogger(CamerasTest.class.getName());
+    private static final Logger log = (Logger) LogManager.getLogger(BlueCamerasTest.class.getName());
 
     private String _dataJson = "{\"data\":[\n" +
             "  {\n" +
@@ -68,13 +68,13 @@ public class CamerasTest
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             JsonElement dataElement = jsonObject.get("data");
 
-            Cameras cameras = new Cameras(dataElement);
+            BlueCameras cameras = new BlueCameras(dataElement);
 
             log.info(cameras.GetJsonHelp());
             assertNotNull("assertNotNull cameras ", cameras);
             assertTrue("size()", cameras.size() > 0);
 
-            Cameras.Camera camera = cameras.get(Constants4Tests.CAM_NAME1);
+            BlueCameras.BlueCamera camera = cameras.get(Constants4Tests.CAM_NAME1);
             assertNotNull("assertNotNull cameras.get(0)", camera);
 
         } catch (Exception e) {
@@ -89,12 +89,12 @@ public class CamerasTest
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             JsonElement dataElement = jsonObject.get("data");
 
-            Cameras cameras = new Cameras(dataElement);
+            BlueCameras cameras = new BlueCameras(dataElement);
 
             assertNotNull("assertNotNull cameras ", cameras);
             assertTrue("size()", cameras.size() > 0);
 
-            Cameras.Camera camera = cameras.get(Constants4Tests.CAM_NAME1);
+            BlueCameras.BlueCamera camera = cameras.get(Constants4Tests.CAM_NAME1);
             assertNotNull("assertNotNull cameras.get(0)", camera);
 
         } catch (Exception e) {

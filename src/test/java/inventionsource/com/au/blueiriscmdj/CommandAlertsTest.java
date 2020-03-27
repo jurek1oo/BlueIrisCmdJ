@@ -38,7 +38,7 @@ public class CommandAlertsTest
             // 1584542112 - 2020-03-18T21:35:12
             boolean reset = false;
 
-            Alerts alerts = commandAlerts.GetAlertsList(camera, dateStart);
+            BlueAlerts alerts = commandAlerts.GetAlertsList(camera, dateStart);
             log.debug(alerts.toString());
             assertNotNull( "Not null alerts " ,alerts );
             blueLogin.BlueIrisLogout();
@@ -65,7 +65,7 @@ public class CommandAlertsTest
             // 1584542112 - 2020-03-18T21:35:12
             boolean reset = false;
 
-            Alerts alerts = commandAlerts.GetAlertsList(camera, dateStart);
+            BlueAlerts alerts = commandAlerts.GetAlertsList(camera, dateStart);
             log.debug(alerts.toString());
             assertNotNull( "Not null alerts " ,alerts );
             blueLogin.BlueIrisLogout();

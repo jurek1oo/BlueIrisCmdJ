@@ -53,7 +53,7 @@ camlist
     public CommandCamList(BlueLogin blueLogin) throws Exception {
         _blueLogin = blueLogin;
     }
-    public Cameras GetCamList() throws Exception {
+    public BlueCameras GetCamList() throws Exception {
         log.debug("camlist: "); // return json data element with all cameras details
         String cmd = "camlist";
         try {
@@ -63,7 +63,7 @@ camlist
 
             JsonElement jsonDataElement = commandCoreRequest.RunTheCmd(cmd, null,hasToBeSuccess,getDataElement);
 
-            Cameras cameras = new Cameras(jsonDataElement);
+            BlueCameras cameras = new BlueCameras(jsonDataElement);
             log.debug("Cameras: " + cameras.toString());
             return cameras;
         } catch (Exception e) {
@@ -72,7 +72,7 @@ camlist
         }
     }
 
-    public Cameras ResetCamsStats() throws Exception {
+    public BlueCameras ResetCamsStats() throws Exception {
          String cmd = "camlist";
         log.debug(cmd);
         try {
@@ -83,7 +83,7 @@ camlist
 
             JsonElement jsonDataElement = commandCoreRequest.RunTheCmd(cmd, cmdParams,hasToBeSuccess,getDataElement);
 
-            Cameras cameras = new Cameras(jsonDataElement);
+            BlueCameras cameras = new BlueCameras(jsonDataElement);
             log.debug("Cameras: " + cameras.toString());
             return cameras;
         } catch (Exception e) {

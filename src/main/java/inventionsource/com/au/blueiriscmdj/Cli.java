@@ -28,6 +28,7 @@ public class Cli {
     private boolean _is_alerts_list = false;
     private boolean _is_cams_list =false;
     private boolean _is_cams_reset_stats =false;
+    private boolean _is_clips_list =false;
     private boolean _is_status_get =false;
     private boolean _is_profiles_list =false;
     private boolean _is_schedules_list =false;
@@ -47,6 +48,7 @@ public class Cli {
     public boolean is_alerts_delete() { return _is_alerts_delete; }
     public boolean is_alerts_list() { return _is_alerts_list; }
     public boolean is_cams_list() { return _is_cams_list; }
+    public boolean is_clips_list() { return _is_clips_list; }
     public boolean is_cams_reset_stats() {   return _is_cams_reset_stats;  }
     public boolean is_profiles_list() {        return _is_profiles_list;    }
     public boolean is_schedules_list() {        return _is_schedules_list;    }
@@ -76,10 +78,11 @@ public class Cli {
         options.addOption("ccg", "camconfig-get", true, "Get camera configuration: cam short name.");
         options.addOption("ccs", "camconfig-set", true, "Get camera configuration: cam short name. Use -json.");
         options.addOption("cl", "cams-list", false, "List all avaiable cameras.");
+        options.addOption("cll", "clips-list", false, "List clips for a camera short name, date range. Use --json for parameters.");
         options.addOption("cr", "cams-reset-stats", false, "Reset statistics of for all cameras.");
         options.addOption("h", "help", false, "show help.");
         options.addOption("host", "host", true,"Blue Iris host to connect to.");
-        options.addOption("j", "json", true, "Json for options: -camconfig-set or -status-set. Check project Github wiki for help.");
+        options.addOption("j", "json", true, "Json for options: -camconfig-set, --clips-list or -status-set. Check project Github wiki for help.");
         options.addOption("ll", "log-level", true, "Log level: error, info, debug or trace.");
         options.addOption("lf", "log-file", true, "log file name, eg. /temp/BlueIrisCmdJ.log.");
         options.addOption("p", "password", true, "Password to use when connecting.");
@@ -192,6 +195,10 @@ public class Cli {
                 _is_cams_list = true;
                 sb.append("Using cli option --cams-list\n");
             }
+            if (cmd.hasOption("cll")) {
+                _is_clips_list = true;
+                sb.append("Using cli option --clips-list.\n");
+            }
             if (cmd.hasOption("crt")) {
                 _is_cams_reset_stats = true;
                 sb.append("Using cli option --cams_reset_stats\n");
@@ -236,13 +243,15 @@ public class Cli {
                     errSb.append("Error: Both options need to be present -status-set and -json.");
                 }
             }
-            if (cmd.hasOption("sts") && cmd.hasOption("ccs")){
+            if (cmd.hasOption("sts") && cmd.hasOption("ccs") ||
+                    cmd.hasOption("sts") && cmd.hasOption("cll")||
+                    cmd.hasOption("ccs") && cmd.hasOption("cll")){
                 errSb.append("Error: Only one of the options can be used at one time:" +
-                        " --status-set or --camconfig-set.");
+                        " --status-set --camconfig-set --clips-list.");
             }
             if (cmd.hasOption("j")  &&
-                    !(cmd.hasOption("ccs") || cmd.hasOption("sts"))  ){
-                errSb.append("Error: -json option needs to be used with -camconfig-set or -status-set.");
+                    !(cmd.hasOption("ccs") || cmd.hasOption("sts") || cmd.hasOption("cll"))  ){
+                errSb.append("Error: -json option needs to be used with --camconfig-set or --clips-list --status-set.");
             }
             if (cmd.hasOption("t")) {
                 _trigger = cmd.getOptionValue("t");

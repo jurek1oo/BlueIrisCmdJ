@@ -19,7 +19,7 @@ public class CommandAlerts {
         _blueLogin = blueLogin;
     }
 
-    public Alerts GetAlertsList(String camera, String dateStart) throws Exception {
+    public BlueAlerts GetAlertsList(String camera, String dateStart) throws Exception {
         log.debug("camera: " + camera + " dateStart: " + dateStart );
         // return json data element with all alerts details
         // for camera short name or index, 4 all and start date/time
@@ -35,7 +35,7 @@ public class CommandAlerts {
             CommandCoreRequest commandCoreRequest = new CommandCoreRequest(_blueLogin);
             jsonDataElement = commandCoreRequest.RunTheCmd(cmd, cmdParams,hasToBeSuccess,getDataElement);
 
-            Alerts alerts = new Alerts(jsonDataElement);
+            BlueAlerts alerts = new BlueAlerts(jsonDataElement);
             log.debug("Alerts: " + alerts.toString());
             return alerts;
         } catch (Exception e) {

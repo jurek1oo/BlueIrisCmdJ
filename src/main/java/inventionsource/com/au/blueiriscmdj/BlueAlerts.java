@@ -12,15 +12,15 @@ import java.util.ArrayList;
 /*
  * GNU General Public License v2.0, 2020 March Jurek Kurianski
  */
-public class Alerts {
-    private static final Logger log = (Logger)LogManager.getLogger(Alerts.class.getName());
+public class BlueAlerts {
+    private static final Logger log = (Logger)LogManager.getLogger(BlueAlerts.class.getName());
 
     private JsonElement _dataJson = null;
 
-    private ArrayList<Alert> _alerts = new ArrayList<Alert>();
+    private ArrayList<BlueAlert> _alerts = new ArrayList<BlueAlert>();
 
-    public Alert get(int i) {
-        return (Alert)_alerts.get(i);
+    public BlueAlert get(int i) {
+        return (BlueAlert)_alerts.get(i);
     }
 
     public int size() {
@@ -43,7 +43,7 @@ public class Alerts {
         return "[]";
     }
 
-    public Alerts(JsonElement dataJson) throws Exception {
+    public BlueAlerts(JsonElement dataJson) throws Exception {
         if(dataJson==null)
             log.debug("null dataJson");
         _dataJson = dataJson;
@@ -54,13 +54,13 @@ public class Alerts {
                 JsonElement jsonElement = jsonArray.get(i);
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-                Alert alert = new Alert(jsonObject);
+                BlueAlert alert = new BlueAlert(jsonObject);
                 _alerts.add(alert);
             }
         }
     }
-    public class  Alert {
-        private final Logger log = (Logger)LogManager.getLogger(Alerts.class.getName());
+    public class  BlueAlert {
+        private final Logger log = (Logger)LogManager.getLogger(BlueAlert.class.getName());
          /*   "camera": "Front-Watashi",
                 "path": "@118580940.bvr",
                 "clip": "@118572667.bvr",
@@ -100,7 +100,7 @@ public class Alerts {
 
         public JsonObject getJsonObject() {  return _jsonObject;  }
 
-        public Alert(JsonObject jsonObject) {
+        public BlueAlert(JsonObject jsonObject) {
             _jsonObject = jsonObject;
 
             _camera = jsonObject.get("camera").getAsString();
