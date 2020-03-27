@@ -27,6 +27,7 @@ public class CommandClipListTest
         try {
             String dateNow = Utils.DateStringNow();
 
+            Thread.sleep(1000);
             BlueLogin blueLogin = new BlueLogin();
             blueLogin.BlueIrisLogin(_loginParams);
             assertNotNull( "Not null " , blueLogin.getSession() );
@@ -47,6 +48,7 @@ public class CommandClipListTest
     public void GetClipsByJsonGoodTest() throws Exception {
         try {
             String dateStr = Utils.DateStringNow();
+            Thread.sleep(1000);
 
             String json = "{\"camera\":\"" + Constants4Tests.CAM_NAME1 + "\"," +
                         "\"startdate\":\"1970-01-02\",\"enddate\":\"" + dateStr+  "\",\"tiles\":false}";
@@ -67,6 +69,7 @@ public class CommandClipListTest
     @Test
     public void GetClipsByJsonJustCamera() throws Exception {
         try {
+            Thread.sleep(1000);
             String json = "{\"camera\":\"" + Constants4Tests.CAM_NAME1 + "\"}";
             BlueLogin blueLogin = new BlueLogin();
             blueLogin.BlueIrisLogin(_loginParams);
@@ -85,6 +88,7 @@ public class CommandClipListTest
     @Test
     public void GetClipsByEmptyJson() throws Exception {
         try {
+            Thread.sleep(1000);
             String json = null;// all cams all dates
             BlueLogin blueLogin = new BlueLogin();
             blueLogin.BlueIrisLogin(_loginParams);

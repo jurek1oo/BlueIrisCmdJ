@@ -2,7 +2,7 @@ https://github.com/jurek1oo/blueiriscmdj
 
 https://www.houselogix.com/docs/blue-iris/BlueIris/json.htm
 
-cd ~/IdeaProjects/blueiriscmdj
+cd /media/jurek/My-Passport/blueiriscmdj
 
 mvn package -Dmaven.test.skip
 

@@ -19,15 +19,19 @@ public class CommandAlerts {
         _blueLogin = blueLogin;
     }
 
-    public BlueAlerts GetAlertsList(String camera, String dateStart) throws Exception {
-        log.debug("camera: " + camera + " dateStart: " + dateStart );
+    public BlueAlerts GetAlertsList(String camera, String startdate) throws Exception {
+        log.debug("camera: " + camera + " startdate: " + startdate );
         // return json data element with all alerts details
         // for camera short name or index, 4 all and start date/time
         if(camera==null || camera.length()==0) camera = "index";
-        if(dateStart==null || dateStart.length()==0) dateStart = "1970-01-01";
-        long secondsFrom1970 =  Utils.GetSecondsFromDateSql(dateStart); //seconds since January 1, 1970
+        if(startdate==null || startdate.length()==0) startdate = "1970-01-02";
+        String startdateUsed = Utils.CorrectDateString(startdate);
+        if (startdate.compareTo(startdateUsed)!=0){
+            log.info("camera: " + camera + " startdate in: "+ startdate + " used: " + startdateUsed);
+        }
+        long secondsStartDateUsed =  Utils.GetSecondsFromDateSql(startdateUsed);
         String cmd = "alertlist";
-        String cmdParams = ",\"camera\":\"" + camera + "\",\"startdate\":" + secondsFrom1970;
+        String cmdParams = ",\"camera\":\"" + camera + "\",\"startdate\":" + secondsStartDateUsed;
         JsonElement jsonDataElement = null;
         try {
             boolean hasToBeSuccess = true;
@@ -39,7 +43,8 @@ public class CommandAlerts {
             log.debug("Alerts: " + alerts.toString());
             return alerts;
         } catch (Exception e) {
-            log.error("Error executing command: " + cmd + " for BlueIris\n", e);
+            log.error("Error executing command: " + cmd + " dateStart: " + startdate +
+        " startdateUsed: " +startdateUsed + " for BlueIris\n", e);
             throw e;
         }
     }

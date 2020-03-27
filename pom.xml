@@ -7,7 +7,7 @@
   <groupId>inventionsource.com.au.blueiriscmdj</groupId>
   <artifactId>blueiriscmdj</artifactId>
   <!-- 8_ for Java 8 -->
-  <version>1.2.10_SNAPSHOT</version>
+  <version>1.2.11_SNAPSHOT</version>
 
   <name>blueiriscmdj</name>
   <!-- FIXME change it to the project's website. -->
