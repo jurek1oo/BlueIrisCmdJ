@@ -31,6 +31,12 @@ public class Utils {
         return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
     }
 
+    public static String DateStringNow(int extraDays) {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, extraDays);
+        return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(c.getTime());
+    }
+
     public static String CorrectDateString(String datein) throws Exception {
         if (datein == null || datein.trim().length()< 10) throw new Exception("Error date to short: " + datein);
         datein = datein.trim();

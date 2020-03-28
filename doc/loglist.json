@@ -1,0 +1,439 @@
+{
+  "result": "success",
+  "session": "1c2c0ebc19d6052f601d4ba840335fb3",
+  "data": [
+    {
+      "date": 1585372230,
+      "level": 10,
+      "obj": "admin",
+      "msg": "192.168.1.36: Login"
+    },
+    {
+      "date": 1585372230,
+      "count": "4543",
+      "level": 10,
+      "obj": "Server",
+      "msg": "Connected: 192.168.1.36"
+    },
+    {
+      "date": 1585372201,
+      "count": "4",
+      "level": 10,
+      "obj": "Anonymous",
+      "msg": "192.168.1.36: Logout, 1:33"
+    },
+    {
+      "date": 1585372184,
+      "count": "7948",
+      "level": 10,
+      "obj": "admin",
+      "msg": "192.168.1.39: Logout, 0:01"
+    },
+    {
+      "date": 1585372173,
+      "count": "45",
+      "level": 3,
+      "obj": "Front-Watashi",
+      "msg": "MOTION"
+    },
+    {
+      "date": 1585372144,
+      "count": "253976",
+      "level": 1,
+      "obj": "Clips",
+      "msg": "MoveFile 82: C:\\Users\\Jurek\\Dropbox\\BI\\New\\Front-Watashi.20200327_100803.bvr"
+    },
+    {
+      "date": 1585372139,
+      "count": "768",
+      "level": 0,
+      "obj": "Stored",
+      "msg": "Delete: nothing to do [2159/2160 hrs, 43.3G/800.0G, 947.9G free]"
+    },
+    {
+      "date": 1585372139,
+      "count": "768",
+      "level": 0,
+      "obj": "New",
+      "msg": "Move: 164 files 440.5M [41/336 hrs, 1.42G/1.00G, 400.1G free]"
+    },
+    {
+      "date": 1585364975,
+      "count": "344",
+      "level": 10,
+      "obj": "admin",
+      "msg": "192.168.1.36: Logout, 0:00"
+    },
+    {
+      "date": 1585364975,
+      "count": "13",
+      "level": 0,
+      "obj": "App",
+      "msg": "Current schedule: Default"
+    },
+    {
+      "date": 1585364974,
+      "count": "16",
+      "level": 0,
+      "obj": "App",
+      "msg": "Current profile: AtHome"
+    },
+    {
+      "date": 1585364962,
+      "count": "4",
+      "level": 3,
+      "obj": "Front-Watashi",
+      "msg": "EXTERNAL"
+    },
+    {
+      "date": 1585350344,
+      "level": 0,
+      "obj": "App",
+      "msg": "Current profile: AtHome"
+    },
+    {
+      "date": 1585332277,
+      "count": "94",
+      "level": 1,
+      "obj": "Clips",
+      "msg": "MoveFile 2: C:\\Users\\Jurek\\Dropbox\\BI\\New\\Front-Watashi.20200326_102250.bvr"
+    },
+    {
+      "date": 1585328744,
+      "level": 0,
+      "obj": "App",
+      "msg": "Current profile: OnTheRoad"
+    },
+    {
+      "date": 1585328559,
+      "count": "208",
+      "level": 3,
+      "obj": "Front-Watashi",
+      "msg": "MOTION"
+    },
+    {
+      "date": 1585328400,
+      "level": 0,
+      "obj": "App",
+      "msg": "Today\u0027s sunrise: 7:27 PM, sunset: 7:52 AM"
+    },
+    {
+      "date": 1585328400,
+      "level": 0,
+      "obj": "App",
+      "msg": "Current schedule: Default"
+    },
+    {
+      "date": 1585327339,
+      "count": "8",
+      "level": 4,
+      "obj": "Front-Watashi",
+      "msg": "Signal: restored"
+    },
+    {
+      "date": 1585316998,
+      "count": "22",
+      "level": 4,
+      "obj": "Front-Watashi",
+      "msg": "Signal: restored"
+    },
+    {
+      "date": 1585298640,
+      "count": "568",
+      "level": 10,
+      "obj": "admin",
+      "msg": "192.168.1.36: Logout, 0:00"
+    },
+    {
+      "date": 1585298639,
+      "count": "4",
+      "level": 0,
+      "obj": "App",
+      "msg": "Current schedule: Default"
+    },
+    {
+      "date": 1585298639,
+      "count": "4",
+      "level": 0,
+      "obj": "App",
+      "msg": "Current profile: AtHome"
+    },
+    {
+      "date": 1585298626,
+      "level": 3,
+      "obj": "Front-Watashi",
+      "msg": "EXTERNAL"
+    },
+    {
+      "date": 1585297774,
+      "count": "4",
+      "level": 10,
+      "obj": "Anonymous",
+      "msg": "192.168.1.36: Logout, 1:12"
+    },
+    {
+      "date": 1585288105,
+      "count": "2",
+      "level": 10,
+      "obj": "Anonymous",
+      "msg": "192.168.1.36: Logout, 0:12"
+    },
+    {
+      "date": 1585285767,
+      "count": "15",
+      "level": 0,
+      "obj": "App",
+      "msg": "Current schedule: Default"
+    },
+    {
+      "date": 1585285767,
+      "count": "22",
+      "level": 0,
+      "obj": "App",
+      "msg": "Current profile: AtHome"
+    },
+    {
+      "date": 1585285753,
+      "count": "5",
+      "level": 3,
+      "obj": "Front-Watashi",
+      "msg": "EXTERNAL"
+    },
+    {
+      "date": 1585279231,
+      "level": 3,
+      "obj": "Ceiling1",
+      "msg": "EXTERNAL"
+    },
+    {
+      "date": 1585278204,
+      "count": "11",
+      "level": 1,
+      "obj": "Clips",
+      "msg": "MoveFile 2: C:\\Users\\Jurek\\Dropbox\\BI\\New\\Front-Watashi.20200325_155001.bvr"
+    },
+    {
+      "date": 1585270968,
+      "count": "11",
+      "level": 1,
+      "obj": "Clips",
+      "msg": "MoveFile 2: C:\\Users\\Jurek\\Dropbox\\BI\\New\\Front-Watashi.20200325_153037.bvr"
+    },
+    {
+      "date": 1585264545,
+      "count": "4",
+      "level": 4,
+      "obj": "Front-Watashi",
+      "msg": "Signal: restored"
+    },
+    {
+      "date": 1585259583,
+      "level": 0,
+      "obj": "App",
+      "msg": "Current profile: AtHome"
+    },
+    {
+      "date": 1585242345,
+      "level": 0,
+      "obj": "App",
+      "msg": "Current profile: OnTheRoad"
+    },
+    {
+      "date": 1585242256,
+      "count": "191",
+      "level": 3,
+      "obj": "Front-Watashi",
+      "msg": "MOTION"
+    },
+    {
+      "date": 1585242000,
+      "level": 0,
+      "obj": "App",
+      "msg": "Today\u0027s sunrise: 7:29 PM, sunset: 7:51 AM"
+    },
+    {
+      "date": 1585242000,
+      "level": 0,
+      "obj": "App",
+      "msg": "Current schedule: Default"
+    },
+    {
+      "date": 1585238803,
+      "count": "228",
+      "level": 1,
+      "obj": "Clips",
+      "msg": "MoveFile 2: C:\\Users\\Jurek\\Dropbox\\BI\\New\\Front-Watashi.20200325_151322.bvr"
+    },
+    {
+      "date": 1585216666,
+      "count": "182",
+      "level": 10,
+      "obj": "admin",
+      "msg": "192.168.1.36: Logout, 0:00"
+    },
+    {
+      "date": 1585211750,
+      "count": "8",
+      "level": 0,
+      "obj": "App",
+      "msg": "Current schedule: Default"
+    },
+    {
+      "date": 1585211750,
+      "count": "8",
+      "level": 0,
+      "obj": "App",
+      "msg": "Current profile: AtHome"
+    },
+    {
+      "date": 1585211737,
+      "count": "2",
+      "level": 3,
+      "obj": "Front-Watashi",
+      "msg": "EXTERNAL"
+    },
+    {
+      "date": 1585206304,
+      "count": "277",
+      "level": 1,
+      "obj": "Clips",
+      "msg": "MoveFile 2: C:\\Users\\Jurek\\Dropbox\\BI\\New\\Front-Watashi.20200325_134329.bvr"
+    },
+    {
+      "date": 1585196397,
+      "count": "10",
+      "level": 4,
+      "obj": "Front-Watashi",
+      "msg": "Signal: restored"
+    },
+    {
+      "date": 1585182469,
+      "count": "6",
+      "level": 10,
+      "obj": "admin",
+      "msg": "192.168.1.36: Logout, 1:07"
+    },
+    {
+      "date": 1585177544,
+      "level": 0,
+      "obj": "App",
+      "msg": "Current profile: AtHome"
+    },
+    {
+      "date": 1585155944,
+      "level": 0,
+      "obj": "App",
+      "msg": "Current profile: OnTheRoad"
+    },
+    {
+      "date": 1585155915,
+      "count": "61",
+      "level": 3,
+      "obj": "Front-Watashi",
+      "msg": "MOTION"
+    },
+    {
+      "date": 1585155807,
+      "count": "1246",
+      "level": 1,
+      "obj": "Clips",
+      "msg": "MoveFile 2: C:\\Users\\Jurek\\Dropbox\\BI\\New\\Front-Watashi.20200325_092901.bvr"
+    },
+    {
+      "date": 1585155600,
+      "level": 0,
+      "obj": "App",
+      "msg": "Today\u0027s sunrise: 7:30 PM, sunset: 7:50 AM"
+    },
+    {
+      "date": 1585155600,
+      "level": 0,
+      "obj": "App",
+      "msg": "Current schedule: Default"
+    },
+    {
+      "date": 1585149549,
+      "count": "2",
+      "level": 4,
+      "obj": "Front-Watashi",
+      "msg": "Signal: restored"
+    },
+    {
+      "date": 1585138174,
+      "count": "24",
+      "level": 4,
+      "obj": "Front-Watashi",
+      "msg": "Signal: restored"
+    },
+    {
+      "date": 1585136334,
+      "count": "3",
+      "level": 0,
+      "obj": "App",
+      "msg": "Current profile: AtHome"
+    },
+    {
+      "date": 1585136322,
+      "count": "2",
+      "level": 10,
+      "obj": "admin",
+      "msg": "192.168.1.42: Logout, 0:00"
+    },
+    {
+      "date": 1585136291,
+      "level": 0,
+      "obj": "Server",
+      "msg": "Started on port 8882"
+    },
+    {
+      "date": 1585133835,
+      "count": "2",
+      "level": 4,
+      "obj": "Clips",
+      "msg": "F:: 13599, 43.4G/800.0G (+196.3G)"
+    },
+    {
+      "date": 1585133589,
+      "count": "2596",
+      "level": 1,
+      "obj": "Clips",
+      "msg": "MoveFile 3: C:\\Users\\Jurek\\Dropbox\\BI\\New\\Front-Watashi.20200325_131103.bvr"
+    },
+    {
+      "date": 1585133202,
+      "level": 4,
+      "obj": "Clips",
+      "msg": "C:: 2793, 5.55G/2.00G (+403.0G)"
+    },
+    {
+      "date": 1585133119,
+      "level": 0,
+      "obj": "App",
+      "msg": "Console: connected"
+    },
+    {
+      "date": 1585133118,
+      "level": 10,
+      "obj": "local_console",
+      "msg": "0.0.0.0: Login"
+    },
+    {
+      "date": 1585133046,
+      "level": 0,
+      "obj": "App",
+      "msg": "Today\u0027s sunrise: 7:30 PM, sunset: 7:50 AM"
+    },
+    {
+      "date": 1585133046,
+      "level": 0,
+      "obj": "App",
+      "msg": "Current schedule: Default"
+    },
+    {
+      "date": 1585133044,
+      "level": 0,
+      "obj": "App",
+      "msg": "Started"
+    }
+  ]
+}

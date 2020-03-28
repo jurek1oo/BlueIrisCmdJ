@@ -29,9 +29,10 @@ public class Cli {
     private boolean _is_cams_list =false;
     private boolean _is_cams_reset_stats =false;
     private boolean _is_clips_list =false;
-    private boolean _is_status_get =false;
+    private boolean _is_logs_list =false;
     private boolean _is_profiles_list =false;
     private boolean _is_schedules_list =false;
+    private boolean _is_status_get =false;
 
 
     private boolean _is_status_set =false;
@@ -48,6 +49,7 @@ public class Cli {
     public boolean is_cams_list() { return _is_cams_list; }
     public boolean is_clips_list() { return _is_clips_list; }
     public boolean is_cams_reset_stats() {   return _is_cams_reset_stats;  }
+    public boolean is_logs_list() { return _is_logs_list; }
     public boolean is_profiles_list() {        return _is_profiles_list;    }
     public boolean is_schedules_list() {        return _is_schedules_list;    }
     public boolean is_status_get() {        return _is_status_get;    }
@@ -76,6 +78,7 @@ public class Cli {
         options.addOption("h", "help", false, "show help.");
         options.addOption("host", "host", true,"Blue Iris host to connect to.");
         options.addOption("j", "json", true, "Json for options: -camconfig-set, --clips-list or -status-set. Check project Github wiki for help.");
+        options.addOption("l", "logs-list", false, "List BI system Logs. Use --json for parameters. .");
         options.addOption("ll", "log-level", true, "Log level: error, info, debug or trace.");
         options.addOption("lf", "log-file", true, "log file name, eg. /temp/BlueIrisCmdJ.log.");
         options.addOption("p", "password", true, "Password to use when connecting.");
@@ -192,6 +195,10 @@ public class Cli {
                 _json = cmd.getOptionValue("j");
                 sb.append("Using cli argument --json=" + _json + "\n");
             }
+            if (cmd.hasOption("l")) {
+                _is_logs_list = true;
+                sb.append("Using cli option --logs-list\n");
+            }
             if (cmd.hasOption("pl")) {
                 _is_profiles_list = true;
                 sb.append("Using cli option --profiles-list\n");
@@ -238,15 +245,17 @@ public class Cli {
             if (cmd.hasOption("ccs")) cnt = cnt +1;
             if (cmd.hasOption("cll")) cnt = cnt +1;
             if (cmd.hasOption("al")) cnt = cnt +1;
+            if (cmd.hasOption("l")) cnt = cnt +1;
             if(cnt > 1){
                 errSb.append("Error: Only one of the options can be used at one time:" +
-                        "--alerts-list or --status-set or --camconfig-set or --clips-list or.");
+                        "--alerts-list or --status-set or --camconfig-set or --clips-list or --logs-lost.");
             }
             if (cmd.hasOption("j")  &&
-                 !(cmd.hasOption("al") || cmd.hasOption("ccs") || cmd.hasOption("sts") || cmd.hasOption("cll"))
+                 !(cmd.hasOption("al") || cmd.hasOption("ccs") || cmd.hasOption("sts") ||
+                         cmd.hasOption("cll")|| cmd.hasOption("l"))
                   ) {
-                errSb.append("Error: -json option needs to be used with --alerts-list or --camconfig-set " +
-                        "or --clips-list --status-set.");
+                errSb.append("Error: -json option only can be used with --alerts-list or --camconfig-set " +
+                        "or --clips-list or --logs-list or --status-set.");
             }
             gob.good = sb.toString();
             gob.bad = errSb.toString();

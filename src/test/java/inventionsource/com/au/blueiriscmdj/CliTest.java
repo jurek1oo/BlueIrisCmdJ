@@ -287,8 +287,8 @@ public class CliTest
 
             Cli.GoodOrBad gob = cli.parse();
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
-            assertTrue("gob.bad Error: -json option needs to be used with --alerts-list",
-                    gob.bad!=null && gob.bad.indexOf("Error: -json option needs to be used with --alerts-list")>=0);
+            assertTrue("gob.bad Error: -json option only can be used with --alerts-list",
+                    gob.bad!=null && gob.bad.indexOf("Error: -json option only can be used with --alerts-list")>=0);
 
         } catch (Exception e) {
             log.error("Exception: " + e);
@@ -428,6 +428,55 @@ public class CliTest
             assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
             assertTrue("has list: ", gob.good.indexOf("clips-list") >= 0);
             assertTrue("is_alerts_list: ", cli.is_clips_list());
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void Logs_ListWithOUTJsonTest() throws Exception {
+        try {
+            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
+                    Constants4Tests.HOST);
+            loginParams.addElement("-l");//logs-list
+            String[] args = loginParams.getArgs();
+
+            Cli cli = new Cli(args);
+
+            Cli.GoodOrBad gob = cli.parse();
+            assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
+            assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
+            assertTrue("has list: ", gob.good.indexOf("logs-list") >= 0);
+            assertTrue("is_alerts_list: ", cli.is_logs_list());
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+    @Test
+    public void Logs_ListWithJsonTest() throws Exception {
+        try {
+            String dateNow = Utils.DateStringNow(-7);
+
+            String json = "{\"startdate\":\"" + dateNow + "\"}";
+
+            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
+                    Constants4Tests.HOST);
+            loginParams.addElement("-l");//logs-list
+            loginParams.addElement("-j");//
+            loginParams.addElement("'" + json+ "'");
+            String[] args = loginParams.getArgs();
+
+            Cli cli = new Cli(args);
+
+            Cli.GoodOrBad gob = cli.parse();
+            assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
+            assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
+            assertTrue("has list: ", gob.good.indexOf("logs-list") >= 0);
+            assertTrue("is_alerts_list: ", cli.is_logs_list());
 
         } catch (Exception e) {
             log.error("Exception: " + e);

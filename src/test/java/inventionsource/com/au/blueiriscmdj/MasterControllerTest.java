@@ -22,7 +22,173 @@ public class MasterControllerTest {
     }
 
     @Test
-    public void setPtzButtonTest() throws Exception
+    public void alerts_listAllCams() throws Exception
+    {
+        try {
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-al");//alerts-list
+            String[] args = loginParams.getArgs();
+            MasterController masterController = new MasterController(args);
+            masterController.Action();
+            assertNotNull("",masterController.getCommandOther() );
+            assertNotNull("",masterController.getBlueLogin().getBlueProfiles());
+
+            BlueProfiles blueProfiles = masterController.getBlueLogin().getBlueProfiles();
+            int expectedProfileInt = blueProfiles.getProfileInt(Constants4Tests.EXPECTED_Profile1);
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void camconfig_get() throws Exception
+    {
+        BlueCamConfig blueCamConfig= null;
+        try {
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-ccg");//camconfig-get
+            loginParams.addElement(Constants4Tests.CAM_NAME1);
+            MasterController masterController = new MasterController(loginParams.getArgs());
+            masterController.Action();
+            blueCamConfig = masterController.getBlueCamConfig();
+
+            assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertTrue("getCamera name: ",  blueCamConfig.getCameraName().contains(Constants4Tests.CAM_NAME1));
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void camconfig_set() throws Exception
+    {
+        BlueCamConfig blueCamConfig= null;
+        try {
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-ccs");//camconfig-set
+            loginParams.addElement(Constants4Tests.CAM_NAME1);
+            loginParams.addElement("-j");//json
+            //
+            loginParams.addElement(
+                    "{\"enable\": 0}");
+
+            MasterController masterController = new MasterController(loginParams.getArgs());
+            masterController.Action();
+            blueCamConfig = masterController.getBlueCamConfig();
+
+            assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertTrue("getCamera name: ",  blueCamConfig.getCameraName().contains(Constants4Tests.CAM_NAME1));
+
+
+            // ------ back to default --------------------------------------
+
+            loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-ccs");//status-set
+            loginParams.addElement(Constants4Tests.CAM_NAME1);
+            loginParams.addElement("-j");//json
+
+            loginParams.addElement(
+                    "{\"enable\": 1}");
+
+            masterController = new MasterController(loginParams.getArgs());
+            masterController.Action();
+            blueCamConfig = masterController.getBlueCamConfig();
+
+            assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertTrue("getCamera name: ",  blueCamConfig.getCameraName().contains(Constants4Tests.CAM_NAME1));
+
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void cams_reset_stats() throws Exception
+    {
+        try {
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-crt");//cams-reset-stats
+            String[] args = loginParams.getArgs();
+            MasterController masterController = new MasterController(args);
+            masterController.Action();
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void cams_list () throws Exception
+    {
+        try {
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-cl");//cams-list
+            String[] args = loginParams.getArgs();
+            MasterController masterController = new MasterController(args);
+            masterController.Action();
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void logs_list() throws Exception
+    {
+        BlueLogs blueLogs= null;
+        try {
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-l");//logs-list
+            MasterController masterController = new MasterController(loginParams.getArgs());
+            masterController.Action();
+            blueLogs = masterController.getBlueLogs();
+
+            assertNotNull("result has blueCamConfig", blueLogs);
+            assertTrue("getCamera name: ",  blueLogs.size()>0);
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void profiles_list () throws Exception
+    {
+        try {
+            LoginParams loginParams  =
+                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
+            loginParams.addElement("-pl");//profiles-list
+            String[] args = loginParams.getArgs();
+            MasterController masterController = new MasterController(args);
+            masterController.Action();
+            assertNotNull("",masterController.getCommandOther() );
+            assertNotNull("",masterController.getBlueLogin().getBlueProfiles());
+
+            BlueProfiles blueProfiles = masterController.getBlueLogin().getBlueProfiles();
+            int expectedProfileInt = blueProfiles.getProfileInt(Constants4Tests.EXPECTED_Profile1);
+
+        } catch (Exception e) {
+            log.error("Exception: " + e);
+            throw e;
+        }
+    }
+
+    @Test
+    public void PtzButtonSetTest() throws Exception
     {
         try {
             LoginParams loginParams  =
@@ -41,45 +207,6 @@ public class MasterControllerTest {
     }
 
     @Test
-    public void triggerCamTest() throws Exception
-    {
-        try {
-            LoginParams loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-t");//trigger cam
-            loginParams.addElement(Constants4Tests.CAM_NAME1);
-            String[] args = loginParams.getArgs();
-            MasterController masterController = new MasterController(args);
-            masterController.Action();
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
-    @Test
-    public void StatusGetTest() throws Exception
-    {
-        try {
-            LoginParams loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-status-get");
-            String[] args = loginParams.getArgs();
-            MasterController masterController = new MasterController(args);
-            masterController.Action();
-            assertNotNull(" assertNotNull getBlueCmdRequest", masterController.getCommandOther());
-
-            assertNotNull("assertNotNull GetStatus", masterController.getLastBlueStatus());
-            assertNotNull("assertNotNull GetStatus().toJsonString",
-                    masterController.getLastBlueStatus());
-            assertTrue("GetStatus().toJsonString().length() ",
-                    masterController.getLastBlueStatus().toString().length()>0);
-
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
-    @Test
     public void schedules_list() throws Exception
     {
         try {
@@ -93,7 +220,7 @@ public class MasterControllerTest {
             assertTrue("result schedules has text", schedules != null);
             assertTrue("is_schedules_list has expected schedule: ",
                     Arrays.toString(schedules.toArray()).indexOf(Constants4Tests.EXPECTED_Schedule1)>=0);
-       } catch (Exception e) {
+        } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;
         }
@@ -218,147 +345,22 @@ public class MasterControllerTest {
             throw e;
         }
     }
+
     @Test
-    public void profiles_list () throws Exception
+    public void triggerCamTest() throws Exception
     {
         try {
             LoginParams loginParams  =
                     new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-pl");//profiles-list
-            String[] args = loginParams.getArgs();
-            MasterController masterController = new MasterController(args);
-            masterController.Action();
-            assertNotNull("",masterController.getCommandOther() );
-            assertNotNull("",masterController.getBlueLogin().getBlueProfiles());
-
-            BlueProfiles blueProfiles = masterController.getBlueLogin().getBlueProfiles();
-            int expectedProfileInt = blueProfiles.getProfileInt(Constants4Tests.EXPECTED_Profile1);
-
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
-
-    @Test
-    public void cams_list () throws Exception
-    {
-        try {
-            LoginParams loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-cl");//cams-list
-            String[] args = loginParams.getArgs();
-            MasterController masterController = new MasterController(args);
-            masterController.Action();
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
-
-    @Test
-    public void cams_reset_stats() throws Exception
-    {
-        try {
-            LoginParams loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-crt");//cams-reset-stats
-            String[] args = loginParams.getArgs();
-            MasterController masterController = new MasterController(args);
-            masterController.Action();
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
-
-    @Test
-    public void alerts_listAllCams() throws Exception
-    {
-        try {
-            LoginParams loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-al");//alerts-list
-            String[] args = loginParams.getArgs();
-            MasterController masterController = new MasterController(args);
-            masterController.Action();
-            assertNotNull("",masterController.getCommandOther() );
-            assertNotNull("",masterController.getBlueLogin().getBlueProfiles());
-
-            BlueProfiles blueProfiles = masterController.getBlueLogin().getBlueProfiles();
-            int expectedProfileInt = blueProfiles.getProfileInt(Constants4Tests.EXPECTED_Profile1);
-
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
-
-    @Test
-    public void camconfig_get() throws Exception
-    {
-        BlueCamConfig blueCamConfig= null;
-        try {
-            LoginParams loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-ccg");//camconfig-get
+            loginParams.addElement("-t");//trigger cam
             loginParams.addElement(Constants4Tests.CAM_NAME1);
-            MasterController masterController = new MasterController(loginParams.getArgs());
+            String[] args = loginParams.getArgs();
+            MasterController masterController = new MasterController(args);
             masterController.Action();
-            blueCamConfig = masterController.getBlueCamConfig();
-
-            assertNotNull("result has blueCamConfig", blueCamConfig);
-            assertTrue("getCamera name: ",  blueCamConfig.getCameraName().contains(Constants4Tests.CAM_NAME1));
-
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;
         }
     }
-    @Test
-    public void camconfig_set() throws Exception
-    {
-        BlueCamConfig blueCamConfig= null;
-        try {
-            LoginParams loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-ccs");//camconfig-set
-            loginParams.addElement(Constants4Tests.CAM_NAME1);
-            loginParams.addElement("-j");//json
-            //
-            loginParams.addElement(
-                    "{\"enable\": 0}");
 
-            MasterController masterController = new MasterController(loginParams.getArgs());
-            masterController.Action();
-            blueCamConfig = masterController.getBlueCamConfig();
-
-            assertNotNull("result has blueCamConfig", blueCamConfig);
-            assertTrue("getCamera name: ",  blueCamConfig.getCameraName().contains(Constants4Tests.CAM_NAME1));
-
-
-            // ------ back to default --------------------------------------
-
-            loginParams  =
-                    new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
-            loginParams.addElement("-ccs");//status-set
-            loginParams.addElement(Constants4Tests.CAM_NAME1);
-            loginParams.addElement("-j");//json
-
-            loginParams.addElement(
-                    "{\"enable\": 1}");
-
-            masterController = new MasterController(loginParams.getArgs());
-            masterController.Action();
-            blueCamConfig = masterController.getBlueCamConfig();
-
-            assertNotNull("result has blueCamConfig", blueCamConfig);
-            assertTrue("getCamera name: ",  blueCamConfig.getCameraName().contains(Constants4Tests.CAM_NAME1));
-
-
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
 }

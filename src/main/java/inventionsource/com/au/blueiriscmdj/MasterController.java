@@ -26,11 +26,12 @@ public class MasterController {
     private CommandCamList _commandCamList = null;
     private CommandClipList _commandClipList = null;
     private CommandCamConfig _commandCamConfig = null;
+    private CommandLogsList _commandLogsList = null;
 
     private BlueStatus _lastBlueStatus = null;
-
-
     private BlueCamConfig _blueCamConfig = null;
+    private BlueLogs _blueLogs = null;
+
 
     public CommandOther getCommandOther() throws Exception { if (_commandOther==null) _commandOther = new CommandOther(_blueLogin);  return _commandOther;  }
     public CommandCamList getCommandCamList() throws Exception { if (_commandCamList==null) _commandCamList = new CommandCamList(_blueLogin);  return _commandCamList;  }
@@ -38,9 +39,11 @@ public class MasterController {
     public CommandAlerts getCommandAlerts() throws Exception { if (_commandAlerts==null) _commandAlerts = new CommandAlerts(_blueLogin);  return _commandAlerts;  }
     public CommandStatus getCommandStatus() throws Exception { if (_commandStatus==null) _commandStatus = new CommandStatus(_blueLogin);  return _commandStatus;  }
     public CommandCamConfig getCommandCamConfig() throws Exception { if (_commandCamConfig==null) _commandCamConfig = new CommandCamConfig(_blueLogin);  return _commandCamConfig;  }
+    public CommandLogsList getCommandLogsList() throws Exception { if (_commandLogsList==null) _commandLogsList = new CommandLogsList(_blueLogin);  return _commandLogsList;  }
 
     public BlueCamConfig getBlueCamConfig() {      return _blueCamConfig;    }
     public BlueStatus getLastBlueStatus() { return _lastBlueStatus; }
+    public BlueLogs getBlueLogs() {        return _blueLogs;    }
 
     public void Action() {
         String session = null;
@@ -122,6 +125,10 @@ public class MasterController {
                     _blueCamConfig = getCommandCamConfig().SetCamConfig(cli.get_camconfig_set(),
                             cli.get_json());
                     log.info("CamConfigSet: " + cli.get_camconfig_set() + "\n" +_blueCamConfig.toStringPretyJson());
+                }
+                if (cli.is_logs_list()) {
+                    foundOneCmd = true;
+                    _blueLogs = getCommandLogsList().GetLogs(cli.get_json());
                 }
                 if (cli.is_status_get()) {
                     foundOneCmd = true;
