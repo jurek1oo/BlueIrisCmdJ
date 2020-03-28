@@ -98,8 +98,7 @@ public class MasterController {
                 if (cli.is_alerts_list() ) {
                     foundOneCmd = true;
                     BlueAlerts alersts = getCommandAlerts().GetAlertsList(
-                            cli.get_alerts_list_4_cam(),
-                            cli.get_alerts_list_date());
+                            cli.get_json());
                     log.info("alerts-list number: " + alersts.size() + "\n" +
                             alersts.toString());
                 }

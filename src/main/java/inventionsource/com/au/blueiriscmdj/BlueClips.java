@@ -65,12 +65,11 @@ public class BlueClips {
 
     public static String setJsonHelp(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Get a list of clips from the New folder. Json elements:");
-        sb.append("  camera:    a camera's short name or a group name; 'index' will return clips from all cameras");
-        sb.append("  startdate: expressed as the integer number of seconds since January 1, 1970");
-        sb.append("  enddate:   expressed as the integer number of seconds since January 1, 1970");
-        sb.append("  tiles:     true or false; true to send only 1 entry per day in order to mark tiles on the calendar");
-        sb.append("The returned data value is an array of JSON objects each describing a camera or a camera group.");
+        sb.append("Get a list of clips from the New folder:");
+        sb.append("  camera:    a camera's short name / a group name; 'index' will give clips from all cameras");
+        sb.append("  startdate: the integer number of seconds since January 1, 1970");
+        sb.append("  enddate:   the integer number of seconds since January 1, 1970");
+        sb.append("  tiles:     true or false. Send only 1 entry per day in order to mark tiles on the calendar");
 
         return sb.toString();
     }

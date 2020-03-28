@@ -10,21 +10,7 @@ import org.apache.logging.log4j.core.Logger;
  * GNU General Public License v2.0, 2020 March Jurek Kurianski
  */
 public class CommandClipList {
-    /*
-    cliplist
-       Get a list of clips from the New folder
-       camera: a camera's short name or a group name; "index" will return clips from all cameras
-       startdate: expressed as the integer number of seconds since January 1, 1970
-       enddate: expressed as the integer number of seconds since January 1, 1970
-       tiles: true or false; true to send only 1 entry per day in order to mark tiles on the calendar
-       The returned data value is an array of JSON objects each describing a camera or a camera group.
-       For each of these objects, the following values are defined:
-           camera: the camera or group name
-           path: the part of the absolute file path that follows the New clips folder path;
-                   if there are no subfolders, this is simply \ and the filename.
-           date: file creation date, expressed as the integer number of seconds since January 1, 1970
-           color: 24-bit RGB value (red least significant) representing the camera's display color
-        */
+
     private static final Logger log = (Logger)LogManager.getLogger(CommandClipList.class);
 
     private BlueLogin _blueLogin = null;
@@ -85,10 +71,6 @@ public class CommandClipList {
     }
 
     public BlueClips GetClips(String camera, long startDate, long endDate, boolean tiles) throws Exception {
-        // camera: a camera's short name or a group name; "index" will return clips from all cameras
-        // startdate: expressed as the integer number of seconds since January 1, 1970
-        // enddate: expressed as the integer number of seconds since January 1, 1970
-        // tiles: true or false
         String msg = "Camera: " + camera + " startDate: " +startDate +
              " endDate: " +endDate + " tiles: " +tiles ;
         log.debug(msg);

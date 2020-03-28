@@ -8,22 +8,7 @@ import org.apache.logging.log4j.core.Logger;
  * GNU General Public License v2.0, 2020 March Jurek Kurianski
  */
 public class CommandCamConfig {
-/*
-camconfig - set json elements:
-    Get (and optionally set) the state of many camera properties:
-        reset:true reset the camera
-        enable:true or false enable or disable the camera
-        pause:n sends a pause command, and returns a value in seconds
-            -1: pause indefinitely
-            0: un-pause
-            1..3: add 30 seconds, 1 minute, 1 hour to the pause time
-        motion:true or false enable or disable the motion detector
-        schedule:true or false enable or disable the camera's custom schedule
-        ptzcycle:true or false enable or disable the preset-cycle feature
-        ptzevents:true or false enable or disable the PTZ event schedule
-        alerts:n sets the corresponding alert function
-        record:n sets the corresponding record function
- */
+
     private static final Logger log = (Logger)LogManager.getLogger(CommandCamConfig.class);
 
     private BlueLogin _blueLogin = null;
@@ -77,29 +62,9 @@ camconfig - set json elements:
             return blueCamConfig;
         } catch (Exception e) {
             log.error("\nError executing: " + cmd  + " : " +  msg +
-                    "  \nGet list of cameras using -cl option.\n" + setJsonHelp(), e);
+                    "  \nGet list of cameras using -cl option.\n" , e);
             throw e;
         }
-    }
-
-    public String setJsonHelp(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("camconfig-set json example:\n'{ \"reset\":0,\"enable\":1,\"pause\":0," +
-                "\"motion\":true,\"schedule\":true,\"ptzcycle\":true," +
-                "\"ptzevents\":true,\"alerts\":0\"record\":2}'\n");
-        sb.append("reset:true reset the camera\n");
-        sb.append("enable:true or false enable or disable the camera\n");
-        sb.append("pause:n sends a pause command, and returns a value in seconds\n");
-        sb.append("   -1: pause indefinitely\n");
-        sb.append("    0: un-pause\n");
-        sb.append(" 1..3: add 30 seconds, 1 minute, 1 hour to the pause time\n");
-        sb.append("motion:true or false enable or disable the motion detector\n");
-        sb.append("schedule:true or false enable or disable the camera's custom schedule\n");
-        sb.append("ptzcycle:true or false enable or disable the preset-cycle feature\n");
-        sb.append("ptzevents:true or false enable or disable the PTZ event schedule\n");
-        sb.append("alerts:n sets the corresponding alert function\n");
-        sb.append("record:n sets the corresponding record function\n");
-        return sb.toString();
     }
 
 }

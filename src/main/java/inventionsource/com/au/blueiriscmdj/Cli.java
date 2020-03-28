@@ -36,8 +36,6 @@ public class Cli {
 
     private boolean _is_status_set =false;
 
-    private String _alerts_list_4_cam = null;
-    private String _alerts_list_date = null;
     private String _camconfig_get =null;
     private String _camconfig_set =null;
     private String _json=null;
@@ -63,18 +61,13 @@ public class Cli {
     public String get_trigger() {       return _trigger;   }
     public String get_ptzcam() {        return _ptzcam;    }
     public int get_ptzbutton() {        return _ptzbutton;    }
-    public String get_alerts_list_4_cam() { return _alerts_list_4_cam;  }
-    public String get_alerts_list_date() { return _alerts_list_date; }
 
     public Cli(String[] args) {
 
         this.args = args;
 
         options.addOption("ad", "alerts-delete", false, "Delete all alerts.");
-        Option option = new Option("al", "alerts-list", true, "List alerts for camera short name, optional.");
-        option.setOptionalArg(true);
-        options.addOption(option);
-        options.addOption("ald", "alerts-list-date", true, "List alerts from date (sql type) yyyy-mm-dd hh:mm e.g. 2020-03-27 23:05");
+        options.addOption("al", "alerts-list", false, "List alerts for camera. Use --json for parameters.");
         options.addOption("ccg", "camconfig-get", true, "Get camera configuration: cam short name.");
         options.addOption("ccs", "camconfig-set", true, "Get camera configuration: cam short name. Use -json.");
         options.addOption("cl", "cams-list", false, "List all avaiable cameras.");
@@ -170,15 +163,7 @@ public class Cli {
             }
             if (cmd.hasOption("al")) {
                 _is_alerts_list = true;
-                _alerts_list_4_cam = cmd.getOptionValue("alerts-list");
-                sb.append("Using cli option --alerts-list cam name: " + _alerts_list_4_cam +"\n");
-            }
-            if (cmd.hasOption("ald")) {
-                _alerts_list_date = cmd.getOptionValue("alerts-list-date");
-                sb.append("Using cli option --alerts-list-date: " +_alerts_list_date + "\n");
-                if (!cmd.hasOption("al")) {
-                    errSb.append("Error: --alerts-list-date has to be used with --alerts-list option, which is not present.");
-                }
+                sb.append("Using cli option --alerts-list \n");
             }
             if (cmd.hasOption("ccg")) {
                 _camconfig_get = cmd.getOptionValue("ccg");
@@ -243,19 +228,25 @@ public class Cli {
                     errSb.append("Error: Both options need to be present -status-set and -json.");
                 }
             }
-            if (cmd.hasOption("sts") && cmd.hasOption("ccs") ||
-                    cmd.hasOption("sts") && cmd.hasOption("cll")||
-                    cmd.hasOption("ccs") && cmd.hasOption("cll")){
-                errSb.append("Error: Only one of the options can be used at one time:" +
-                        " --status-set --camconfig-set --clips-list.");
-            }
-            if (cmd.hasOption("j")  &&
-                    !(cmd.hasOption("ccs") || cmd.hasOption("sts") || cmd.hasOption("cll"))  ){
-                errSb.append("Error: -json option needs to be used with --camconfig-set or --clips-list --status-set.");
-            }
             if (cmd.hasOption("t")) {
                 _trigger = cmd.getOptionValue("t");
                 sb.append("Using cli argument --trigger=" + _trigger + "\n");
+            }
+            // co dependecy tests
+            int cnt = 0;
+            if (cmd.hasOption("sts")) cnt = cnt +1;
+            if (cmd.hasOption("ccs")) cnt = cnt +1;
+            if (cmd.hasOption("cll")) cnt = cnt +1;
+            if (cmd.hasOption("al")) cnt = cnt +1;
+            if(cnt > 1){
+                errSb.append("Error: Only one of the options can be used at one time:" +
+                        "--alerts-list or --status-set or --camconfig-set or --clips-list or.");
+            }
+            if (cmd.hasOption("j")  &&
+                 !(cmd.hasOption("al") || cmd.hasOption("ccs") || cmd.hasOption("sts") || cmd.hasOption("cll"))
+                  ) {
+                errSb.append("Error: -json option needs to be used with --alerts-list or --camconfig-set " +
+                        "or --clips-list --status-set.");
             }
             gob.good = sb.toString();
             gob.bad = errSb.toString();

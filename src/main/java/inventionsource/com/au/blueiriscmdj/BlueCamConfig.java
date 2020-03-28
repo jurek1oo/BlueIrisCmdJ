@@ -90,18 +90,18 @@ public class BlueCamConfig {
         sb.append("camconfig-set json example:\n'{ \"reset\":false,\"enable\":true,\"pause\":0," +
                 "\"motion\":true,\"schedule\":true,\"ptzcycle\":true," +
                 "\"ptzevents\":true,\"alerts\":0\"record\":2}'\n");
-        sb.append("reset:true reset the camera\n");
-        sb.append("enable:true or false enable or disable the camera\n");
+        sb.append("reset:true -reset the camera\n");
+        sb.append("enable:true or false, enable or disable the camera\n");
         sb.append("pause:n sends a pause command, and returns a value in seconds\n");
-        sb.append("   -1: pause indefinitely\n");
-        sb.append("    0: un-pause\n");
-        sb.append(" 1..3: add 30 seconds, 1 minute, 1 hour to the pause time\n");
-        sb.append("motion:true or false enable or disable the motion detector\n");
-        sb.append("schedule:true or false enable or disable the camera's custom schedule\n");
-        sb.append("ptzcycle:true or false enable or disable the preset-cycle feature\n");
-        sb.append("ptzevents:true or false enable or disable the PTZ event schedule\n");
-        sb.append("alerts:n sets the corresponding alert function\n");
-        sb.append("record:n sets the corresponding record function\n");
+        sb.append("   -1:   pause\n");
+        sb.append("    0:   un-pause\n");
+        sb.append(" 1..3:   add 30 seconds  1 minute  1 hour to the pause\n");
+        sb.append("motion:true or false enable / disable the motion detector\n");
+        sb.append("schedule:true or false enable / disable the camera's custom schedule\n");
+        sb.append("ptzcycle:true or false enable / disable the preset-cycle feature\n");
+        sb.append("ptzevents:true or false enable / disable the PTZ event schedule\n");
+        sb.append("alerts:n (get/set) alert function number\n");
+        sb.append("record:n (get/set) record function number\n");
         return sb.toString();
     }
 

@@ -228,7 +228,7 @@ public class CliTest
     }
 
     @Test
-    public void Alerts_ListEmptyCamNameTest() throws Exception {
+    public void Alerts_ListNoJsonTest() throws Exception {
         try {
             LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
                     Constants4Tests.HOST);
@@ -243,8 +243,6 @@ public class CliTest
             assertTrue("has alerts-list: ", gob.good.indexOf("alerts-list") >= 0);
             assertTrue("is_alerts_list: ", cli.is_alerts_list());
 
-            assertNull("alerts_list : ", cli.get_alerts_list_4_cam());
-            assertNull("list_alerts_date()", cli.get_alerts_list_date());
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;
@@ -252,38 +250,14 @@ public class CliTest
     }
 
     @Test
-    public void Alerts_List4CamAndDateTest() throws Exception {
+    public void Alerts_List4CamAndDateWithJsonTest() throws Exception {
         try {
             LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
                     Constants4Tests.HOST);
             loginParams.addElement("-al");//alerts-list 4 cam
             loginParams.addElement(Constants4Tests.CAM_NAME1);
-            loginParams.addElement("-ald");//alerts-list-date
-            loginParams.addElement("2020-03-23 18:00");
-            String[] args = loginParams.getArgs();
-
-            Cli cli = new Cli(args);
-
-            Cli.GoodOrBad gob = cli.parse();
-            assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
-            assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
-            assertTrue("has alerts_list: ", gob.good.indexOf("alerts-list") >= 0);
-            assertTrue("is_alerts_list: ", cli.is_alerts_list());
-            assertTrue("is_alerts_list: ", cli.get_alerts_list_date().contains("2020-03-23 18:00"));
-
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-            throw e;
-        }
-    }
-
-    @Test
-    public void Alerts_List4CamTest() throws Exception {
-        try {
-            LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
-                    Constants4Tests.HOST);
-            loginParams.addElement("-al");//alerts-list 4 cam
-            loginParams.addElement(Constants4Tests.CAM_NAME1);
+            loginParams.addElement("-j");//
+            loginParams.addElement("'{\"camera\":\"" +Constants4Tests.CAM_NAME1+ "\",\"startdate\":\"2020-03-23 18:00\"}'");
             String[] args = loginParams.getArgs();
 
             Cli cli = new Cli(args);
@@ -301,20 +275,20 @@ public class CliTest
     }
 
     @Test
-    public void Alerts_ListDate_ButNoListAlertsTest() throws Exception {
+    public void Alerts_Json_ButNoListAlertsTest() throws Exception {
         try {
             LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
                     Constants4Tests.HOST);
-            loginParams.addElement("-ald");//alerts-list-date
-            loginParams.addElement("2020-03-25");
+            loginParams.addElement("-j");//
+            loginParams.addElement("'{\"camera\":\"" +Constants4Tests.CAM_NAME1+ "\",\"startdate\":\"2020-03-23 18:00\"}'");
             String[] args = loginParams.getArgs();
 
             Cli cli = new Cli(args);
 
             Cli.GoodOrBad gob = cli.parse();
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
-            assertTrue("gob.bad alerts-list-date has to be used with alerts-list option",
-                    gob.bad!=null && gob.bad.indexOf("--alerts-list-date has to be used with --alerts-list option")>=0);
+            assertTrue("gob.bad Error: -json option needs to be used with --alerts-list",
+                    gob.bad!=null && gob.bad.indexOf("Error: -json option needs to be used with --alerts-list")>=0);
 
         } catch (Exception e) {
             log.error("Exception: " + e);
@@ -438,14 +412,13 @@ public class CliTest
     }
 
     @Test
-    public void Clips_List4CamAndDateTest() throws Exception {
+    public void Clips_ListWithJsonTest() throws Exception {
         try {
             LoginParams loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD,
                     Constants4Tests.HOST);
-            loginParams.addElement("-al");//alerts-list 4 cam
-            loginParams.addElement(Constants4Tests.CAM_NAME1);
-            loginParams.addElement("-ald");//alerts-list-date
-            loginParams.addElement("2020-03-23 18:00");
+            loginParams.addElement("-cll");//clips-list
+            loginParams.addElement("-j");//
+            loginParams.addElement("'{\"camera\":\"index\"}'");
             String[] args = loginParams.getArgs();
 
             Cli cli = new Cli(args);
@@ -453,9 +426,8 @@ public class CliTest
             Cli.GoodOrBad gob = cli.parse();
             assertTrue("gob.good has text", gob.good != null && gob.good.length() > 0);
             assertTrue("gob.bad is null or empty", gob.bad==null || gob.bad.length()==0);
-            assertTrue("has alerts_list: ", gob.good.indexOf("alerts-list") >= 0);
-            assertTrue("is_alerts_list: ", cli.is_alerts_list());
-            assertTrue("is_alerts_list: ", cli.get_alerts_list_date().contains("2020-03-23 18:00"));
+            assertTrue("has list: ", gob.good.indexOf("clips-list") >= 0);
+            assertTrue("is_alerts_list: ", cli.is_clips_list());
 
         } catch (Exception e) {
             log.error("Exception: " + e);

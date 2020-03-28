@@ -1,6 +1,8 @@
 package inventionsource.com.au.blueiriscmdj;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -19,19 +21,37 @@ public class CommandAlerts {
         _blueLogin = blueLogin;
     }
 
-    public BlueAlerts GetAlertsList(String camera, String startdate) throws Exception {
-        log.debug("camera: " + camera + " startdate: " + startdate );
+    public BlueAlerts GetAlertsList(String json) throws Exception {
+        String msg= "json: " + json;
+        String camera= "index";
+        long startdateSeconds= 0;
+        String startDateUsedStr= null;
+
+        if(json!=null && json.trim().length()>2) {
+            if (!Utils.isJSONValid(json)) throw new Exception("Error. invalid json");
+            JsonElement jsonElement = (new Gson()).fromJson(json, JsonElement.class);
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            try {
+                camera = jsonObject.get("camera").getAsString();
+            } catch (Exception e) {
+                log.warn("Warn camera not present, used: index");
+            }
+            try {
+                startDateUsedStr = Utils.CorrectDateString(jsonObject.get("startdate").getAsString());
+                startdateSeconds = Utils.GetSecondsFromDateSql(startDateUsedStr);
+            } catch (Exception e) {
+                log.warn("Warn startdate not present or invalid, used: "+ startDateUsedStr);
+            }
+        } else {
+            log.warn("Warn. Empty json, used: camera : " + camera + ", startdate: " + startDateUsedStr);
+        }
+        msg = msg + "Used :camera: "+ camera + " startDate: " + startDateUsedStr;
+        log.info("Used :camera: "+ camera + " startDate: " + startDateUsedStr );
+
         // return json data element with all alerts details
         // for camera short name or index, 4 all and start date/time
-        if(camera==null || camera.length()==0) camera = "index";
-        if(startdate==null || startdate.length()==0) startdate = "1970-01-02";
-        String startdateUsed = Utils.CorrectDateString(startdate);
-        if (startdate.compareTo(startdateUsed)!=0){
-            log.info("camera: " + camera + " startdate in: "+ startdate + " used: " + startdateUsed);
-        }
-        long secondsStartDateUsed =  Utils.GetSecondsFromDateSql(startdateUsed);
         String cmd = "alertlist";
-        String cmdParams = ",\"camera\":\"" + camera + "\",\"startdate\":" + secondsStartDateUsed;
+        String cmdParams = ",\"camera\":\"" + camera + "\",\"startdate\":" + startdateSeconds;
         JsonElement jsonDataElement = null;
         try {
             boolean hasToBeSuccess = true;
@@ -43,8 +63,7 @@ public class CommandAlerts {
             log.debug("Alerts: " + alerts.toString());
             return alerts;
         } catch (Exception e) {
-            log.error("Error executing command: " + cmd + " dateStart: " + startdate +
-        " startdateUsed: " +startdateUsed + " for BlueIris\n", e);
+            log.error("Error executing command: " + cmd + " msg: " +msg + "\n", e);
             throw e;
         }
     }

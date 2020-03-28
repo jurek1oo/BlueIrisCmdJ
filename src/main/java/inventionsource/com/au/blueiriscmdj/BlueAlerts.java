@@ -91,7 +91,8 @@ public class BlueAlerts {
         public int getOffset() { return _offset; }
         public int getFlags() { return _flags; }
         public String getRes() { return _res;}
-        public int getZones() { return _zones; }
+        public int getZones() { return _zones; };
+
         public long getDateInSeconds() { return _dateInSeconds; }
         public LocalDateTime getLocalDate() { return _localDate;   }
         public int getColor() { return _color; }

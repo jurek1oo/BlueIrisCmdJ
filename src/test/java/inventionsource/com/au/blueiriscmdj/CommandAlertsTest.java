@@ -36,9 +36,9 @@ public class CommandAlertsTest
             // 1584542728 - 2020-03-18T21:45:28
             // 1584542375 - 2020-03-18T21:39:35
             // 1584542112 - 2020-03-18T21:35:12
-            boolean reset = false;
-
-            BlueAlerts alerts = commandAlerts.GetAlertsList(camera, dateStart);
+            String json = "{\"camera\":\"" + camera + "\"," +
+                    "\"startdate\":\"1970-01-02\"}";
+            BlueAlerts alerts = commandAlerts.GetAlertsList(json);
             log.debug(alerts.toString());
             assertNotNull( "Not null alerts " ,alerts );
             blueLogin.BlueIrisLogout();
@@ -63,9 +63,10 @@ public class CommandAlertsTest
             // 1584542728 - 2020-03-18T21:45:28
             // 1584542375 - 2020-03-18T21:39:35
             // 1584542112 - 2020-03-18T21:35:12
-            boolean reset = false;
+            String json = "{\"camera\":\"" + camera + "\"," +
+                    "\"startdate\":\"" + dateStart + "\"}";
 
-            BlueAlerts alerts = commandAlerts.GetAlertsList(camera, dateStart);
+            BlueAlerts alerts = commandAlerts.GetAlertsList(json);
             log.debug(alerts.toString());
             assertNotNull( "Not null alerts " ,alerts );
             blueLogin.BlueIrisLogout();

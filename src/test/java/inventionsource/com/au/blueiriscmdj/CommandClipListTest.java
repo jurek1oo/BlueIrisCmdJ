@@ -33,7 +33,7 @@ public class CommandClipListTest
             assertNotNull( "Not null " , blueLogin.getSession() );
             CommandClipList commandClipList = new CommandClipList(blueLogin);
             BlueClips blueClips = commandClipList.GetClips(
-                    Constants4Tests.CAM_NAME1,0,
+                    Constants4Tests.CAM_NAME2,0,
                     Utils.GetSecondsFromDateSql(dateNow),false);
             assertNotNull( "Not null blueClipList " , blueClips);
             assertTrue( "blueClips.size()>0" ,blueClips.size()>0 );
@@ -87,7 +87,7 @@ public class CommandClipListTest
             String dateStr = Utils.DateStringNow();
             Thread.sleep(1000);
 
-            String json = "{\"camera\":\"" + Constants4Tests.CAM_NAME1 + "\"," +
+            String json = "{\"camera\":\"" + Constants4Tests.CAM_NAME2 + "\"," +
                         "\"startdate\":\"1970-01-02\",\"enddate\":\"" + dateStr+  "\",\"tiles\":false}";
             BlueLogin blueLogin = new BlueLogin();
             blueLogin.BlueIrisLogin(_loginParams);
@@ -107,7 +107,7 @@ public class CommandClipListTest
     public void GetClipsByJsonJustCamera() throws Exception {
         try {
             Thread.sleep(1000);
-            String json = "{\"camera\":\"" + Constants4Tests.CAM_NAME1 + "\"}";
+            String json = "{\"camera\":\"" + Constants4Tests.CAM_NAME2 + "\"}";
             BlueLogin blueLogin = new BlueLogin();
             blueLogin.BlueIrisLogin(_loginParams);
             assertNotNull( "Not null " , blueLogin.getSession() );

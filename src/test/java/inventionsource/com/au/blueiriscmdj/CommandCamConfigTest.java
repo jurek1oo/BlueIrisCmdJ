@@ -32,8 +32,6 @@ public class CommandCamConfigTest
             CommandCamConfig commandCamConfig = new CommandCamConfig(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
 
-            log.info(commandCamConfig.setJsonHelp());
-
             blueLogin.BlueIrisLogout();
         } catch (Exception e) {
             log.error("Error: " + e);
