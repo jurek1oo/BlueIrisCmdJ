@@ -4,7 +4,6 @@
 *.ipr
 .idea/
 target/
-Constants4Tests.*
 *.log
 *.log.*
-
+*.jar
