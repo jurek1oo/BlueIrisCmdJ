@@ -13,7 +13,6 @@ public class BlueCamConfig {
 
     private JsonObject _jsonObject = null;
 
-
     private String _camera = null;
     private int _profile = -1;
     private int _pause = -1;
@@ -62,10 +61,6 @@ public class BlueCamConfig {
             _camera = camera;
 
             _jsonObject = _dataJson.getAsJsonObject();
-//{"profile":0,"lock":0,"pause":0,"push":false,"audio":true,"motion":true,"schedule":false,
-// "ptzcycle":false,"ptzevents":false,"alerts":0,"output":false,"setmotion":
-// {"audio_trigger":false,"audio_sense":10000,"usemask":true,"sense":10480,"contrast":40,"showmotion":2,"shadows":true,"luminance":false,"objects":true,"maketime":10,"breaktime":100},
-// "record":2}
 
             _pause = _jsonObject.get("pause").getAsInt();
             _motion = _jsonObject.get("motion").getAsBoolean();;
@@ -87,19 +82,19 @@ public class BlueCamConfig {
 
     public String setJsonHelp(){
         StringBuilder sb = new StringBuilder();
-        sb.append("camconfig-set json example:\n'{ \"reset\":false,\"enable\":true,\"pause\":0," +
+        sb.append("camconfig-set json e.g.:\n'{ \"reset\":false,\"enable\":true,\"pause\":0," +
                 "\"motion\":true,\"schedule\":true,\"ptzcycle\":true," +
                 "\"ptzevents\":true,\"alerts\":0\"record\":2}'\n");
         sb.append("reset:true -reset the camera\n");
         sb.append("enable:true or false, enable or disable the camera\n");
-        sb.append("pause:n sends a pause command, and returns a value in seconds\n");
-        sb.append("   -1:   pause\n");
-        sb.append("    0:   un-pause\n");
-        sb.append(" 1..3:   add 30 seconds  1 minute  1 hour to the pause\n");
-        sb.append("motion:true or false enable / disable the motion detector\n");
-        sb.append("schedule:true or false enable / disable the camera's custom schedule\n");
-        sb.append("ptzcycle:true or false enable / disable the preset-cycle feature\n");
-        sb.append("ptzevents:true or false enable / disable the PTZ event schedule\n");
+        sb.append("pause:n pause for n seconds\n");
+        sb.append("-1:   pause permanrntly.\n");
+        sb.append(" 0:   un-pause\n");
+        sb.append(" 1..3:   extra 30 seconds  1 minute  1 hour to pause\n");
+        sb.append("motion: true/false enable/disable the motion detector\n");
+        sb.append("schedule: true/false enable/disable the camera's custom schedule\n");
+        sb.append("ptzcycle: true/false enable/disable the preset-cycle feature\n");
+        sb.append("ptzevents: true/false enable/disable the PTZ event schedule\n");
         sb.append("alerts:n (get/set) alert function number\n");
         sb.append("record:n (get/set) record function number\n");
         return sb.toString();

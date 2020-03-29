@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class BlueLogs {
@@ -26,15 +25,17 @@ public class BlueLogs {
         StringBuilder sb = new StringBuilder();
         sb.append("[ ");
         int size = _blueLogs.size();
-        for (int i = 0 ; i < size; i++)
-        {
-            BlueLog blueLog = get(i);
-            if (i== size-1) {
-                sb.append(blueLog.toString() + " ]\n");
-            } else {
-                sb.append(blueLog.toString() + ",\n");
+        if (size()>0) {
+            for (int i = 0; i < size; i++) {
+                BlueLog blueLog = get(i);
+                if (i == size - 1) {
+                    sb.append(blueLog.toString() + "\n");
+                } else {
+                    sb.append(blueLog.toString() + ",\n");
+                }
             }
         }
+        sb.append( " ]\n");
         return sb.toString();
     }
 
@@ -67,12 +68,12 @@ public class BlueLogs {
             private int _level = -1;
             private String _objname = null;
             private int _date = -1;
-            private LocalDateTime _localdatetime = null;
+            private String _localdatetime = null;
             private String _count = null;
             private String _msg = null;
 
             public int getDate() {        return _date;    }
-            public LocalDateTime getLocalDateTime() {        return _localdatetime;    }
+            public String getLocalDateTime() {        return _localdatetime;    }
             public int getLevel() {        return _level;    }
             public String getObjName() {        return _objname;    }
             public String getCount() {        return _count;    }
@@ -82,7 +83,7 @@ public class BlueLogs {
                 _jsonObject = jsonObject;
                 _date = _jsonObject.get("date").getAsInt();
 
-                _localdatetime = Utils.GetLocalDateTimeFromSeconds(_date);
+                _localdatetime = Utils.GetLocalDateTimeStrFromSeconds(_date);
                 if (_jsonObject.has("count")){
                     _count = _jsonObject.get("count").getAsString();
                 }
@@ -94,12 +95,12 @@ public class BlueLogs {
             public String toString() {
                 StringBuilder sb = new StringBuilder();
                 sb.append("{\n");
-                sb.append("\"date\":" + _date + "\n");
-                sb.append("\"localdatetime\":" + _localdatetime + "\n");
-                if(_count!=null) sb.append("\"count\":\"" + _count + "\"\n");
-                sb.append("\"level\":\"" + _level + "\"\n");
-                sb.append("\"obj\":\"" + _objname + "\"\n");
-                sb.append("\"msg\":\"" + _msg + "\"\n");
+                sb.append("\"date\": " + _date + "\n");
+                sb.append("\"localDateTime\": " + _localdatetime + "\n");
+                if(_count!=null) sb.append("\"count\": \"" + _count + "\"\n");
+                sb.append("\"level\": \"" + _level + "\"\n");
+                sb.append("\"obj\": \"" + _objname + "\"\n");
+                sb.append("\"msg\": \"" + _msg + "\"\n");
                 sb.append("}\n");
                 return sb.toString();
             }

@@ -15,6 +15,8 @@ public class CommandClipList {
 
     private BlueLogin _blueLogin = null;
     public BlueLogin getBlueLogin() { return _blueLogin; }
+    private String _problemMsg = null;
+    public String getProblemMsg() {        return _problemMsg;    }
 
     public CommandClipList(BlueLogin blueLogin) throws Exception {
         _blueLogin = blueLogin;
@@ -83,10 +85,15 @@ public class CommandClipList {
             CommandCoreRequest commandCoreRequest = new CommandCoreRequest(_blueLogin);
 
             JsonElement jsonDataElement = commandCoreRequest.RunTheCmd(cmd, cmdParams,hasToBeSuccess,getDataElement);
+            if(commandCoreRequest.getProblemMsg()== null){
+                BlueClips blueClips = new BlueClips(jsonDataElement, startDate, endDate ) ;
+                log.debug("blueClipList: " + blueClips.toString());
+                return blueClips;
+            } else {
+                _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
+                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                return null;            }
 
-            BlueClips blueClips = new BlueClips(jsonDataElement, startDate, endDate ) ;
-            log.debug("blueClipList: " + blueClips.toString());
-            return blueClips;
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n" + "\n\n", e);
             throw e;

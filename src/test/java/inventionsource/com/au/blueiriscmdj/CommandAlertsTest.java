@@ -5,6 +5,7 @@ import org.apache.logging.log4j.core.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertNotNull;
 
 /*
@@ -39,6 +40,7 @@ public class CommandAlertsTest
             String json = "{\"camera\":\"" + camera + "\"," +
                     "\"startdate\":\"1970-01-02\"}";
             BlueAlerts alerts = commandAlerts.GetAlertsList(json);
+            assertNull( "Not null getProblemMsg " ,commandAlerts.getProblemMsg() );
             log.debug(alerts.toString());
             assertNotNull( "Not null alerts " ,alerts );
             blueLogin.BlueIrisLogout();
@@ -67,6 +69,8 @@ public class CommandAlertsTest
                     "\"startdate\":\"" + dateStart + "\"}";
 
             BlueAlerts alerts = commandAlerts.GetAlertsList(json);
+            assertNull( "Not null getProblemMsg " ,commandAlerts.getProblemMsg() );
+
             log.debug(alerts.toString());
             assertNotNull( "Not null alerts " ,alerts );
             blueLogin.BlueIrisLogout();
@@ -80,10 +84,12 @@ public class CommandAlertsTest
         try {
             BlueLogin blueLogin = new BlueLogin();
             blueLogin.BlueIrisLogin(_loginParams);
-            CommandAlerts commandAlerts = new CommandAlerts(blueLogin);
             assertNotNull( "Not null " , blueLogin.getSession() );
+            CommandAlerts commandAlerts = new CommandAlerts(blueLogin);
 
             commandAlerts.AlertsDelete();
+            assertNull( "Not null getProblemMsg " ,commandAlerts.getProblemMsg() );
+
             blueLogin.BlueIrisLogout();
         } catch (Exception e) {
             log.error("Error: " + e);

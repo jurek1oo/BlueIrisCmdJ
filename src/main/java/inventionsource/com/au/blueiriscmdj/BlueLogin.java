@@ -1,6 +1,7 @@
 package inventionsource.com.au.blueiriscmdj;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -51,11 +52,14 @@ public class BlueLogin {
             }
             String result = _requestHttp.PostRequest(
                     _url, Utils.MakeCmdJson(cmd,_session,_md5HexResponse));
-            JsonEater.GetResultElement(result, hasToBeSuccess);
+            if (JsonEater.CheckResultSuccess(result, hasToBeSuccess)) {
+                _session=null;
+                _md5HexResponse=null;
+                log.debug("BlueIrisLogout - OK" );
+            } else {
+                throw new Exception("Error response result has failed.");
+            }
 
-            _session=null;
-            _md5HexResponse=null;
-             log.debug("BlueIrisLogout - OK" );
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n", e);
             throw e;
@@ -72,14 +76,15 @@ public class BlueLogin {
         _url = Utils.MakeUrl(loginParams.getHost());
 
         String cmd = "login";
-        boolean hasToBeSuccess =  false;
         String result = null;
         String status = null;
         String jsonData = "{\"cmd\":\"" + cmd + "\"}";
         try {
+            boolean hasToBeSuccess =  false;
             result = _requestHttp.PostRequest(_url, jsonData);
 
-            JsonObject jsonObject = JsonEater.GetResultElement(result, hasToBeSuccess);
+            Gson gson = new GsonBuilder().create();
+            JsonObject jsonObject = (gson.fromJson (result, JsonElement.class)).getAsJsonObject();
             _session = jsonObject.get("session").getAsString();
             if (_session == null) {
                 throw new Exception("_session = null - cant login");
@@ -95,7 +100,10 @@ public class BlueLogin {
             result = _requestHttp.PostRequest(_url, jsonData);
 
             hasToBeSuccess = true;
-            final JsonElement dataElement = JsonEater.GetDataElement(result, hasToBeSuccess);
+            if (!JsonEater.CheckResultSuccess(result, hasToBeSuccess)) {
+                throw new Exception("Error 2nd call response result has failed.");
+            }
+            final JsonElement dataElement = (new JsonEater()).GetDataElement(result);
 
             _systemName = dataElement.getAsJsonObject().get("system name").getAsString();
             status = "BlueIris json API login OK, systemName: " + _systemName + " user: " +

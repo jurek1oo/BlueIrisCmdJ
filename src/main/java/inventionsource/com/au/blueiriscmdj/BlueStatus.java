@@ -40,29 +40,41 @@ public class BlueStatus {
     public String getSignal() {        return _signal;    }
     public int getSignalInt() {  return _signalInt; }
 
-
     public BlueStatus(JsonElement dataElement) throws Exception {
-        if (dataElement == null) throw new Exception("null dataElement");
         this._dataElement = dataElement;
-        _activeSchedule = dataElement.getAsJsonObject().get("schedule").getAsString();
+        if (dataElement != null) {
+            _activeSchedule = dataElement.getAsJsonObject().get("schedule").getAsString();
 
-        _signalInt = dataElement.getAsJsonObject().get("signal").getAsInt();
-        _signal = (new BlueSignals()).getSignal(_signalInt);
-        _activeProfileInt = dataElement.getAsJsonObject().get("profile").getAsInt();
+            _signalInt = dataElement.getAsJsonObject().get("signal").getAsInt();
+            _signal = (new BlueSignals()).getSignal(_signalInt);
+            _activeProfileInt = dataElement.getAsJsonObject().get("profile").getAsInt();
 
-        _cxns = dataElement.getAsJsonObject().get("cxns").getAsInt();
-        _cpu = dataElement.getAsJsonObject().get("cpu").getAsInt();
-        _lock = dataElement.getAsJsonObject().get("lock").getAsInt();
-        _warnings = dataElement.getAsJsonObject().get("warnings").getAsInt();
-        _alerts = dataElement.getAsJsonObject().get("alerts").getAsInt();
-        _tzone = dataElement.getAsJsonObject().get("tzone").getAsInt();
-        _signalInt = dataElement.getAsJsonObject().get("signal").getAsInt();
+            _cxns = dataElement.getAsJsonObject().get("cxns").getAsInt();
+            _cpu = dataElement.getAsJsonObject().get("cpu").getAsInt();
+            _lock = dataElement.getAsJsonObject().get("lock").getAsInt();
+            _warnings = dataElement.getAsJsonObject().get("warnings").getAsInt();
+            _alerts = dataElement.getAsJsonObject().get("alerts").getAsInt();
+            _tzone = dataElement.getAsJsonObject().get("tzone").getAsInt();
+            _signalInt = dataElement.getAsJsonObject().get("signal").getAsInt();
 
-        _mem = dataElement.getAsJsonObject().get("mem").getAsString();
-        _memfree = dataElement.getAsJsonObject().get("memfree").getAsString();
-        _memload = dataElement.getAsJsonObject().get("memload").getAsString();
-        _uptime = dataElement.getAsJsonObject().get("uptime").getAsString();
-        _clips = dataElement.getAsJsonObject().get("clips").getAsString();
+            _mem = dataElement.getAsJsonObject().get("mem").getAsString();
+            _memfree = dataElement.getAsJsonObject().get("memfree").getAsString();
+            _memload = dataElement.getAsJsonObject().get("memload").getAsString();
+            _uptime = dataElement.getAsJsonObject().get("uptime").getAsString();
+            _clips = dataElement.getAsJsonObject().get("clips").getAsString();
+        }
+    }
+
+    public static String toStringJsonHelp() {
+        //{"signal":1,"profile":1,"schedule":"Default"}
+        StringBuilder sb = new StringBuilder();
+        sb.append("E.g.:\n");
+        sb.append("{\n");
+        sb.append("  \"signal\":1\n");
+        sb.append("  \"profile\":1\n");
+        sb.append("  \"schedule\":\"Default\"\n");
+        sb.append("}\n");
+        return sb.toString();
     }
 
     public String toString() {

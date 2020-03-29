@@ -29,7 +29,12 @@ public class JsonEaterTest
     public void GetResultElementTest() throws Exception {
         String expectedsession ="5b29593655f0117b5e36214f072b3e9f";
         try {
-            JsonObject jsonObject = JsonEater.GetResultElement(_jsonResultStr,true);
+            boolean hasToBeSuccess= true;
+            assertTrue("CheckResultSuccess ",
+                    JsonEater.CheckResultSuccess(_jsonResultStr,hasToBeSuccess));
+
+            JsonObject jsonObject = JsonEater.GetJsonObject(_jsonResultStr);
+
             assertNotNull("assertNotNull jsonObject ", jsonObject);
             String session = jsonObject.get("session").getAsString();
             assertNotNull("assertNotNull session ", session);
@@ -42,7 +47,11 @@ public class JsonEaterTest
     @Test
     public void GetDataElementTest()  throws Exception {
         try {
-            JsonElement dataElement = JsonEater.GetDataElement(_jsonResultStr,true);
+            boolean hasToBeSuccess= true;
+            assertTrue("CheckResultSuccess ",
+                    JsonEater.CheckResultSuccess(_jsonResultStr,hasToBeSuccess));
+
+            JsonElement dataElement = (new JsonEater()).GetDataElement(_jsonResultStr);
             assertNotNull("assertNotNull jsonElement ", dataElement);
             boolean audio = dataElement.getAsJsonObject().get("audio").getAsBoolean();
             assertNotNull("assertNotNull session ", audio);

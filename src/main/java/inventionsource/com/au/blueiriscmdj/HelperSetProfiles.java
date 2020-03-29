@@ -11,8 +11,6 @@ public class HelperSetProfiles {
     private static final Logger log = (Logger) LogManager.getLogger(HelperSetProfiles.class);
 
     private LoginParams _loginParams = null;
-    private BlueLogin _blueLogin = null;
-    private CommandStatus _commandStatus = null;
 
     public HelperSetProfiles(LoginParams loginParams) {
         _loginParams =  loginParams;
@@ -20,41 +18,46 @@ public class HelperSetProfiles {
 
     public void SetActiveProfile(int profileInt) throws Exception
     {
-        Login();
+        BlueLogin blueLogin = null;
         try {
-            BlueStatus blueStatus = _commandStatus.SetProfile(profileInt);
-            if( blueStatus.getActiveProfileInt()!=profileInt){
+            blueLogin = new BlueLogin();
+            blueLogin.BlueIrisLogin(_loginParams);
+            CommandStatus commandStatus = new CommandStatus(blueLogin);
+            log.debug("Login to BI OK");
+            BlueStatus blueStatus = commandStatus.SetProfile(profileInt);
+            if( blueStatus.getActiveProfileInt()!=profileInt ||
+                    commandStatus.getProblemMsg() != null){
                 throw new Exception("Error. profileInt: " + profileInt + " not set: " +
-                        blueStatus.toString()) ;
+                        blueStatus.toString() + " : " + commandStatus.getProblemMsg()) ;
             }
             log.info("Profile: " + profileInt + " set OK");
         } catch (Exception e) {
             throw e;
         } finally {
-            _blueLogin.BlueIrisLogout();
+            blueLogin.BlueIrisLogout();
         }
     }
 
     public int GetActiveProfile() throws Exception
     {
         BlueStatus blueStatus = null;
+        BlueLogin blueLogin = null;
         try {
-            Login();
-            blueStatus = _commandStatus.GetStatus();
+            blueLogin = new BlueLogin();
+            blueLogin.BlueIrisLogin(_loginParams);
+            CommandStatus commandStatus = new CommandStatus(blueLogin);
+            log.debug("Login to BI OK");
+            blueStatus = commandStatus.GetStatus();
+            if( commandStatus.getProblemMsg() != null) {
+                throw new Exception("Error. profile get: " + commandStatus.getProblemMsg());
+            }
             return blueStatus.getActiveProfileInt();
         } catch (Exception e) {
             log.error("Error getting profile. ",e);
             throw e;
         } finally {
-            _blueLogin.BlueIrisLogout();
+            blueLogin.BlueIrisLogout();
         }
     }
 
-    public void Login() throws Exception
-    {
-            _blueLogin = new BlueLogin();
-            _blueLogin.BlueIrisLogin(_loginParams);
-            _commandStatus = new CommandStatus(_blueLogin);
-            log.debug("Login to BI OK");
-    }
 }

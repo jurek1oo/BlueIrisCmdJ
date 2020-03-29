@@ -14,10 +14,9 @@ public class CommandStatus {
     private BlueLogin _blueLogin = null;
     private boolean _resultHasToBeSuccess = false ;
     private boolean _getDataElemet =  true;
-
-    public CommandStatus(BlueLogin blueLogin) throws Exception {
-        _blueLogin = blueLogin;
-    }
+    public CommandStatus(BlueLogin blueLogin) throws Exception { _blueLogin = blueLogin;  }
+    private String _problemMsg = null;
+    public String getProblemMsg() {        return _problemMsg;    }
 
     public BlueStatus GetStatus() throws Exception {
         log.debug("status-get");
@@ -27,10 +26,15 @@ public class CommandStatus {
         try {
             CommandCoreRequest commandCoreRequest = new CommandCoreRequest(_blueLogin);
             JsonElement jsonElement = commandCoreRequest.RunTheCmd(cmd, cmdParams, _resultHasToBeSuccess, _getDataElemet);
-
-            blueStatus = new BlueStatus(jsonElement);
-            log.debug("get-status: \n" + blueStatus.toString());
-            return blueStatus;
+            if(commandCoreRequest.getProblemMsg()== null){
+                blueStatus = new BlueStatus(jsonElement);
+                log.debug("get-status: \n" + blueStatus.toString());
+                return blueStatus;
+            } else {
+                _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
+                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                return null;
+            }
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n", e);
             throw e;
@@ -53,8 +57,14 @@ public class CommandStatus {
         try {
             CommandCoreRequest commandCoreRequest = new CommandCoreRequest(_blueLogin);
             JsonElement jsonElement = commandCoreRequest.RunTheCmd(cmd, cmdParams, _resultHasToBeSuccess, _getDataElemet);
-            blueStatus = new BlueStatus(jsonElement);
-            return blueStatus;
+            if(commandCoreRequest.getProblemMsg()== null){
+                blueStatus = new BlueStatus(jsonElement);
+                return blueStatus;
+            } else {
+                _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
+                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                return null;
+            }
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " json: " +
                     json + " after changes blueStatus: " + blueStatus.toString() +

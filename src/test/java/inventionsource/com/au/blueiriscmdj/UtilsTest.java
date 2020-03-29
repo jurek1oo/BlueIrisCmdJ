@@ -5,8 +5,6 @@ import org.apache.logging.log4j.core.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDateTime;
-
 import static org.junit.Assert.*;
 
 public class UtilsTest
@@ -40,13 +38,13 @@ public class UtilsTest
 
     @Test
     public void GetDateFromsecondsTest() {
-        LocalDateTime date = null;
+        String date = null;
         long dateinseconds = 1585325160; //"2020-03-27 23:06:00";
         try {
-            date = Utils.GetLocalDateTimeFromSeconds(dateinseconds);
+            date = Utils.GetLocalDateTimeStrFromSeconds(dateinseconds);
 
-            assertTrue("date.compareT6o ",
-                  date.isEqual(LocalDateTime.parse("2020-03-27T23:06:00.000")));
+            assertTrue("date.contains ",
+                  date.contains("2020-03-27 23:06:00"));
         } catch (Exception e) {
             log.error("Error: " + e);
             throw e;

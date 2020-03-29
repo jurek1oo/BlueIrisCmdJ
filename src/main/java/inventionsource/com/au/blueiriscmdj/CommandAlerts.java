@@ -14,8 +14,9 @@ public class CommandAlerts {
     private static final Logger log = (Logger)LogManager.getLogger(CommandAlerts.class);
 
     private BlueLogin _blueLogin = null;
-
     public BlueLogin getBlueLogin() { return _blueLogin; }
+    private String _problemMsg = null;
+    public String getProblemMsg() {        return _problemMsg;    }
 
     public CommandAlerts(BlueLogin blueLogin) throws Exception {
         _blueLogin = blueLogin;
@@ -34,7 +35,7 @@ public class CommandAlerts {
             try {
                 camera = jsonObject.get("camera").getAsString();
             } catch (Exception e) {
-                log.warn("Warn camera not present, used: index");
+                log.warn("Warn. camera not present, used: index");
             }
             try {
                 startDateUsedStr = Utils.CorrectDateString(jsonObject.get("startdate").getAsString());
@@ -53,15 +54,22 @@ public class CommandAlerts {
         String cmd = "alertlist";
         String cmdParams = ",\"camera\":\"" + camera + "\",\"startdate\":" + startdateSeconds;
         JsonElement jsonDataElement = null;
+        CommandCoreRequest commandCoreRequest = null;
         try {
             boolean hasToBeSuccess = true;
             boolean getDataElement = true;
-            CommandCoreRequest commandCoreRequest = new CommandCoreRequest(_blueLogin);
+            commandCoreRequest = new CommandCoreRequest(_blueLogin);
             jsonDataElement = commandCoreRequest.RunTheCmd(cmd, cmdParams,hasToBeSuccess,getDataElement);
 
-            BlueAlerts alerts = new BlueAlerts(jsonDataElement);
-            log.debug("Alerts: " + alerts.toString());
-            return alerts;
+            if(commandCoreRequest.getProblemMsg()== null){
+                BlueAlerts alerts = new BlueAlerts(jsonDataElement);
+                log.debug("Alerts: " + alerts.toString());
+                return alerts;
+            } else {
+                _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
+                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                return null;
+            }
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " msg: " +msg + "\n", e);
             throw e;
@@ -77,6 +85,10 @@ public class CommandAlerts {
             boolean getDataElement = false;
             CommandCoreRequest commandCoreRequest = new CommandCoreRequest(_blueLogin);
             commandCoreRequest.RunTheCmd(cmd, cmdParams,hasToBeSuccess,getDataElement);
+            if(commandCoreRequest.getProblemMsg()!= null){
+                _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
+                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+            }
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n", e);
             throw e;

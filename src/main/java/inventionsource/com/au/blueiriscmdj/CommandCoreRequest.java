@@ -12,6 +12,8 @@ public class CommandCoreRequest {
     private RequestHttp _requestHttp = new RequestHttp();
     private BlueLogin _blueLogin = null;
 
+    private String _problemMsg = null;
+    public String getProblemMsg() {        return _problemMsg;    }
 
     public CommandCoreRequest(BlueLogin blueLogin) throws Exception {
         _blueLogin = blueLogin;
@@ -23,6 +25,7 @@ public class CommandCoreRequest {
     public JsonElement RunTheCmd(String cmd, String cmdParams, boolean resultHasToBeSuccess, boolean getDataElemet) throws Exception {
         // cmdParams = ",\"signal\":" + signalInt
         // cmdParams = ',"signal": 1' --> add to jsondata before }
+        // check getProblemMsg() before using returned JsonElement dataElement.
         log.debug("cmd: " + cmd + " cmdParams: " + cmdParams + " resultHasToBeSuccess: " + resultHasToBeSuccess +
                 " getDataElemet: " + getDataElemet);
 
@@ -40,15 +43,20 @@ public class CommandCoreRequest {
             log.debug("Cmd url: " + _blueLogin.getUrl() + " jsondata: " + jsonData );
             result = _requestHttp.PostRequest(_blueLogin.getUrl(), jsonData);
 
-            if(getDataElemet) {
-                dataElement = (new JsonEater()).GetDataElement(result,resultHasToBeSuccess);
-            } else {
-               (new JsonEater()).GetResultElement(result,resultHasToBeSuccess);
+            if( !JsonEater.CheckResultSuccess(result,resultHasToBeSuccess)){
+                _problemMsg = "Error BI System respose returned failure for cmd: " +cmd;
+            }
+
+            if(_problemMsg == null && getDataElemet) {
+                dataElement = (new JsonEater()).GetDataElement(result);
             }
             log.debug("got dataElement: " + dataElement );
             return dataElement;
         } catch (Exception e) {
-            log.error("Error executing command: " + cmd + " cmdParams: " + cmdParams +"\n", e);
+            log.error("Error executing command: " + cmd + " cmdParams: " + cmdParams +
+                    " resultHasToBeSuccess: " + resultHasToBeSuccess +
+                    " getDataElemet: " + getDataElemet +
+                    "\n", e);
             throw e;
         }
     }

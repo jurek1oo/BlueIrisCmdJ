@@ -15,6 +15,8 @@ public class CommandLogsList {
 
     private BlueLogin _blueLogin = null;
     public BlueLogin getBlueLogin() { return _blueLogin; }
+    private String _problemMsg = null;
+    public String getProblemMsg() {        return _problemMsg;    }
 
     public CommandLogsList(BlueLogin blueLogin) throws Exception {
         _blueLogin = blueLogin;
@@ -46,11 +48,16 @@ public class CommandLogsList {
             CommandCoreRequest commandCoreRequest = new CommandCoreRequest(_blueLogin);
 
             JsonElement jsonDataElement = commandCoreRequest.RunTheCmd(cmd, null, hasToBeSuccess, getDataElement);
+            if(commandCoreRequest.getProblemMsg()== null){
+                BlueLogs blueLogs = new BlueLogs(jsonDataElement, startDateSeconds);
+                log.debug("blueLogs: " + blueLogs.toString());
+                return blueLogs;
+            } else {
+                _problemMsg = "Error. cmd: " + cmd + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                return null;
+            }
 
-            BlueLogs blueLogs = new BlueLogs(jsonDataElement, startDateSeconds);
-            log.debug("blueLogs: " + blueLogs.toString());
-            return blueLogs;
-        } catch (Exception e) {
+         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n" + "\n\n", e);
             throw e;
         }

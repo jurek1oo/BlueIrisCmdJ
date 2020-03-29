@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -63,7 +64,7 @@ public class Utils {
         }
     }
 
-    public static LocalDateTime GetLocalDateTimeFromSeconds(long dateInSeconds) {
+    public static String GetLocalDateTimeStrFromSeconds(long dateInSeconds) {
         log.debug("Using dateInSeconds: " +dateInSeconds);
                 LocalDateTime localDateTime = null;
         try {
@@ -75,13 +76,13 @@ public class Utils {
             OffsetDateTime odt = OffsetDateTime.now ( ZoneId.systemDefault () );
             ZoneOffset zoneOffset = odt.getOffset ();
             localDateTime = LocalDateTime.ofEpochSecond(dateInSeconds, 0, zoneOffset);
-
+            String dateout = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            return dateout;
         } catch (Exception e){
             log.error("Error converting seconds to date: " + dateInSeconds + ".\n" + e.toString());
             return null;
         }
-        return localDateTime;
-    }
+     }
 
     public static long GetSecondsFromDateSql(String sqldate) {
         log.debug("Using sqldate: " +sqldate);

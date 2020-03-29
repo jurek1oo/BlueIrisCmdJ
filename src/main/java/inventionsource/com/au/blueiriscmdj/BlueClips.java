@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class BlueClips {
@@ -26,18 +25,19 @@ public class BlueClips {
         StringBuilder sb = new StringBuilder();
         sb.append("[ ");
         int size = _blueClips.size();
-        for (int i = 0 ; i < size; i++)
-        {
-            BlueClip blueClip = get(i);
-            if (i== size-1) {
-                sb.append(blueClip.toString() + " ]\n");
-            } else {
-                sb.append(blueClip.toString() + ",\n");
+        if (size()>0) {
+            for (int i = 0; i < size; i++) {
+                BlueClip blueClip = get(i);
+                if (i == size - 1) {
+                    sb.append(blueClip.toString() + "\n");
+                } else {
+                    sb.append(blueClip.toString() + ",\n");
+                }
             }
         }
+        sb.append( " ]\n");
         return sb.toString();
     }
-
 
     public BlueClips(JsonElement dataJson, long startdate, long enddate) throws Exception {
         _dataJson = dataJson;
@@ -65,33 +65,21 @@ public class BlueClips {
 
     public static String setJsonHelp(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Get a list of clips from the New folder:");
-        sb.append("  camera:    a camera's short name / a group name; 'index' will give clips from all cameras");
-        sb.append("  startdate: the integer number of seconds since January 1, 1970");
-        sb.append("  enddate:   the integer number of seconds since January 1, 1970");
-        sb.append("  tiles:     true or false. Send only 1 entry per day in order to mark tiles on the calendar");
+        sb.append("  camera:    a camera's short name. 'index' will give clips from all cameras");
+        sb.append("  startdate: List only clips after startdate.");
+        sb.append("  enddate:   List only clips before enddate.");
+        sb.append("  tiles:     true/false. If true - list only 1 clip per day");
 
         return sb.toString();
     }
 
         public class  BlueClip {
             private final Logger log = (Logger) LogManager.getLogger(BlueClip.class.getName());
-/* {  "camera": "Ceiling1",
-      "path": "@111331267.bvr",
-      "offset": 0,
-      "date": 1580469120,
-      "color": 8151097,
-      "flags": 1,
-      "res": "2048x1536",
-      "msec": 3921,
-      "filesize": "04sec (1.93M)",
-      "filetype": "bvr H264 Stored"
-    }, */
             private JsonObject _jsonObject = null;
             private String _camera = null;
             private String _path = null;
             private int _date = -1;
-            private LocalDateTime _localdatetime = null;
+            private String _localdatetime = null;
             private int _color = -1;
             private int _offset = -1;
             private int _flags = -1;
@@ -109,7 +97,7 @@ public class BlueClips {
             public String getCameraName() {        return _camera;    }
             public String getPath() {        return _path;    }
             public int getDate() {        return _date;    }
-            public LocalDateTime getLocalDateTime() {        return _localdatetime;    }
+            public String getLocalDateTime() {        return _localdatetime;    }
             public int getColor() {        return _color;    }
 
             public BlueClip(JsonObject jsonObject) {
@@ -124,25 +112,24 @@ public class BlueClips {
                 _filetype = _jsonObject.get("filetype").getAsString();
                 _path = _jsonObject.get("path").getAsString();
                 _date = _jsonObject.get("date").getAsInt();
-                _localdatetime = Utils.GetLocalDateTimeFromSeconds(_date);
+                _localdatetime = Utils.GetLocalDateTimeStrFromSeconds(_date);
                 _color = _jsonObject.get("color").getAsInt();
             }
 
             public String toString() {
                 StringBuilder sb = new StringBuilder();
                 sb.append("{\n");
-
-                sb.append("\"camera\":\"" + _camera + "\"\n");
-                sb.append("\"path\":\"" + _path + "\"\n");
-                sb.append("\"offset\":" + _offset + "\n");
-                sb.append("\"date\":" + _date + "\n");
-                sb.append("\"localdatetime\":" + _localdatetime + "\n");
-                sb.append("\"color\":" + _color + "\n");
-                sb.append("\"flags\":" + _flags + "\n");
-                sb.append("\"res\":\"" + _res + "\"\n");
-                sb.append("\"msec\":" + _msec + "\n");
-                sb.append("\"filesize\":\"" + _filesize + "\"\n");
-                sb.append("\"filetype\":\"" + _filetype + "\"\n");
+                sb.append("\"camera\": \"" + _camera + "\"\n");
+                sb.append("\"path\": \"" + _path + "\"\n");
+                sb.append("\"offset\": " + _offset + "\n");
+                sb.append("\"date\": " + _date + "\n");
+                sb.append("\"localdatetime\": " + _localdatetime + "\n");
+                sb.append("\"color\": " + _color + "\n");
+                sb.append("\"flags\": " + _flags + "\n");
+                sb.append("\"res\": \"" + _res + "\"\n");
+                sb.append("\"msec\": " + _msec + "\n");
+                sb.append("\"filesize\": \"" + _filesize + "\"\n");
+                sb.append("\"filetype\": \"" + _filetype + "\"\n");
                 sb.append("}\n");
                 return sb.toString();
             }

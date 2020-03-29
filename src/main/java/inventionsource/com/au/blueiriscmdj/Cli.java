@@ -231,7 +231,8 @@ public class Cli {
             if (cmd.hasOption("sts")) {
                 _is_status_set = true;
                 sb.append("Using cli option --status-set\n");
-                if ( !cmd.hasOption("j")) {
+                if ( !cmd.hasOption("j") || cmd.getOptionValue("j") == null ||
+                        cmd.getOptionValue("j").length()==0) {
                     errSb.append("Error: Both options need to be present -status-set and -json.");
                 }
             }
@@ -261,14 +262,14 @@ public class Cli {
             gob.bad = errSb.toString();
             return gob;
         } catch (ParseException e) {
-            log.error("Error: ", e);
+            log.error("Error: ", e.getMessage());
             gob.good = sb.toString();
-            gob.bad = errSb.toString() + "\nFailed to parse comand line properties: " + help(null) + getPtzNumbersHelp()+ "\n\n" + e;
+            gob.bad = errSb.toString() + "\nFailed to parse comand line properties:\n" + help(null) + "\n\n" + e;
             return gob;
         } catch (Exception ex) {
             log.error("Error: ", ex);
             gob.good = sb.toString();
-            gob.bad = errSb.toString() + "\n\n" + help(null) + getPtzNumbersHelp()+ "\n\n" + ex;
+            gob.bad = errSb.toString() + "\n\n" + help(null) + "\n\n" + ex;
             return gob;
         }
     }

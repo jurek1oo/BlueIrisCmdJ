@@ -5,6 +5,7 @@ import org.apache.logging.log4j.core.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -51,6 +52,8 @@ public class CommandCamConfigTest
             BlueCamConfig blueCamConfig= commandCamConfig.GetCamConfig(Constants4Tests.CAM_NAME1);
 
             assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertNull( "null getProblemMsg " ,commandCamConfig.getProblemMsg() );
+
             assertTrue("getCamera name: ",  blueCamConfig.getCameraName().contains(Constants4Tests.CAM_NAME1));
             blueLogin.BlueIrisLogout();
         } catch (Exception e) {
@@ -76,6 +79,7 @@ public class CommandCamConfigTest
             blueCamConfig= commandCamConfig.SetCamConfig(Constants4Tests.CAM_NAME1, json);
 
             assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertNull( "null getProblemMsg " ,commandCamConfig.getProblemMsg() );
 
             //Thread.sleep(5000);
             //Cameras.Camera cam = (new CommandCamList(blueLogin)).GetCamList().get(Constants4Tests.CAM_NAME1);
@@ -94,6 +98,7 @@ public class CommandCamConfigTest
             blueCamConfig= commandCamConfig.SetCamConfig(Constants4Tests.CAM_NAME1, json);
 
             assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertNull( "null getProblemMsg " ,commandCamConfig.getProblemMsg() );
 
             //Thread.sleep(5000);
             //cam = (new CommandCamList(blueLogin)).GetCamList().get(Constants4Tests.CAM_NAME1);
@@ -124,6 +129,8 @@ public class CommandCamConfigTest
             blueCamConfig= commandCamConfig.SetCamConfig(Constants4Tests.CAM_NAME1, json);
 
             assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertNull( "null getProblemMsg " ,commandCamConfig.getProblemMsg() );
+
             assertTrue("getCamera name: ",  blueCamConfig.getCameraName().contains(Constants4Tests.CAM_NAME1));
             blueLogin.BlueIrisLogout();
 
@@ -148,12 +155,16 @@ public class CommandCamConfigTest
 
             blueCamConfig= commandCamConfig.SetCamConfig(Constants4Tests.CAM_NAME1, json);
             assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertNull( "null getProblemMsg " ,commandCamConfig.getProblemMsg() );
+
             assertTrue("is_motion: ",  !blueCamConfig.is_motion());
 
             Thread.sleep(1000);
             json = "{\"motion\":true}";
             blueCamConfig= commandCamConfig.SetCamConfig(Constants4Tests.CAM_NAME1, json);
             assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertNull( "null getProblemMsg " ,commandCamConfig.getProblemMsg() );
+
             assertTrue("is_motion: ",  blueCamConfig.is_motion());
 
             blueLogin.BlueIrisLogout();
@@ -178,12 +189,16 @@ public class CommandCamConfigTest
 
             blueCamConfig= commandCamConfig.SetCamConfig(Constants4Tests.CAM_NAME1, json);
             assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertNull( "null getProblemMsg " ,commandCamConfig.getProblemMsg() );
+
             assertTrue("get_pause: ",  blueCamConfig.get_pause()== -1);
 
             Thread.sleep(1000);
             json = "{\"pause\":0}";
             blueCamConfig= commandCamConfig.SetCamConfig(Constants4Tests.CAM_NAME1, json);
             assertNotNull("result has blueCamConfig", blueCamConfig);
+            assertNull( "null getProblemMsg " ,commandCamConfig.getProblemMsg() );
+
             assertTrue("get_pause: ",  blueCamConfig.get_pause()==0);
 
             blueLogin.BlueIrisLogout();

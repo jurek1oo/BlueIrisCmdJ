@@ -13,6 +13,8 @@ public class CommandCamConfig {
 
     private BlueLogin _blueLogin = null;
     public BlueLogin getBlueLogin() { return _blueLogin; }
+    private String _problemMsg = null;
+    public String getProblemMsg() {        return _problemMsg;    }
 
     public CommandCamConfig(BlueLogin blueLogin) throws Exception {
         _blueLogin = blueLogin;
@@ -28,9 +30,15 @@ public class CommandCamConfig {
         try {
             CommandCoreRequest commandCoreRequest = new CommandCoreRequest(_blueLogin);
             JsonElement jsonDataElement = commandCoreRequest.RunTheCmd(cmd, cmdParams, hasToBeSuccess, getDataElement);
-            BlueCamConfig blueCamConfig = new BlueCamConfig(jsonDataElement, camera);
-            log.debug(blueCamConfig.toStringPretyJson());
-            return blueCamConfig;
+            if(commandCoreRequest.getProblemMsg()== null){
+                BlueCamConfig blueCamConfig = new BlueCamConfig(jsonDataElement, camera);
+                log.debug(blueCamConfig.toStringPretyJson());
+                return blueCamConfig;
+            } else {
+                _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
+                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                return null;
+            }
         } catch (Exception e) {
             log.error("\nError executing command: " + cmd  + " : " + msg + " for BlueIris.\n" +
                     "Make sure the camera name is correct, Get list of cameras using -cl option.\n.", e);
@@ -56,10 +64,15 @@ public class CommandCamConfig {
         try {
             CommandCoreRequest commandCoreRequest = new CommandCoreRequest(_blueLogin);
             JsonElement jsonDataElement = commandCoreRequest.RunTheCmd(cmd, cmdParams, hasToBeSuccess, getDataElement);
-            BlueCamConfig blueCamConfig = new BlueCamConfig(jsonDataElement, camera);
-
-            log.debug(blueCamConfig.toStringPretyJson());
-            return blueCamConfig;
+            if(commandCoreRequest.getProblemMsg()== null){
+                BlueCamConfig blueCamConfig = new BlueCamConfig(jsonDataElement, camera);
+                log.debug(blueCamConfig.toStringPretyJson());
+                return blueCamConfig;
+            } else {
+                _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
+                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                return null;
+            }
         } catch (Exception e) {
             log.error("\nError executing: " + cmd  + " : " +  msg +
                     "  \nGet list of cameras using -cl option.\n" , e);

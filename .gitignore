@@ -7,3 +7,4 @@ target/
 *.log
 *.log.*
 *.jar
+out.txt

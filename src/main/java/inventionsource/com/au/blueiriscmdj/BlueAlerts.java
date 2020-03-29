@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /*
@@ -40,38 +39,28 @@ public class BlueAlerts {
             sb.append("\n]\n");
             return sb.toString();
         }
-        return "[]";
+        return "[]\n";
     }
 
     public BlueAlerts(JsonElement dataJson) throws Exception {
-        if(dataJson==null)
-            log.debug("null dataJson");
         _dataJson = dataJson;
-        if (dataJson != null) {
-            JsonArray jsonArray = dataJson.getAsJsonArray();
-            boolean active = false;
-            for (int i = 0, size = jsonArray.size(); i < size; i++) {
-                JsonElement jsonElement = jsonArray.get(i);
-                JsonObject jsonObject = jsonElement.getAsJsonObject();
+        if(dataJson!=null) // no clips if null
+        {
+             if (dataJson != null) {
+                JsonArray jsonArray = dataJson.getAsJsonArray();
+                boolean active = false;
+                for (int i = 0, size = jsonArray.size(); i < size; i++) {
+                    JsonElement jsonElement = jsonArray.get(i);
+                    JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-                BlueAlert alert = new BlueAlert(jsonObject);
-                _alerts.add(alert);
+                    BlueAlert alert = new BlueAlert(jsonObject);
+                    _alerts.add(alert);
+                }
             }
         }
     }
     public class  BlueAlert {
         private final Logger log = (Logger)LogManager.getLogger(BlueAlert.class.getName());
-         /*   "camera": "Front-Watashi",
-                "path": "@118580940.bvr",
-                "clip": "@118572667.bvr",
-                "offset": 0,
-                "flags": 196608,
-                "res": "720x1280",
-                "zones": 1,
-                "date": 1584322618,
-                "color": 8151097,
-                "filesize": "14sec (562K)"
-                */
         private JsonObject _jsonObject = null;
         private String _camera = null;
         private String _path = null;
@@ -81,7 +70,7 @@ public class BlueAlerts {
         private String _res = null;
         private int _zones = -1;
         private long _dateInSeconds = -1;
-        private LocalDateTime _localDate = null;
+        private String _localDate = null;
         private int _color = -1;
         private String _filesize = null;
 
@@ -94,7 +83,7 @@ public class BlueAlerts {
         public int getZones() { return _zones; };
 
         public long getDateInSeconds() { return _dateInSeconds; }
-        public LocalDateTime getLocalDate() { return _localDate;   }
+        public String getLocalDateTime() { return _localDate;   }
         public int getColor() { return _color; }
         public String getFilesize() { return _filesize; }
 
@@ -112,13 +101,27 @@ public class BlueAlerts {
             _res = jsonObject.get("res").getAsString();
             _zones = jsonObject.get("zones").getAsInt();
             _dateInSeconds = jsonObject.get("date").getAsLong();
-            _localDate = Utils.GetLocalDateTimeFromSeconds(_dateInSeconds);
+            _localDate = Utils.GetLocalDateTimeStrFromSeconds(_dateInSeconds);
             _color = jsonObject.get("color").getAsInt();
             _filesize = jsonObject.get("filesize").getAsString();
         }
 
         public String toString() {
-            return Utils.GetPrettyJsonString(_jsonObject);
+            StringBuilder sb = new StringBuilder();
+            sb.append("{\n");
+            sb.append("\"camera\": \"" + _camera + "\",\n");
+            sb.append("\"path\": \"" + _path + "\",\n");
+            sb.append("\"clip\": \"" + _clip + "\",\n");
+            sb.append("\"offset\": " + _offset+ ",\n");
+            sb.append("\"flags\": \"" + _flags+ ",\n");
+            sb.append("\"res\": \"" + _res + "\",\n");
+            sb.append("\"zones\": \"" + _zones+ ",\n");
+            sb.append("\"date\": \"" + _dateInSeconds+ ",\n");
+            sb.append("\"localDateTime\": \"" + _localDate + "\",\n");
+            sb.append("\"color\": \"" + _color+ ",\n");
+            sb.append("\"filesize\": \"" + _filesize + "\",\n");
+            sb.append("}\n");
+            return sb.toString();
         }
     }
 }
