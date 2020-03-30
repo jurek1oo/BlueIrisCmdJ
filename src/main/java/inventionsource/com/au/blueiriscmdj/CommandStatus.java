@@ -37,7 +37,8 @@ public class CommandStatus {
             }
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n", e);
-            throw e;
+            _problemMsg = "Error in command: GetStatus. " + e.getMessage();
+            return null;
         }
     }
 
@@ -46,7 +47,9 @@ public class CommandStatus {
 // {"signal":1,"profile":1,"schedule":"Default"}
 
         if(json==null || json.length()==0) throw new Exception("Error empty json string");
-        if (!Utils.isJSONValid(json)) throw new Exception("Error not valid json->" + json + "<-");
+        if (!Utils.isJSONValid(json)) {
+            throw new ExceptionBiCmd("Error. invalid json->" + json+ "<-\n" + BlueStatus.JsonHelpSet());
+        }
 
          String jsonInside = json.replace("{","").replace("}","").
                 replace('"', '\"');
@@ -62,15 +65,19 @@ public class CommandStatus {
                 return blueStatus;
             } else {
                 _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
-                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
-                return null;
-            }
+                        cmdParams + " : " + commandCoreRequest.getProblemMsg() +
+                        "\n" + BlueStatus.JsonHelpSet()+"\n";
+             }
+        } catch (ExceptionBiCmd e) {
+            _problemMsg = e.getMessage();
+            log.error(e.getMessage());
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " json: " +
                     json + " after changes blueStatus: " + blueStatus.toString() +
-                    " : " + setJsonHelp() + "\n", e);
-            throw e;
+                    " : " + BlueStatus.JsonHelpSet() + "\n", e);
+            _problemMsg = "Error in command: " + cmd + " json: " +json  + e.getMessage();
         }
+        return null;
     }
 
     public BlueStatus SetSignal(String signal) throws Exception {
@@ -83,25 +90,30 @@ public class CommandStatus {
 
         BlueStatus blueStatus = null;
         try {
-            if (signalInt < 0 || signalInt > 2 )
-                throw new Exception("Error. 0-2 Wrong signal: " +signalInt);
+            if (signalInt < 0 || signalInt > 2 ) {
+                throw new ExceptionBiCmd("Error. 0-2 Wrong signal: " +signalInt + "\n"+BlueStatus.JsonHelpSet());
+            }
             String json = "{\"signal\":" + signalInt +"}";
             blueStatus = SetStatus(json);;
 
             if (blueStatus.getSignalInt()==signalInt) {
                 log.info("set-signal: " + signalInt  + " OK. ");
             } else {
-                throw new Exception("Error. signal: " + signalInt + " different in returned status: " +
-                        blueStatus.toString());
+                throw new ExceptionBiCmd("Error. signal: " + signalInt + " different in returned status: " +
+                        blueStatus.toString() + "\n"+BlueStatus.JsonHelpSet());
             }
             return blueStatus;
+        } catch (ExceptionBiCmd e) {
+            _problemMsg = e.getMessage();
+            log.error(e.getMessage());
         } catch (Exception e) {
             log.error("Error executing command:SetSignal signal: " +
                     signalInt + " for BlueIris\n" +
                     " after changes blueStatus: " + blueStatus.toString() +
-                    "\n" +setJsonHelp() + "\n", e);
-            throw e;
+                    "\n" +BlueStatus.JsonHelpSet() + "\n", e);
+            _problemMsg = "Error in command:SetSignal signalInt: " +signalInt +"\n"  + e.getMessage();
         }
+        return null;
     }
 
     public BlueStatus SetSchedule(String schedule) throws Exception {
@@ -110,11 +122,11 @@ public class CommandStatus {
         BlueStatus blueStatus = null;
         try {
             if (_blueLogin.getSchedules() == null || _blueLogin.getSchedules().size() < 1) {
-                throw new Exception("Error. schedules are empty.");
+                throw new ExceptionBiCmd("Error. schedules are empty." + "\n"+BlueStatus.JsonHelpSet());
             } else {
                 if (!_blueLogin.getSchedules().contains(schedule)) {
-                    throw new Exception("Error. schedule: " + schedule +
-                            " not found. Use -get-schedules command to get all of them.");
+                    throw new ExceptionBiCmd("Error. schedule: " + schedule +
+                            " not found. Use -get-schedules command to get all of them.\n"+BlueStatus.JsonHelpSet());
                 }
             }
             String json = "{\"schedule\":\"" + schedule + "\"}";
@@ -125,15 +137,19 @@ public class CommandStatus {
             } else {
                 String msg = "Schedule: " + schedule + " different in status: " +
                         blueStatus.toString();
-                throw new Exception("Error. " + msg);
+                throw new ExceptionBiCmd("Error. " + msg+ "\n"+BlueStatus.JsonHelpSet());
             }
             return blueStatus;
+        } catch (ExceptionBiCmd e) {
+            _problemMsg = e.getMessage();
+            log.error(e.getMessage());
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n" +
                     " after changes blueStatus: " + blueStatus.toString() +
-                    "\n" +setJsonHelp() + "\n", e);
-            throw e;
+                    "\n" +BlueStatus.JsonHelpSet() + "\n", e);
+            _problemMsg = "Error in command:SetSchedule schedule: " +schedule +"\n"  + e.getMessage();
         }
+        return null;
     }
 
     public BlueStatus SetProfile(int profileInt) throws Exception {
@@ -141,24 +157,20 @@ public class CommandStatus {
          BlueStatus blueStatus = null;
         try {
             if (profileInt < 0 || profileInt > 7) {
-                throw new Exception("Error. profile out of range 0-7. profileInt: " + profileInt);
+                throw new ExceptionBiCmd("Error. profile out of range 0-7. profileInt: " + profileInt +"/n"+ "\n"+BlueStatus.JsonHelpSet());
             }
             String json = "{\"profile\":" + profileInt + "}";
             blueStatus = SetStatus(json);
             return blueStatus;
+        } catch (ExceptionBiCmd e) {
+            _problemMsg = e.getMessage();
+            log.error(e.getMessage());
         } catch (Exception e) {
             log.error("Error executing command: SetProfile for BlueIris profileInt: " +
                             profileInt + " after changes blueStatus: " + blueStatus.toString() +
-                    "\n" +setJsonHelp() + "\n", e);
-            throw e;
-        }
+                    "\n" +BlueStatus.JsonHelpSet() + "\n", e);
+            _problemMsg = "Error in command:SetProfile profileInt: " +profileInt +"\n"  + e.getMessage();
+       }
+        return null;
     }
-
-    public String setJsonHelp(){
-        // {"signal":1,"profile":1,"schedule":"Default"}
-        StringBuilder sb = new StringBuilder();
-        sb.append("status-set json example:\n'{ \"signal\":1,\"profile\":1,\"schedule\":\"Default\"}'\n");
-        return sb.toString();
-    }
-
 }

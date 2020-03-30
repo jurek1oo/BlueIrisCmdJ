@@ -32,6 +32,9 @@ public class CommandClipList {
         boolean tiles = false;
         try {
             if(json!=null && json.trim().length()>2) {
+                if (!Utils.isJSONValid(json)) {
+                    throw new ExceptionBiCmd("Error. invalid json->" + json+ "<-\n" + BlueClips.JsonHelpGet());
+                }
                 if (!Utils.isJSONValid(json)) throw new Exception("Error. invalid json");
                 JsonElement jsonElement = (new Gson()).fromJson(json, JsonElement.class);
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
@@ -61,15 +64,19 @@ public class CommandClipList {
                 log.warn("Warn. Empty json, used: camera index, startdate: " + startDateUsedStr + " enddate : " +
                         endDateUsedStr + ", tiles: " + tiles);
             }
-
             log.info("Used :camera: "+ camera + " startDate: " + startDateUsedStr + " endDate: " + endDateUsedStr+
                     " tiles: " + tiles);
             return GetClips( camera,  startDate,  endDate,  tiles);
+        } catch (ExceptionBiCmd e) {
+            _problemMsg = e.getMessage();
+            log.error(e.getMessage());
         } catch (Exception e) {
-            log.error("Error executing for BlueIris json:\n" + json
-                    + BlueClips.setJsonHelp() +"\n\n", e);
-            throw e;
+            String msg = "Error executing for BlueIris json:\n" + json
+                    + "\n" + BlueClips.JsonHelpGet() +"\n";
+            log.error(msg, e);
+            _problemMsg = e.getMessage();
         }
+        return null;
     }
 
     public BlueClips GetClips(String camera, long startDate, long endDate, boolean tiles) throws Exception {
@@ -91,12 +98,15 @@ public class CommandClipList {
                 return blueClips;
             } else {
                 _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
-                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
-                return null;            }
-
+                        cmdParams + " : " + commandCoreRequest.getProblemMsg() +
+                        "\n" + BlueClips.JsonHelpGet()+"\n";
+                return null;
+            }
         } catch (Exception e) {
-            log.error("Error executing command: " + cmd + " for BlueIris\n" + "\n\n", e);
-            throw e;
+            msg =msg + "\n" + BlueClips.JsonHelpGet() +"\n";
+            log.error(msg, e);
+            _problemMsg = msg;
         }
+        return null;
     }
 }

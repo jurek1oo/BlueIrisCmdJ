@@ -30,7 +30,9 @@ public class CommandLogsList {
         boolean getDataElement = true;
         try {
             if (json != null && json.trim().length() > 2) {
-                if (!Utils.isJSONValid(json)) throw new Exception("Error. invalid json");
+                if (!Utils.isJSONValid(json)) {
+                    throw new ExceptionBiCmd("Error. invalid json->" + json+ "<-\n" + BlueLogs.JsonHelpGet());
+                }
                 JsonElement jsonElement = (new Gson()).fromJson(json, JsonElement.class);
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
 
@@ -53,13 +55,17 @@ public class CommandLogsList {
                 log.debug("blueLogs: " + blueLogs.toString());
                 return blueLogs;
             } else {
-                _problemMsg = "Error. cmd: " + cmd + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                _problemMsg = "Error. cmd: " + cmd + " : " + commandCoreRequest.getProblemMsg() +
+                        "\n" + BlueLogs.JsonHelpGet()+"\n";
                 return null;
             }
-
-         } catch (Exception e) {
-            log.error("Error executing command: " + cmd + " for BlueIris\n" + "\n\n", e);
-            throw e;
+        } catch (ExceptionBiCmd e) {
+            _problemMsg = e.getMessage();
+            log.error(e.getMessage());
+        } catch (Exception e) {
+            log.error("Error executing command: " + cmd + " json: " + json +"\n" + BlueClips.JsonHelpGet() +"\n", e);
+            _problemMsg = e.getMessage();
         }
+        return null;
     }
 }

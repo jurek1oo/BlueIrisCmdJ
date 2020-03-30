@@ -128,8 +128,10 @@ public class MasterController {
                     if (getCommandClipList().getProblemMsg()!=null){
                         throw new ExceptionBiCmd(getCommandClipList().getProblemMsg());
                     }
-                    log.info("Clips-list number: " + clips.size() + "\n" + clips);
-                    log.info("Clips-list number: " + clips.size() + "\n");
+                    if (clips!=null){
+                        log.info("Clips-list number: " + clips.size() + "\n" + clips);
+                        log.info("Clips-list number: " + clips.size() + "\n");
+                    }
                 }
                 if (cli.is_cams_reset_stats()) {
                     foundOneCmd = true;
@@ -182,20 +184,20 @@ public class MasterController {
                 if (cli.is_status_set()) {
                     foundOneCmd = true;
                     if (cli.get_json() !=null && cli.get_json().length()>0) {
-                        String msg = " Check your -j parameters help:  " + BlueStatus.toStringJsonHelp();
+                        String msg = " Check your -j parameters help:  " + BlueStatus.JsonHelpSet();
                         _lastBlueStatus = getCommandStatus().SetStatus(cli.get_json() );
                         if (_lastBlueStatus!= null && getCommandStatus().getProblemMsg()== null) {
                             log.info("--status-set OK result: " + _lastBlueStatus);
                             log.info("--status-set OK result for parameters: " + cli.get_json() + "\n");
                         } else if (_lastBlueStatus== null)  {
-                            throw new ExceptionBiCmd("Error in --status-get. null data returned.\n" + msg);
+                            throw new ExceptionBiCmd("Error in --status-set. null data returned.\n" + msg);
                         } else {
-                            throw new ExceptionBiCmd("Error in --status-get. " +
+                            throw new ExceptionBiCmd("Error in --status-set. " +
                                     getCommandStatus().getProblemMsg() + "\n" + msg);
                         }
                     } else {
                         throw new Exception("-status_set option needs -json to be provided.\n" +
-                                BlueStatus.toStringJsonHelp());
+                                BlueStatus.JsonHelpSet());
                     }
                 }
                 if (cli.get_trigger() != null) {

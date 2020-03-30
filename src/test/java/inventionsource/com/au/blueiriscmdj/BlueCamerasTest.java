@@ -70,7 +70,7 @@ public class BlueCamerasTest
 
             BlueCameras cameras = new BlueCameras(dataElement);
 
-            log.info(cameras.GetJsonHelp());
+            log.info(BlueCameras.HelpGet());
             assertNotNull("assertNotNull cameras ", cameras);
             assertTrue("size()", cameras.size() > 0);
 

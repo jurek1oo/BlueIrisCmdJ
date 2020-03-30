@@ -36,7 +36,8 @@ public class CommandCamConfig {
                 return blueCamConfig;
             } else {
                 _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
-                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                        cmdParams + " : " + commandCoreRequest.getProblemMsg() +
+                        "\n" + BlueCamConfig.HelpGet()+"\n";
                 return null;
             }
         } catch (Exception e) {
@@ -70,7 +71,8 @@ public class CommandCamConfig {
                 return blueCamConfig;
             } else {
                 _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
-                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                        cmdParams + " : " + commandCoreRequest.getProblemMsg() +
+                        "\n" + BlueCamConfig.JsonHelpSet()+"\n";
                 return null;
             }
         } catch (Exception e) {

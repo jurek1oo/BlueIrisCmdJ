@@ -75,12 +75,21 @@ public class BlueCamConfig {
             _record = _jsonObject.get("record").getAsInt();
         } catch (Exception e) {
             log.error("\nError camera: " + camera  + " in dataJson: " +  dataJson +
-                    " : " + setJsonHelp(), e);
+                    " : " + JsonHelpSet(), e);
             throw e;
         }
     }
 
-    public String setJsonHelp(){
+    public static String HelpGet(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("--camconfig-get Ceiling1\n");
+        sb.append("camera: camera short name\n");
+        sb.append(" Check wiki for more info:\n " +
+                "https://github.com/jurek1oo/blueiriscmdj/wiki/camconfig-get-set.\n");
+        return sb.toString();
+    }
+
+    public static String JsonHelpSet(){
         StringBuilder sb = new StringBuilder();
         sb.append("camconfig-set json e.g.:\n'{ \"reset\":false,\"enable\":true,\"pause\":0," +
                 "\"motion\":true,\"schedule\":true,\"ptzcycle\":true," +

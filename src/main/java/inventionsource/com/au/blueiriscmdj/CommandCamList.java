@@ -33,7 +33,8 @@ public class CommandCamList {
                 log.debug("Cameras: " + cameras.toString());
                 return cameras;
             } else {
-                _problemMsg = "Error. cmd: " + cmd +" : " + commandCoreRequest.getProblemMsg() + "\n";
+                _problemMsg = "Error. cmd: " + cmd +" : " + commandCoreRequest.getProblemMsg()+
+                        "\n" + BlueCameras.HelpGet()+"\n";
                 return null;
             }
         } catch (Exception e) {
@@ -57,7 +58,10 @@ public class CommandCamList {
                 log.debug("Cameras: " + cameras.toString());
                 return cameras;
             } else {
-                _problemMsg = "Error. cmd: " + cmd + " cmdParams: " + cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                _problemMsg = "Error. cmd: " + cmd + " cmdParams: " + cmdParams + " : " +
+                        commandCoreRequest.getProblemMsg()  +
+                        "\n Check wiki for more info:\n" +
+                        "https://github.com/jurek1oo/blueiriscmdj/wiki.\n";
                 return null;
             }
         } catch (Exception e) {

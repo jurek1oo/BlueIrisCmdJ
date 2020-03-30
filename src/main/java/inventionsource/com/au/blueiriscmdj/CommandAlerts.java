@@ -23,15 +23,21 @@ public class CommandAlerts {
     }
 
     public BlueAlerts GetAlertsList(String json) throws Exception {
-        String msg= "json: " + json;
+        String cmd = "alertlist";
+        String msg= "cmd: " + cmd +" json: " + json;
+        log.debug(msg);
+
         String camera= "index";
         long startdateSeconds= 0;
         String startDateUsedStr= null;
-
+        JsonElement jsonElement = null;
+        JsonObject jsonObject = null;
         if(json!=null && json.trim().length()>2) {
-            if (!Utils.isJSONValid(json)) throw new Exception("Error. invalid json");
-            JsonElement jsonElement = (new Gson()).fromJson(json, JsonElement.class);
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            if (!Utils.isJSONValid(json)) {
+                throw new Exception("Error. invalid json: " + msg+ "\n" + BlueAlerts.JsonHelpGet());
+            }
+            jsonElement = (new Gson()).fromJson(json, JsonElement.class);
+            jsonObject = jsonElement.getAsJsonObject();
             try {
                 camera = jsonObject.get("camera").getAsString();
             } catch (Exception e) {
@@ -51,7 +57,6 @@ public class CommandAlerts {
 
         // return json data element with all alerts details
         // for camera short name or index, 4 all and start date/time
-        String cmd = "alertlist";
         String cmdParams = ",\"camera\":\"" + camera + "\",\"startdate\":" + startdateSeconds;
         JsonElement jsonDataElement = null;
         CommandCoreRequest commandCoreRequest = null;
@@ -67,7 +72,8 @@ public class CommandAlerts {
                 return alerts;
             } else {
                 _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
-                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                        cmdParams + "\n" + commandCoreRequest.getProblemMsg() +
+                        "\n" + BlueAlerts.JsonHelpGet()+"\n";
                 return null;
             }
         } catch (Exception e) {
@@ -87,7 +93,7 @@ public class CommandAlerts {
             commandCoreRequest.RunTheCmd(cmd, cmdParams,hasToBeSuccess,getDataElement);
             if(commandCoreRequest.getProblemMsg()!= null){
                 _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
-                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                        cmdParams + "\n" + commandCoreRequest.getProblemMsg() + "\n";
             }
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " for BlueIris\n", e);

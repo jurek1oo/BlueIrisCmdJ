@@ -65,15 +65,14 @@ public class BlueStatus {
         }
     }
 
-    public static String toStringJsonHelp() {
-        //{"signal":1,"profile":1,"schedule":"Default"}
+    public static String JsonHelpSet(){
         StringBuilder sb = new StringBuilder();
-        sb.append("E.g.:\n");
-        sb.append("{\n");
-        sb.append("  \"signal\":1\n");
-        sb.append("  \"profile\":1\n");
-        sb.append("  \"schedule\":\"Default\"\n");
-        sb.append("}\n");
+        sb.append("status-set json e.g.:\n'{\"signal\":1,\"profile\":1,\"schedule\":\"Default\"}'\n");
+        sb.append("signal: 0 - red, 1 - green, 2 - yellow.\n");
+        sb.append("profile: 0-7 (in my BI system: 1 - AtHome, 2 - OnTheRoad).\n");
+        sb.append("schedule: Default, plus any new names you added to BI System.\n");
+        sb.append("Check wiki for more info: " +
+                "https://github.com/jurek1oo/blueiriscmdj/wiki/status-get-set.\n");
         return sb.toString();
     }
 

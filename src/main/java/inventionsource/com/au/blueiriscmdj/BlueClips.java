@@ -58,18 +58,22 @@ public class BlueClips {
              }
         } catch (Exception e) {
             log.error("\nError in dataJson: " +  dataJson +
-                    " : " + setJsonHelp(), e);
+                    " \n: " + JsonHelpGet() + "\n", e);
             throw e;
         }
     }
 
-    public static String setJsonHelp(){
+    public static String JsonHelpGet(){
+        //'{"camera":"Ceiling1","startdate":"2020-03-27 23:05:00"}'
         StringBuilder sb = new StringBuilder();
-        sb.append("  camera:    a camera's short name. 'index' will give clips from all cameras");
-        sb.append("  startdate: List only clips after startdate.");
-        sb.append("  enddate:   List only clips before enddate.");
-        sb.append("  tiles:     true/false. If true - list only 1 clip per day");
-
+        sb.append("clips-list json e.g.:" +
+                "\n'{\"camera\":\"Ceiling1\",\"startdate\":\"2020-03-01 00:00:00\","+
+                "\"enddate\":\"2020-03-27 23:59:59\",\"tiles\":false}'\n" );
+        sb.append("camera: camera short name\n");
+        sb.append("startdate: List alerts from the date in sql format.\n");
+        sb.append("tiles: true/false. If true - list only one clip per day.\n");
+        sb.append(" Check wiki for more info: " +
+                "https://github.com/jurek1oo/blueiriscmdj/wiki/clips-list.\n");
         return sb.toString();
     }
 

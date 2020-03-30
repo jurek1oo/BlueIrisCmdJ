@@ -59,6 +59,19 @@ public class BlueAlerts {
             }
         }
     }
+
+    public static String JsonHelpGet(){
+        //'{"camera":"Ceiling1","startdate":"2020-03-27 23:05:00"}'
+        StringBuilder sb = new StringBuilder();
+        sb.append("alarms-list json e.g.:" +
+                "\n'{\"camera\":\"Ceiling1\",\"startdate\":\"2020-03-27 23:05:00\"}'\n");
+        sb.append("camera: camera short name\n");
+        sb.append("startdate: List alerts from the date in sql format.\n");
+        sb.append(" Check wiki for more info: " +
+                "https://github.com/jurek1oo/blueiriscmdj/wiki/alerts-list.\n");
+        return sb.toString();
+    }
+
     public class  BlueAlert {
         private final Logger log = (Logger)LogManager.getLogger(BlueAlert.class.getName());
         private JsonObject _jsonObject = null;
@@ -123,5 +136,6 @@ public class BlueAlerts {
             sb.append("}\n");
             return sb.toString();
         }
+
     }
 }

@@ -72,32 +72,10 @@ public class BlueCameras {
 
     }
 
-    public String GetJsonHelp(){
+    public static String HelpGet(){
         StringBuilder sb = new StringBuilder();
-        sb.append("camlist get/set json:\n");
-        sb.append("reset:true reset all cameras statistics\n");
-        sb.append("optionsDisplay: the camera / group name\n");
-        sb.append("optionsValue: the camera / group short name.\n");
-        sb.append("FPS: the current number frames/second from the camera\n");
-        sb.append("color: 24-bit RGB value [red least significant] the camera display color\n");
-        sb.append("clipsCreated: the number of clips created. Since the camera stats reset\n");
-        sb.append("isAlerting: true/false; sending an alert now\n");
-        sb.append("isEnabled: true/false\n");
-        sb.append("isOnline true/false\n");
-        sb.append("isMotion: true/false\n");
-        sb.append("isNoSignal: true/false\n");
-        sb.append("isPaused: true/false\n");
-        sb.append("isTriggered: true/false\n");
-        sb.append("isRecording: true/false\n");
-        sb.append("isYellow: true/false; caution icon\n");
-        sb.append("profile: currently active profile.\n");
-        sb.append("ptz: true/false is PTZ supported\n");
-        sb.append("audio: true/false is audio supported\n");
-        sb.append("width: width of video frame\n");
-        sb.append("height: height of video frame\n");
-        sb.append("nTriggers: number of trigger events (since reset)\n");
-        sb.append("nNoSignal: number of no signal events (since reset)\n");
-        sb.append("nClips: number of no recording events (since reset)\n");
+        sb.append(" Check wiki for more info:\n " +
+                "https://github.com/jurek1oo/blueiriscmdj/wiki/cams-list.\n");
         return sb.toString();
     }
 

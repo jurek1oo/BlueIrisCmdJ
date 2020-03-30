@@ -61,6 +61,17 @@ public class BlueLogs {
         }
     }
 
+    public static String JsonHelpGet(){
+        //'{"startdate":"2020-03-27 00:00:00"}'
+        StringBuilder sb = new StringBuilder();
+        sb.append("logs-list json e.g.:" +
+                "\n'{\"startdate\":\"2020-03-27 23:05:00\"}'\n");
+        sb.append("startdate: List alerts from the date in sql format.\n");
+        sb.append(" Check wiki for more info: " +
+                "https://github.com/jurek1oo/blueiriscmdj/wiki/logs-list.\n");
+        return sb.toString();
+    }
+
         public class BlueLog {
             private final Logger log = (Logger) LogManager.getLogger(BlueLog.class.getName());
             private JsonObject _jsonObject = null;

@@ -31,7 +31,9 @@ public class CommandOther {
                 log.info(cmd + " camera: " + camera + " OK.");
             } else {
                 _problemMsg = "Error. cmd: " + cmd + " cmdParams: " +
-                        cmdParams + " : " + commandCoreRequest.getProblemMsg() + "\n";
+                        cmdParams + " : " + commandCoreRequest.getProblemMsg()  +
+                        "\nCheck wiki for more info:\n" +
+                        "https://github.com/jurek1oo/blueiriscmdj/wiki/trigger.\n";
             }
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " camera: " + camera + " for BlueIris\n" +
@@ -54,7 +56,9 @@ public class CommandOther {
                 log.info(cmd + " sent OK. cam: " + camera + " button: " + button);
             } else {
                 _problemMsg = "Error. cmd: " + cmd  + " button: " + button +
-                        " : " + commandCoreRequest.getProblemMsg() + "\n";
+                        " : " + commandCoreRequest.getProblemMsg() +
+                        "\nCheck wiki for more info:\n" +
+                        "https://github.com/jurek1oo/blueiriscmdj/wiki/ptz.\n";
             }
         } catch (Exception e) {
             log.error("Error executing command: " + cmd + " camera: " + camera + " for BlueIris\n"+
@@ -62,5 +66,4 @@ public class CommandOther {
             throw e;
         }
     }
-
 }

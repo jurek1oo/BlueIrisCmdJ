@@ -60,7 +60,7 @@ public class BlueCamConfigTest
 
             BlueCamConfig blueCamConfig = new BlueCamConfig(dataElement, "Ceiling1");
 
-            log.info(blueCamConfig.setJsonHelp());
+            log.info(blueCamConfig.JsonHelpSet());
             assertNotNull("assertNotNull cameras ", blueCamConfig);
 
         } catch (Exception e) {
