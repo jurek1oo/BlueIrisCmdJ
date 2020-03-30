@@ -1,11 +1,14 @@
 # blueiriscmdj under GNU gpl-2.0 licence --- https://opensource.org/licenses/gpl-2.0.php
 
-This is Java port of blueiriscmd Python software written by Magnus Appelquist (https://github.com/magapp/blueiriscmd). 
-For the reference, Python 3.8 version is in doc/python directory.
+This Java command line application controls and monitors Blue Iris security camera system. As a Java system it can run on Linux, Windos or Mac.
 
-Current version 1.2.18 blueiriscmdj has been extended, and covers all Blueiris API commands as defined in House Logix document. All Java Classes have coresponding tests. For the unit tests to work, you need a BI system with at least one camera.
+This project started as Java port of blueiriscmd Python software written by Magnus Appelquist (https://github.com/magapp/blueiriscmd). For the reference, Python 3.8 version is in doc/python directory.
 
-For mor information look at https://github.com/jurek1oo/blueiriscmdj/wiki.  
+The current version 1.2.18 of blueiriscmdj has been extended, and covers all BlueIris API commands as defined in House Logix document - https://www.houselogix.com/docs/blue-iris/BlueIris/json.htm.
+
+All Java Classes have coresponding unit tests. For the tests to work, you need a BI system with at least one camera.
+
+For more information look at https://github.com/jurek1oo/blueiriscmdj/wiki.  
 
 Have fun and let me know if you have any issues.
 
