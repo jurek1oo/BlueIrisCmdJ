@@ -1,20 +1,13 @@
 # blueiriscmdj under GNU gpl-2.0 licence --- https://opensource.org/licenses/gpl-2.0.php
 
 This is Java port of blueiriscmd Python software written by Magnus Appelquist (https://github.com/magapp/blueiriscmd). 
-I have used Python code as the template, and have upgraded the code to run on Python 3.8.
-For the reference, Python version is in doc/python directory.
+For the reference, Python 3.8 version is in doc/python directory.
 
-As from version 1.2.00 blueiriscmdj diverted from original blueiriscmd. Command line naming convention changed 
-and additional functionality was added. All Classes have coresponding tests.
+Current version 1.2.18 blueiriscmdj has been extended, and covers all Blueiris API commands as defined in House Logix document. All Java Classes have coresponding tests. For the unit tests to work, you need a BI system with at least one camera.
 
-For full list of cmd line commands have a look at https://github.com/jurek1oo/blueiriscmdj/wiki/Command-Line-Arguments.  
+For mor information look at https://github.com/jurek1oo/blueiriscmdj/wiki.  
 
-
-For the unit tests to work, you need to change the login and other system parameters, in Constants4Tests class.
-
-For more blueiriscmdj information, check the project wiki.
-
-Have fun and let me know if you have issues.
+Have fun and let me know if you have any issues.
 
 Good luck, 
 
