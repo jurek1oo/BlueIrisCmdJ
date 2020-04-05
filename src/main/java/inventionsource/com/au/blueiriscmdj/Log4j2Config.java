@@ -24,13 +24,7 @@ public class Log4j2Config {
     Log4j2Config(String logFilePathAndName, String logLevel) {
         if (logFilePathAndName == null || logFilePathAndName.length() < 1)
             logFilePathAndName = "BlueIrisCmdJ.log";
-        Level log4jLevel = Level.INFO;
-        if (logLevel != null) {
-            if (logLevel.toLowerCase().indexOf("er") == 0) log4jLevel = Level.ERROR;
-            if (logLevel.toLowerCase().indexOf("in") == 0) log4jLevel = Level.INFO;
-            if (logLevel.toLowerCase().indexOf("de") == 0) log4jLevel = Level.DEBUG;
-            if (logLevel.toLowerCase().indexOf("tr") == 0) log4jLevel = Level.TRACE;
-        }
+        Level log4jLevel = Log4j2Config.getLevel(logLevel);
         try
         {
             final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
@@ -75,5 +69,16 @@ public class Log4j2Config {
         {
             System.out.println("Failed to add appender !!\n" + e);
         }
+    }
+
+    public static Level getLevel(String logLevel) {
+        Level log4jLevel = Level.INFO;
+        if (logLevel != null) {
+            if (logLevel.toLowerCase().indexOf("er") == 0) log4jLevel = Level.ERROR;
+            if (logLevel.toLowerCase().indexOf("in") == 0) log4jLevel = Level.INFO;
+            if (logLevel.toLowerCase().indexOf("de") == 0) log4jLevel = Level.DEBUG;
+            if (logLevel.toLowerCase().indexOf("tr") == 0) log4jLevel = Level.TRACE;
+        }
+        return log4jLevel;
     }
 }

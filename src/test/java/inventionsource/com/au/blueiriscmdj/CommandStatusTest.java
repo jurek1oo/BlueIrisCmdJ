@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class CommandStatusTest
 {
-    private static final Logger log = (Logger) LogManager.getLogger(CommandStatusTest.class.getName());
+    private final Logger log = (Logger) LogManager.getLogger(CommandStatusTest.class.getName());
     private LoginParams _loginParams = null;
 
     @Before

@@ -96,7 +96,7 @@ public class Cli {
     public GoodOrBad parse() {
         String logFile = "BlueIrisCmdJ.log";
         String logLevel = "info";
-        CommandLineParser parser = new BasicParser();
+        CommandLineParser parser = new DefaultParser();
         GoodOrBad gob = new GoodOrBad();
 
         StringBuilder errSb = new StringBuilder();
