@@ -10,7 +10,8 @@ import org.apache.logging.log4j.core.Logger;
 public class BlueIrisCmdJ
 {
     public static final Logger log = (Logger)LogManager.getLogger(BlueIrisCmdJ.class.getName());
-    public static final String VERSION = "1.2.00";// 2020-03-22 Major refactor. Command line naming convention changed.
+    public static final String VERSION = "1.2.24";// 2020-04-11 config.properties created.
+    //public static final String VERSION = "1.2.00";// 2020-03-22 Major refactor. Command line naming convention changed.
     //public static final String VERSION = "1.1.56";// 2020-03-21 refactor, add set camconfig with json, reser cams stats.
     //public static final String VERSION = "1.1.53";// 2020-03-05 split java 8 / 11 versions in pom.
     //public static final String VERSION = "1.1.50";// 2020-03-01  1st in git.

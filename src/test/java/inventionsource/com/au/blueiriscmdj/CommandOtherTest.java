@@ -18,6 +18,7 @@ public class CommandOtherTest
     @Before
     public void setUp() throws Exception {
         Log4j2Config log4j = new Log4j2Config("test.log","debug");
+        new Constants4Tests();
         _loginParams = new LoginParams(Constants4Tests.USER, Constants4Tests.PASSWORD, Constants4Tests.HOST);
     }
 

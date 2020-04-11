@@ -13,6 +13,7 @@ public class CliTest
         @Before
     public void setUp() throws Exception {
         Log4j2Config log4j = new Log4j2Config("test.log","info");
+            new Constants4Tests();
     }
 
     @Test

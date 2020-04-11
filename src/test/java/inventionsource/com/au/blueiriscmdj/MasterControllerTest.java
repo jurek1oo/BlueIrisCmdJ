@@ -19,6 +19,7 @@ public class MasterControllerTest {
     @Before
     public void setUp() throws Exception {
         Log4j2Config log4j = new Log4j2Config("test.log","info");
+        new Constants4Tests();
     }
 
     @Test
@@ -35,7 +36,7 @@ public class MasterControllerTest {
             assertNotNull("",masterController.getBlueLogin().getBlueProfiles());
 
             BlueProfiles blueProfiles = masterController.getBlueLogin().getBlueProfiles();
-            int expectedProfileInt = blueProfiles.getProfileInt(Constants4Tests.EXPECTED_Profile1);
+            assertNotNull("assertNotNull blueProfiles",blueProfiles );
 
         } catch (Exception e) {
             log.error("Exception: " + e);
@@ -179,7 +180,7 @@ public class MasterControllerTest {
             assertNotNull("",masterController.getBlueLogin().getBlueProfiles());
 
             BlueProfiles blueProfiles = masterController.getBlueLogin().getBlueProfiles();
-            int expectedProfileInt = blueProfiles.getProfileInt(Constants4Tests.EXPECTED_Profile1);
+            assertNotNull("",blueProfiles);
 
         } catch (Exception e) {
             log.error("Exception: " + e);
@@ -219,7 +220,7 @@ public class MasterControllerTest {
             ArrayList<String> schedules  = masterController.getBlueLogin().getSchedules();
             assertTrue("result schedules has text", schedules != null);
             assertTrue("is_schedules_list has expected schedule: ",
-                    Arrays.toString(schedules.toArray()).indexOf(Constants4Tests.EXPECTED_Schedule1)>=0);
+                    Arrays.toString(schedules.toArray()).indexOf(Constants4Tests.SCHEDULE1)>=0);
         } catch (Exception e) {
             log.error("Exception: " + e);
             throw e;

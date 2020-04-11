@@ -1,0 +1,18 @@
+# cmd line supplied parameters take precedence over config file
+# make copy of the file, replace parameters with your system values and
+# rename this file to config.properties and place it in the same dir as jar file.
+#
+HOST=192.168.1.42:8882
+USER=admin
+PASSWORD=password
+LOG_FILE=info
+LOG_LEVEL=./blueiriscmdj.log
+
+# params below are used only for the unit test cases
+CAM_NAME1=Ceiling1
+CAM_NAME2=Front-Watashi
+SCHEDULE1=Default
+# AtHome - Front-Watashi is active.
+PROFILE1=1
+#OnTheRoad - Ceiling1 and  Front-Watashi are active.
+PROFILE2=2

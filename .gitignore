@@ -8,3 +8,5 @@ target/
 *.log.*
 *.jar
 out.txt
+/src/
+config.properties

@@ -20,9 +20,6 @@ public class Cli {
 
     private String[] args = null;
     private Options options = new Options();
-    private String _user=null;
-    private String _host=null;
-    private String _password=null;
 
     private boolean _is_alerts_delete = false;
     private boolean _is_alerts_list = false;
@@ -33,7 +30,6 @@ public class Cli {
     private boolean _is_profiles_list =false;
     private boolean _is_schedules_list =false;
     private boolean _is_status_get =false;
-
 
     private boolean _is_status_set =false;
 
@@ -94,6 +90,9 @@ public class Cli {
     }
 
     public GoodOrBad parse() {
+        String host=null;
+        String user=null;
+        String password=null;
         String logFile = "BlueIrisCmdJ.log";
         String logLevel = "info";
         CommandLineParser parser = new DefaultParser();
@@ -106,6 +105,23 @@ public class Cli {
 
         CommandLine cmd = null;
         try {
+            try { // use config, and replace with cmd line if present
+                Config config = new Config("./config.properties");
+                host = config.getProperty("HOST");
+                user = config.getProperty("USER");
+                password = config.getProperty("PASSWORD");
+                logLevel = config.getProperty("LOG_LEVEL");
+                logFile = config.getProperty("LOG_FILE");
+
+                _loginParams = new LoginParams(user, password, host);
+                sb.append("Config.properties values:\n" );
+                sb.append("HOST: " + host+ " USER: " + user+ " PASSWORD: ***" +password.length()+ "*** ");
+                sb.append("LOG_LEVEL: " + logLevel+ " LOG_FILE: " + logFile +"\n");
+
+            } catch (Exception ex) {
+                sb.append("No config.properties file present.\n");
+            }
+
             if (args == null || args.length == 0) {
                 gob.bad = "Error. No arguments.\n" + help(null)+getPtzNumbersHelp();
                 return gob;
@@ -134,21 +150,21 @@ public class Cli {
             Log4j2Config log4j = new Log4j2Config(logFile, logLevel);
 
             if (cmd.hasOption("u")) {
-                _user = cmd.getOptionValue("u");
-                sb.append("Using cli argument --user=" + _user + "\n");
-            } else {
+                user = cmd.getOptionValue("u");
+                sb.append("Using cli argument --user=" + user + "\n");
+            } else if (_loginParams==null){
                 errSb.append("Missing -user option\n");
             }
             if (cmd.hasOption("p")) {
-                _password = cmd.getOptionValue("p");
-                sb.append("Using cli argument --password=***" + _password.length() + "***\n");
-            } else {
+                password = cmd.getOptionValue("p");
+                sb.append("Using cli argument --password=***" + password.length() + "***\n");
+            } else if (_loginParams==null){
                 errSb.append("Missing --password option\n");
             }
             if (cmd.hasOption("host")) {
-                _host = cmd.getOptionValue("host");
-                sb.append("Using cli argument -host=" + _host + "\n");
-            } else {
+                host = cmd.getOptionValue("host");
+                sb.append("Using cli argument -host=" + host + "\n");
+            } else if (_loginParams==null) {
                 errSb.append("Missing -host option\n");
             }
             if (errSb.toString().length() > 0 ) {
@@ -156,7 +172,7 @@ public class Cli {
                 gob.bad = errSb.toString() + "\n" + help(null) + getPtzNumbersHelp();
                 return gob;
             }
-            _loginParams = new LoginParams(_user, _password, _host);
+            _loginParams = new LoginParams(user,password,host);
 
 // ******************************************************************************
 
