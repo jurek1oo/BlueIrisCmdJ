@@ -1,26 +1,3 @@
-Skip to main content
-Home From The Board Contact Donate Login
-Search form
-Search this website...
-Home
-Open Source Initiative
-Guaranteeing the 'our' in source...
-ABOUTLICENSESMEMBERSHIPCOMMUNITY
-Associations
-Mailing Lists
-Volunteers & Staff
-Advocate Circle
-Wiki
-OSI Store
-RESOURCESNEWS & EVENTS
-GNU General Public License version 2
-SPDX short identifier: GPL-2.0
-
-Further resources on GPLv2
- 
-
-OSI Approved License Logo
-
 GNU GENERAL PUBLIC LICENSE
 Version 2, June 1991
 
