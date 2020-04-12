@@ -17,6 +17,8 @@ you need a BI system with at least one camera.
 
 For more information look at https://github.com/jurek1oo/blueiriscmdj/wiki.  
 
+Demo project showing use this software: https://github.com/jurek1oo/BiCmdJDemo.
+
 Have fun and let me know if you have any issues.
 
 Good luck, 
