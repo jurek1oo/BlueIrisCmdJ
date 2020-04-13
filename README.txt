@@ -15,7 +15,7 @@ This command has functionality of all other commands, when used with proper synt
 All Java Classes have coresponding unit tests. For the tests to work, 
 you need a BI system with at least one camera.
 
-For more information look at https://github.com/jurek1oo/blueiriscmdj/wiki.  
+For more information look at https://github.com/jurek1oo/BlueIrisCmdJ/wiki.  
 
 Demo project showing use this software: https://github.com/jurek1oo/BiCmdJDemo.
 
